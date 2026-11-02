@@ -3,10 +3,10 @@ require __DIR__ . '/session.php';
 if (!abyss_logged_in()) { http_response_code(403); exit('Forbidden'); }
 $files = [
  'style.css' => ['style.css', 'text/css; charset=utf-8'],
- 'abyss_game_retro_movement_fix.js' => ['abyss_game_retro_movement_fix.js', 'text/javascript; charset=utf-8'],
+ 'game.js' => ['game.js', 'text/javascript; charset=utf-8'],
  'walk' => ['SE/Walk.mp3', 'audio/mpeg'],
  'wall' => ['SE/The Wall Moves.mp3', 'audio/mpeg'],
- 'bgm' => ['BGM/Live at hisomine, July 2026.wav', 'audio/wav'],
+ 'bgm' => ['BGM/Live-at-hisomine_-July-2026.mp3', 'audio/mpeg'],
 ];
 $key = (string)($_GET['file'] ?? '');
 if (!array_key_exists($key, $files)) { http_response_code(404); exit; }

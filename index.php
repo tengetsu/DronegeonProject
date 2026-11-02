@@ -6,7 +6,7 @@ unset($_SESSION['abyss_authenticated']);
 <html lang="ja">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#0a0909">
 <meta name="description" content="ABYSS // Dungeon Crawl。沈んだ聖域を探索するダークファンタジー・ダンジョンクローラー。">
 <title>ABYSS // Dungeon Crawl — The Sunken Sanctum</title>
@@ -40,9 +40,9 @@ unset($_SESSION['abyss_authenticated']);
 <section class="gallery section" id="gallery">
  <div class="shell"><div class="section-top"><div><span class="overline">02 — THROUGH THE DARKNESS</span><h2>迷宮の<em>風景</em></h2></div><p>石壁、灯火、静寂。<br>ふたつの視点から、深淵を探索する。</p></div>
  <div class="gallery-grid">
-  <figure class="shot shot-wide"><img loading="lazy" src="portal_assets/gallery-3d.webp" alt="ダークファンタジーの石造りの地下迷宮と松明を描いたコンセプト画像"><figcaption><span>01 / 3D MODE</span><strong>自らの足で、闇を進む。</strong><small>コンセプトビジュアル</small></figcaption></figure>
-  <figure class="shot"><img loading="lazy" src="portal_assets/gallery-retro.webp" alt="開発中のレトロ風ダンジョン画面"><figcaption><span>02 / RETRO MODE</span><strong>一歩ずつ、迷宮を刻む。</strong><small>現在の開発中ゲーム画面</small></figcaption></figure>
-  <figure class="shot"><img loading="lazy" src="portal_assets/gallery-atmosphere.webp" alt="開発中のゲーム画面に映る松明を拡大した画像"><figcaption><span>03 / THE ATMOSPHERE</span><strong>灯火だけが、道標。</strong><small>ゲーム画面の松明を拡大</small></figcaption></figure>
+  <figure class="shot shot-wide"><img loading="lazy" src="portal_assets/3dmode.webp" alt="開発中のABYSS 3D MODEの実際のゲーム画面"><figcaption><span>01 / 3D MODE</span><strong>自らの足で、闇を進む。</strong><small>開発中のゲーム画面</small></figcaption></figure>
+  <figure class="shot"><img loading="lazy" src="portal_assets/retromode.webp" alt="開発中のレトロ風ダンジョン画面"><figcaption><span>02 / RETRO MODE</span><strong>一歩ずつ、迷宮を刻む。</strong><small>現在の開発中ゲーム画面</small></figcaption></figure>
+  <figure class="shot"><img loading="lazy" src="portal_assets/taimatsu.webp" alt="開発中のABYSSのゲーム内の松明に焦点を当てた画像"><figcaption><span>03 / THE ATMOSPHERE</span><strong>灯火だけが、道標。</strong><small>開発中のゲーム画面</small></figcaption></figure>
  </div></div>
 </section>
 <section class="guide shell section" id="guide">

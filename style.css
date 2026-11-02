@@ -1094,20 +1094,6 @@ body.retro-mode #mobile-controls .move-key {
     }
 }
 
-/* Mobile CONFIG: disable both horizontal and vertical scrolling. */
-@media (pointer: coarse) and (max-width: 900px) {
-    #config-overlay {
-        overflow: hidden !important;
-        overscroll-behavior: none !important;
-        touch-action: manipulation !important;
-    }
-    #config-overlay .config-panel {
-        overflow: hidden !important;
-        overscroll-behavior: none !important;
-        touch-action: manipulation !important;
-    }
-}
-
 /* Mobile RETRO minimap: directly beneath the objective / relic instruction. */
 @media (pointer: coarse) and (max-width: 900px) {
   body.retro-mode #abyss-retro-map {
@@ -1125,3 +1111,63 @@ body.retro-mode #mobile-controls .move-key {
 /* Exit via server-side session invalidation. */
 .abyss-logout { display:block; margin:16px auto 0; width:max-content; color:#b6a5a0; font-size:12px; letter-spacing:0.1em; text-decoration:underline; text-underline-offset:4px; position:relative; z-index:2; }
 .abyss-logout:hover,.abyss-logout:focus-visible {color:#fff0d5;}
+
+/* Mobile in-game CONFIG shortcut; hide it on title and in other overlays. */
+#mobile-game-config { display: none; }
+@media (pointer: coarse) and (max-width: 900px) {
+  body.abyss-playing #mobile-game-config {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    right: max(14px, env(safe-area-inset-right));
+    bottom: calc(20px + env(safe-area-inset-bottom));
+    z-index: 65;
+    min-height: 48px;
+    min-width: 112px;
+    padding: 10px 14px;
+    color: #e8cf9e;
+    background: rgba(12, 9, 13, .92);
+    border: 2px solid #c9a66b;
+    border-radius: 6px;
+    box-shadow: 0 3px 14px #000b;
+    font: 700 13px 'Noto Sans JP', sans-serif;
+    letter-spacing: .12em;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+  #mobile-game-config:active { background: #5d442d; color: white; }
+}
+/* Scroll CONFIG content, while preventing scroll of game underneath. */
+#config-overlay { overflow: hidden; overscroll-behavior: contain; }
+#config-overlay .config-panel {
+  min-width: 0;
+  max-height: calc(100vh - 40px);
+  max-height: calc(100dvh - 40px);
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: contain;
+  touch-action: pan-y;
+}
+@media (max-width: 900px) {
+  #config-overlay {
+    padding: max(10px, env(safe-area-inset-top)) max(10px, env(safe-area-inset-right))
+             max(10px, env(safe-area-inset-bottom)) max(10px, env(safe-area-inset-left));
+    touch-action: pan-y;
+  }
+  #config-overlay .config-panel {
+    width: min(100%, 460px);
+    padding: 22px 18px;
+    max-height: calc(100vh - 20px);
+    max-height: calc(100dvh - 20px);
+    max-height: calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 20px);
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-y !important;
+    overscroll-behavior-y: contain;
+  }
+  #config-overlay .config-item, #config-overlay .config-section { min-width: 0; }
+}
+
