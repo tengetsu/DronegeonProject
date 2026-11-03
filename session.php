@@ -9,7 +9,12 @@ session_set_cookie_params([
     'samesite' => 'Lax'
 ]);
 if (session_status() !== PHP_SESSION_ACTIVE) session_start();
-function abyss_logged_in(): bool { return !empty($_SESSION['abyss_authenticated']); }
+function abyss_logged_in(): bool {
+    return !empty($_SESSION['abyss_authenticated']);
+}
 function abyss_require_login(): void {
-    if (!abyss_logged_in()) { header('Location: index.php'); exit; }
+    if (!abyss_logged_in()) {
+        header('Location: index.php');
+        exit;
+    }
 }

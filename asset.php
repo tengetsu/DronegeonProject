@@ -1,23 +1,33 @@
 <?php
 require __DIR__ . '/session.php';
-if (!abyss_logged_in()) { http_response_code(403); exit('Forbidden'); }
+if (!abyss_logged_in()) {
+    http_response_code(403);
+    exit('Forbidden');
+}
 $files = [
- 'style.css' => ['style.css', 'text/css; charset=utf-8'],
- 'game.js' => ['game.js', 'text/javascript; charset=utf-8'],
- 'walk' => ['SE/Walk.mp3', 'audio/mpeg'],
- 'wall' => ['SE/The Wall Moves.mp3', 'audio/mpeg'],
- 'bgm' => ['BGM/Live-at-hisomine_-July-2026.mp3', 'audio/mpeg'],
+    'style.css' => ['style.css', 'text/css; charset=utf-8'],
+    'game.js' => ['game.js', 'text/javascript; charset=utf-8'],
+    'walk' => ['SE/Walk.mp3', 'audio/mpeg'],
+    'wall' => ['SE/The Wall Moves.mp3', 'audio/mpeg'],
+    'bgm' => ['BGM/Live-at-hisomine_-July-2026.mp3', 'audio/mpeg'],
 ];
 $key = (string)($_GET['file'] ?? '');
-if (!array_key_exists($key, $files)) { http_response_code(404); exit; }
+if (!array_key_exists($key, $files)) {
+    http_response_code(404);
+    exit;
+}
 [$relative, $mime] = $files[$key];
 $path = __DIR__ . '/' . $relative;
-if (!is_file($path)) { http_response_code(404); exit('Audio or asset file not found: ' . htmlspecialchars($relative)); }
+if (!is_file($path)) {
+    http_response_code(404);
+    exit('Audio or asset file not found: ' . htmlspecialchars($relative));
+}
 header('Content-Type: ' . $mime);
 header('X-Content-Type-Options: nosniff');
 header('Cache-Control: private, no-store');
 $size = filesize($path);
-$start = 0; $end = $size - 1;
+$start = 0;
+$end = $size - 1;
 // HTTP byte ranges allow browsers to seek within large audio files.
 if (isset($_SERVER['HTTP_RANGE'])) {
     if (!preg_match('/^bytes=(\d*)-(\d*)$/', $_SERVER['HTTP_RANGE'], $m)) {
