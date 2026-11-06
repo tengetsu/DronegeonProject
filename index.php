@@ -27,7 +27,7 @@ $translations = [
         'story_heading1' => '闇の底に、',
         'story_heading2' => '忘れられた聖域がある。',
         'story_text1' => '石壁に囲まれた地下迷宮。揺れる松明を頼りに通路を進み、古代の遺物へと続く道を探し出す、一人称視点のダークファンタジー探索ゲーム。',
-        'story_text2_before' => '最初の鍵を手にした瞬間、10分間のカウントダウンが始まる。迷宮に隠された',
+        'story_text2_before' => '入口近くの鍵を手にすると10分間のカウントダウンが始まる。迷宮に隠された',
         'story_text2_highlight' => '5つの鍵',
         'story_text2_after' => 'を集め、閉ざされた壁の先へ進め。',
         'sound_heading1' => '闇の奥へ、',
@@ -62,16 +62,16 @@ $translations = [
         'guide_mode_before' => 'は滑らかに移動する自由探索。',
         'guide_mode_after' => 'はマス目単位で移動・旋回する、クラシックなダンジョン探索です。',
         'guide_key_title' => '五つの鍵を集める',
-        'guide_key_before' => '迷宮のどこかに眠る鍵を探してください。最初の鍵を拾うと',
+        'guide_key_before' => '迷宮のどこかに眠る鍵を探してください。入口近くの鍵を拾うと',
         'guide_key_highlight' => '10分間の制限時間',
         'guide_key_after' => 'が始まります。',
         'guide_unlock_title' => '封印された道を開く',
         'guide_unlock_text' => '5つすべての鍵を集めると、迷宮のどこかで壁が開きます。変化した通路を探して、さらに奥へ進みましょう。',
         'controls_title' => '操作方法',
-        'controls_pc' => 'WASD・矢印キーで移動。3D MODEは視点操作にマウスを使用します。',
-        'controls_mobile' => '画面上の操作ボタンを使用します。RETRO MODEは方向転換と一歩ずつの移動が基本です。',
+        'controls_pc' => 'WASD・矢印キーで移動します。3D MODEではマウスで視点を操作。ゲーム中にCキーでCONFIGを開き、Escキーで閉じられます。RETRO MODEではA・D（←・→）で90度回転、W・S（↑・↓）で1マスずつ前進・後退します。',
+        'controls_mobile' => '画面上の方向ボタンで移動・方向転換します。ゲーム中は右下のCONFIGボタンから設定を開けます。RETRO MODEでは1回のタップで1マス移動します。',
         'controls_mobile_label' => 'スマートフォン',
-        'controls_note' => '音量・描画設定はゲーム内のCONFIGから調整できます。',
+        'controls_note' => 'CONFIGでは音量・描画品質・3D/RETRO MODE・表示言語（日本語／英語）を切り替えられます。',
         'login_heading1' => '扉の向こうへ。',
         'login_heading2' => '探索を始めよう。',
         'login_intro' => 'ゲームを始めるにはログインが必要です。LOGIN IDとPASSWORDを入力し、封印された聖域へ進んでください。',
@@ -98,7 +98,7 @@ $translations = [
         'story_heading1' => 'Beneath the darkness,',
         'story_heading2' => 'a forgotten sanctuary awaits.',
         'story_text1' => 'A maze of ancient stone walls. Guided by flickering torches, make your way through shadowy corridors toward a lost relic in this first-person dark fantasy dungeon crawler.',
-        'story_text2_before' => 'The moment you collect the first key, a ten-minute countdown begins. Find all ',
+        'story_text2_before' => 'Collect the key near the entrance to start the ten-minute countdown. Find all ',
         'story_text2_highlight' => 'five hidden keys',
         'story_text2_after' => ' and discover what lies beyond the sealed passage.',
         'sound_heading1' => 'Beyond the dark,',
@@ -133,16 +133,16 @@ $translations = [
         'guide_mode_before' => ' offers smooth, free movement. ',
         'guide_mode_after' => ' brings back classic grid-based movement and 90-degree turns.',
         'guide_key_title' => 'Collect five keys',
-        'guide_key_before' => 'Search the dungeon for hidden keys. Picking up the first key starts a ',
+        'guide_key_before' => 'Search the dungeon for hidden keys. Collecting the key near the entrance starts a ',
         'guide_key_highlight' => 'ten-minute countdown',
         'guide_key_after' => '.',
         'guide_unlock_title' => 'Break the seal',
         'guide_unlock_text' => 'Gather all five keys to open a hidden wall somewhere in the maze. Find the new passage and continue deeper into the sanctum.',
         'controls_title' => 'HOW TO PLAY',
-        'controls_pc' => 'Move with WASD or the arrow keys. In 3D MODE, use your mouse to look around.',
-        'controls_mobile' => 'Use the on-screen controls. In RETRO MODE, turn and move one tile at a time.',
+        'controls_pc' => 'Move with WASD or the arrow keys. In 3D MODE, move the mouse to look around. Press C during play to open CONFIG, or Esc to close it. In RETRO MODE, A/D (left/right arrows) turn 90 degrees; W/S (up/down arrows) move one tile forward or backward.',
+        'controls_mobile' => 'Use the on-screen directional buttons to move or turn. Tap CONFIG in the lower-right corner during play to open settings. In RETRO MODE, each forward or backward tap moves one tile.',
         'controls_mobile_label' => 'MOBILE',
-        'controls_note' => 'Adjust audio and graphics in the in-game CONFIG menu.',
+        'controls_note' => 'In CONFIG, adjust audio, graphics, 3D/RETRO MODE and the Japanese/English display language.',
         'login_heading1' => 'Beyond the gate,',
         'login_heading2' => 'your journey begins.',
         'login_intro' => 'Log in to enter the dungeon. Enter your LOGIN ID and PASSWORD to step into the sealed sanctuary.',
@@ -166,12 +166,12 @@ $t = static fn(string $key): string => htmlspecialchars($translations[$lang][$ke
     <meta name="theme-color" content="#0a0909">
     <meta name="description" content="<?= $t('page_description') ?>">
     <title>ABYSS // Dungeon Crawl — The Sunken Sanctum</title>
-    <link rel="stylesheet" href="portal.css?v=hero-edge-credits-v2">
+    <link rel="stylesheet" href="portal.css?v=drone-config-i18n-v1">
   </head>
   <body>
     <div class="ambient"></div>
     <header class="topbar shell">
-      <a class="brand" href="#top" aria-label="<?= $t('brand_top') ?>">✦ <span>ABYSS</span> <small>/ DEPTHS</small></a>
+      <a class="brand" href="#top" aria-label="<?= $t('brand_top') ?>">✦ <span>ABYSS</span></a>
       <nav aria-label="<?= $t('nav_label') ?>">
         <a href="#story">STORY</a>
         <a href="#sound">MUSIC</a>
@@ -188,8 +188,8 @@ $t = static fn(string $key): string => htmlspecialchars($translations[$lang][$ke
         <div class="hero-layout shell">
           <div class="hero-inner">
           <p class="eyebrow"><span class="diamond">✧</span> CHAPTER I — THE SUNKEN SANCTUM</p>
-          <h1 id="hero-title">ABYSS<span class="hero-stroke"> / </span><em>DEPTHS</em></h1>
-          <p class="hero-kicker">DUNGEON CRAWL <span class="tiny-rule"></span> DARK FANTASY</p>
+          <h1 id="hero-title">ABYSS</h1>
+          <p class="hero-kicker">DUNGEON DRONE CRAWLER <span class="hero-separator" aria-hidden="true">—</span> DARK FANTASY</p>
           <p class="hero-copy"><?= $t('hero_line1') ?><br><?= $t('hero_line2') ?></p>
           </div>
             <aside class="login-panel hero-login" id="login" aria-label="THE ENTRANCE">

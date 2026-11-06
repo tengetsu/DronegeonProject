@@ -1131,3 +1131,395 @@ body.retro-mode #mobile-controls .move-key {
     min-width: 0;
   }
 }
+
+/* CONFIG: touch-friendly language switch, matching the existing dark fantasy UI. */
+.config-language-section { margin-bottom: 24px; }
+#config-language {
+  min-width: 145px;
+  max-width: 52%;
+  min-height: 44px;
+  padding: 10px 34px 10px 12px;
+  color: #f0e3d0;
+  border: 1px solid #80684b;
+  border-radius: 3px;
+  background-color: #171712;
+  font: 600 13px 'Noto Sans JP', sans-serif;
+  cursor: pointer;
+}
+#config-language:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+.config-language-hint { font-size: 11px; line-height: 1.8; color: #ada395; margin: -3px 0 8px; }
+@media(max-width:420px) {
+  #config-language { min-width: 122px; max-width: 55%; }
+  .config-language-section .config-item { gap: 8px; }
+}
+
+/* Keep volume sliders and values fully inside narrow phone dialogs. */
+#config-overlay .config-slider input[type="range"] { min-width: 0; }
+#config-overlay .config-slider span { flex-shrink: 0; }
+@media (max-width: 420px) {
+  #config-overlay .config-slider { width: min(150px, 48%); gap: 6px; }
+  #config-overlay .config-item { gap: 10px; }
+}
+
+
+/* Long translated HUD/title copy must remain readable on compact screens. */
+.hud .objective {
+  max-width: min(42vw, 290px);
+  line-height: 1.65;
+  overflow-wrap: anywhere;
+}
+#overlay .panel {
+  width: min(500px, calc(100vw - 28px));
+}
+#overlay .subtitle,
+#overlay .desc,
+#overlay .keys {
+  overflow-wrap: anywhere;
+}
+#overlay .keys { letter-spacing: .035em; }
+@media (max-width: 600px) {
+  .hud .objective { max-width: 46vw; font-size: 10px; }
+  #overlay .panel { padding: 28px 19px; }
+  #overlay .subtitle { font-size: 10px; letter-spacing: .11em; }
+  #overlay .desc { font-size: 11px; }
+}
+
+/* RETRO MODE (PC): anchor the minimap beneath the OBJECTIVE text, not on top of it.
+   Mobile's existing objective-aligned positioning is retained separately. */
+@media not all and (pointer: coarse) {
+  body.retro-mode #abyss-retro-map {
+    position: fixed !important;
+    top: var(--abyss-desktop-map-top, 115px) !important;
+    right: var(--abyss-desktop-map-right, 30px) !important;
+    bottom: auto !important;
+    left: auto !important;
+    width: 160px !important;
+    height: 200px !important;
+    pointer-events: none !important;
+  }
+}
+/* Also cover desktop browsers emulating a coarse pointer at widths above 900px. */
+@media (min-width: 901px) {
+  body.retro-mode #abyss-retro-map {
+    position: fixed !important;
+    top: var(--abyss-desktop-map-top, 115px) !important;
+    right: var(--abyss-desktop-map-right, 30px) !important;
+    bottom: auto !important;
+    left: auto !important;
+    width: 160px !important;
+    height: 200px !important;
+    pointer-events: none !important;
+  }
+}
+
+
+/* ==================================================
+   SOFT ENDINGS: white relic flame, rays and white mist;
+   dark vignette closing from the outer screen inwards.
+   Only CSS gradients and small transforms; no extra WebGL lights.
+   ================================================== */
+@property --abyss-shadow-radius {
+  syntax: '<length>';
+  inherits: false;
+  initial-value: 2500px;
+}
+@property --abyss-flood-radius {
+  syntax: '<length>';
+  inherits: false;
+  initial-value: 1px;
+}
+
+/* The black filter closes in, while its opacity rises. Smooth shadow edges. */
+#abyss-darkness-curtain {
+  --abyss-shadow-radius: 2500px;
+  --abyss-shadow-start: 2500px;
+  --abyss-shadow-duration: 4700ms;
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(circle at 50% 50%,
+    rgba(0, 0, 0, .015) 0px,
+    rgba(0, 0, 0, .035) calc(var(--abyss-shadow-radius) * .31),
+    rgba(0, 0, 0, .22) calc(var(--abyss-shadow-radius) * .60),
+    rgba(0, 0, 0, .67) calc(var(--abyss-shadow-radius) * .83),
+    rgba(0, 0, 0, 1) var(--abyss-shadow-radius));
+}
+#abyss-darkness-curtain.abyss-darkness-closing {
+  animation: abyss-shadow-closes var(--abyss-shadow-duration) cubic-bezier(.35,.04,.68,1) forwards;
+}
+/* The entire scene also dims very gradually while the edges close in. */
+#abyss-darkness-curtain::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: #000;
+  opacity: 0;
+}
+#abyss-darkness-curtain.abyss-darkness-closing::after {
+  animation: abyss-shadow-veil var(--abyss-shadow-duration) ease-in forwards;
+}
+@keyframes abyss-shadow-veil {
+  0% { opacity: 0; }
+  45% { opacity: .08; }
+  100% { opacity: .45; }
+}
+#abyss-darkness-curtain.abyss-darkness-complete {
+  animation: none;
+  opacity: 1;
+  background: #000;
+}
+@keyframes abyss-shadow-closes {
+  0% { --abyss-shadow-radius: var(--abyss-shadow-start); opacity: 0; }
+  12% { opacity: .32; }
+  55% { opacity: .86; }
+  100% { --abyss-shadow-radius: 0px; opacity: 1; }
+}
+
+/* All lighting originates at the projected center of the ACTUAL relic. */
+#abyss-relic-radiance {
+  --abyss-flash-x: 50%;
+  --abyss-flash-y: 50%;
+  --abyss-victory-rays-ms: 3400ms;
+  position: fixed;
+  z-index: 90;
+  inset: 0;
+  pointer-events: none;
+  isolation: isolate;
+  overflow: hidden;
+  mix-blend-mode: screen;
+}
+/* Near-core fog blooms before the rays; a slow, pale white glow. */
+#abyss-relic-radiance::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 37vmin 40vmin at var(--abyss-flash-x) var(--abyss-flash-y),
+    rgba(255, 255, 255, .86) 0%,
+    rgba(240, 249, 255, .55) 7%,
+    rgba(228, 240, 255, .25) 19%,
+    rgba(235, 246, 255, .08) 38%,
+    transparent 72%);
+  opacity: 0;
+  transform: scale(.55);
+  transition: opacity 1600ms ease-in, transform 2500ms ease-out;
+}
+#abyss-relic-radiance.abyss-relic-core-awake::before {
+  opacity: .88;
+  transform: scale(1.35);
+}
+/* Torch-like, fluttering soft WHITE flame, distinct from other orange torches. */
+#abyss-relic-radiance .abyss-relic-core {
+  position: absolute;
+  top: var(--abyss-flash-y);
+  left: var(--abyss-flash-x);
+  width: 90px;
+  height: 112px;
+  z-index: 3;
+  transform: translate(-50%, -53%) scale(.5);
+  opacity: 0;
+  background: radial-gradient(ellipse at 50% 66%,
+    #fff 0%, rgba(255,255,255,.98) 12%,
+    rgba(243,250,255,.86) 26%,
+    rgba(231,243,255,.42) 47%, transparent 72%);
+  border-radius: 55% 45% 49% 51% / 80% 71% 29% 20%;
+  filter: drop-shadow(0 0 15px rgba(236,249,255,.74));
+}
+#abyss-relic-radiance.abyss-relic-core-awake .abyss-relic-core {
+  animation: abyss-core-awaken 1400ms cubic-bezier(.18,.55,.25,1) forwards,
+             abyss-core-breathe 1450ms ease-in-out 1400ms infinite alternate;
+}
+#abyss-relic-radiance .abyss-relic-core::before,
+#abyss-relic-radiance .abyss-relic-core::after {
+  content: '';
+  position: absolute;
+  bottom: 30%;
+  left: 43%;
+  width: 33px;
+  height: 88px;
+  border-radius: 48% 52% 45% 55% / 78% 83% 17% 22%;
+  background: radial-gradient(ellipse at 52% 79%, rgba(255,255,255,.96),
+       rgba(246,251,255,.82) 30%, rgba(215,235,255,.17) 62%, transparent 82%);
+  transform-origin: 50% 94%;
+  animation: abyss-flame-tongue 1550ms ease-in-out infinite alternate;
+}
+#abyss-relic-radiance .abyss-relic-core::after {
+  left: 22%;
+  bottom: 28%;
+  height: 63px;
+  width: 29px;
+  animation-delay: -790ms;
+  animation-duration: 1910ms;
+}
+#abyss-relic-radiance .abyss-relic-core-halo {
+  position: absolute;
+  left: 50%; top: 62%;
+  width: 260px; height: 260px;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, rgba(255,255,255,.9) 0%,
+    rgba(245,252,255,.50) 18%, rgba(227,242,255,.2) 37%, transparent 74%);
+}
+@keyframes abyss-core-awaken {
+  from { opacity: 0; transform: translate(-50%, -53%) scale(.35); }
+  to { opacity: .98; transform: translate(-50%, -53%) scale(1.1); }
+}
+@keyframes abyss-core-breathe {
+  from { transform: translate(-50%, -53%) scale(1.05) rotate(-2deg); opacity: .87; }
+  to { transform: translate(-50%, -53%) scale(1.19) rotate(2deg); opacity: 1; }
+}
+@keyframes abyss-flame-tongue {
+  from { transform: rotate(-7deg) scale(.90, .94); opacity: .63; }
+  to { transform: rotate(8deg) scale(1.12, 1.13); opacity: .97; }
+}
+/* Soft conic rays leak from the core, tapering away at a great distance. */
+#abyss-relic-radiance .abyss-relic-rays {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: repeating-conic-gradient(from -5deg at var(--abyss-flash-x) var(--abyss-flash-y),
+    rgba(246,251,255,0) 0deg,
+    rgba(252,254,255,.12) 3deg,
+    rgba(255,255,255,.70) 5deg,
+    rgba(240,248,255,.19) 9deg,
+    transparent 19deg,
+    transparent 27deg);
+  -webkit-mask-image: radial-gradient(circle at var(--abyss-flash-x) var(--abyss-flash-y),
+    #000 0%, rgba(0,0,0,.94) 23%, rgba(0,0,0,.57) 54%, transparent 91%);
+  mask-image: radial-gradient(circle at var(--abyss-flash-x) var(--abyss-flash-y),
+    #000 0%, rgba(0,0,0,.94) 23%, rgba(0,0,0,.57) 54%, transparent 91%);
+  clip-path: circle(0px at var(--abyss-flash-x) var(--abyss-flash-y));
+  opacity: 0;
+}
+#abyss-relic-radiance.abyss-relic-radiance-expand .abyss-relic-rays {
+  animation: abyss-soft-rays var(--abyss-victory-rays-ms) cubic-bezier(.17,.45,.37,1) forwards;
+}
+@keyframes abyss-soft-rays {
+  0% { opacity: .08; clip-path: circle(0px at var(--abyss-flash-x) var(--abyss-flash-y)); }
+  40% { opacity: .48; }
+  75% { opacity: .75; }
+  100% { opacity: .88; clip-path: circle(160vmax at var(--abyss-flash-x) var(--abyss-flash-y)); }
+}
+
+/* Soft white mist expanding from the relic's core. NO sharp-edged disk. */
+#abyss-relic-flash {
+  --abyss-flash-x: 50%;
+  --abyss-flash-y: 50%;
+  --abyss-victory-flash-ms: 4200ms;
+  --abyss-flood-radius: 1px;
+  --abyss-flood-max: 3500px;
+  position: fixed;
+  inset: 0;
+  z-index: 92;
+  pointer-events: none;
+  opacity: .70;
+  background: radial-gradient(circle at var(--abyss-flash-x) var(--abyss-flash-y),
+    #fff 0px,
+    #fff calc(var(--abyss-flood-radius) * .42),
+    rgba(255,255,255,.94) calc(var(--abyss-flood-radius) * .62),
+    rgba(255,255,255,.64) calc(var(--abyss-flood-radius) * .83),
+    rgba(255,255,255,.23) calc(var(--abyss-flood-radius) * .97),
+    rgba(255,255,255,0) var(--abyss-flood-radius));
+}
+#abyss-relic-flash.abyss-relic-flash-expand {
+  animation: abyss-soft-white-flood var(--abyss-victory-flash-ms) cubic-bezier(.64,.02,.40,1) forwards;
+}
+#abyss-relic-flash.abyss-relic-flash-complete {
+  animation: none;
+  opacity: 1;
+  background: #fff;
+}
+@keyframes abyss-soft-white-flood {
+  0% { --abyss-flood-radius: 1px; opacity: .75; }
+  50% { opacity: .90; }
+  100% { --abyss-flood-radius: var(--abyss-flood-max); opacity: 1; }
+}
+.abyss-ending-panel {
+  width: min(88vw, 580px);
+  box-sizing: border-box;
+  padding: 48px 28px;
+  border: 1px solid #846841;
+  background: rgba(7, 7, 10, .92);
+  box-shadow: 0 0 85px #000;
+  text-align: center;
+  color: #efe7db;
+  animation: abyss-ending-appear 700ms ease-out both;
+}
+.abyss-ending-panel h1 {
+  font: 700 clamp(28px, 5vw, 54px) Cinzel, 'Noto Sans JP', serif;
+  overflow-wrap: anywhere;
+  line-height: 1.35;
+}
+.abyss-ending-panel p {
+  font: 400 14px/2 'Noto Sans JP', sans-serif;
+  color: #cec2b0;
+  margin: 18px auto 28px;
+}
+.abyss-ending-panel .config { margin: 20px auto 0; }
+.abyss-ending-ornament { font-size: 27px; color: #d9b27b; }
+.abyss-game-over-panel { border-color: #663d40; background: #09080bec; }
+.abyss-game-over-panel h1 { color: #dca19b; text-shadow: 0 0 27px #632e33; }
+.abyss-game-over-panel .abyss-ending-ornament { color: #8e555a; }
+.abyss-victory-panel h1 { color: #f5e2ab; text-shadow: 0 0 27px #977747; }
+@keyframes abyss-ending-appear {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@media (max-width: 600px) {
+  .abyss-ending-panel { padding: 32px 18px; }
+  .abyss-ending-panel p { font-size: 12px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .abyss-ending-panel { animation: none; }
+}
+
+/* Victory text appears on PURE WHITE, not over the relic or dungeon.
+   Preserve the original dark GAME OVER screen as-is. */
+#overlay.abyss-victory-white {
+  background: #ffffff !important;
+  color: #37312b;
+  transition: none;
+}
+#overlay.abyss-victory-white .abyss-victory-panel {
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  color: #37312b;
+}
+#overlay.abyss-victory-white .abyss-victory-panel h1 {
+  color: #927448;
+  text-shadow: none;
+}
+#overlay.abyss-victory-white .abyss-victory-panel p {
+  color: #49453f;
+}
+#overlay.abyss-victory-white .abyss-ending-ornament {
+  color: #ac8d5b;
+}
+#overlay.abyss-victory-white #return-title {
+  color: #775a32;
+  border: 1px solid #a78c64;
+  background: #ffffff;
+}
+#overlay.abyss-victory-white #return-title:hover {
+  background: #a78c64;
+  color: #ffffff;
+}
+body.abyss-victory-complete .hud,
+body.abyss-victory-complete .vignette,
+body.abyss-victory-complete .grain,
+body.abyss-victory-complete #abyss-key-quest-hud {
+  visibility: hidden !important;
+}
+/* Accessibility: gently crossfade instead of oscillating or showing spokes. */
+@media (prefers-reduced-motion: reduce) {
+  #abyss-relic-radiance.abyss-relic-core-awake .abyss-relic-core {
+    animation: abyss-core-awaken 1400ms ease-out forwards;
+  }
+  #abyss-relic-radiance .abyss-relic-core::before,
+  #abyss-relic-radiance .abyss-relic-core::after { animation: none; }
+  #abyss-relic-radiance.abyss-relic-radiance-expand .abyss-relic-rays {
+    animation: none;
+    opacity: 0;
+  }
+}

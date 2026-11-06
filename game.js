@@ -10,7 +10,9 @@ catch (primaryError) {
         THREE = await import('https://unpkg.com/three@0.160.0/build/three.module.js');
     }
     catch (secondaryError) {
-        const error = new Error('Three.js の読み込みに失敗しました。インターネット接続・CDNへのアクセス・ブラウザ設定をご確認ください。');
+        const error = new Error(document.documentElement.lang === 'en'
+            ? 'Three.js could not be loaded. Check your internet connection, CDN access, and browser settings.'
+            : 'Three.js の読み込みに失敗しました。インターネット接続・CDNへのアクセス・ブラウザ設定をご確認ください。');
         error.cause = secondaryError;
         throw error;
     }
@@ -47,6 +49,9 @@ highResolutionInput.checked = false;
 const ABYSS_MOBILE = matchMedia('(pointer: coarse)').matches || innerWidth < 768;
 const ABYSS_MAX_FPS = ABYSS_MOBILE ? 20 : 24;
 const ABYSS_IDLE_FPS = 4;
+// Increase smoothness only when approaching the relic, to limit CPU/GPU impact.
+const ABYSS_RELIC_NEAR_FPS = ABYSS_MOBILE ? 30 : 36;
+const RELIC_SPIN_RADIANS_PER_SECOND = 1.1; // was 0.6; constant-speed rotation
 const ABYSS_RENDER_WIDTH = ABYSS_MOBILE ? 720 : 960;
 const ABYSS_RENDER_HEIGHT = ABYSS_MOBILE ? 480 : 540;
 const retroModeInput = document.querySelector('#retro-mode');
@@ -86,6 +91,8 @@ function startDungeonBgm() {
 let soundEffectsEnabled = true;
 // The sealed wall moves only when all five keys have been collected.
 // Unlike footsteps, this one-shot SE has no walking echo or 3x gain.
+// The Wall Moves.mp3: 80% quieter than the unscaled SFX level (20% remaining).
+const WALL_MOVES_VOLUME_SCALE = 0.2;
 const wallMovesSe = new Audio('asset.php?file=wall');
 wallMovesSe.preload = 'auto';
 wallMovesSe.addEventListener('error', () => {
@@ -94,7 +101,7 @@ wallMovesSe.addEventListener('error', () => {
 function playWallMovesSe() {
     if (!soundEffectsEnabled || sfxVolume <= 0)
         return;
-    wallMovesSe.volume = Math.max(0, Math.min(1, sfxVolume));
+    wallMovesSe.volume = Math.max(0, Math.min(1, sfxVolume * WALL_MOVES_VOLUME_SCALE));
     wallMovesSe.pause();
     wallMovesSe.currentTime = 0;
     wallMovesSe.play().catch(error => {
@@ -217,11 +224,41 @@ scene.fog = new THREE.Fog(0x09070d, 3.5, 16.0);
 // ==================================================
 // Camera
 // ==================================================
-// Each original 1x1 grid tile becomes 2.3x2.3 world units. Wall height is 2.3.
-// The 15x15 map pattern itself is unchanged; objects are NOT stretched.
+// Wall footprint is one 2.3 x 2.3 world-unit grid cell; do not stretch the camera or relic.
 const MAP_CELL = 2.3;
-const MAP_WORLD_CENTER = -MAP_CELL / 2;
-const MAP_WORLD_SIZE = 15 * MAP_CELL;
+// Keep this grid as the source of truth for all world / minimap dimensions.
+let ABYSS_MAP = [
+    "###############",
+    "#S....#.......#",
+    "###.#.#.#####.#",
+    "#...#...#...#.#",
+    "#.#####.#.#.#.#",
+    "#.....#...#...#",
+    "#.###.#####.###",
+    "#...#.....#...#",
+    "###.#####.###.#",
+    "#...#...#.....#",
+    "#.###.#.#######",
+    "#.....#.....K.#",
+    "#.#########.#.#",
+    "#...........#.#",
+    "#############.#",
+    "#.............#",
+    "#..E..........#",
+    "#.............#",
+    "###############",
+];
+const MAP_ROWS = ABYSS_MAP.length;
+const MAP_COLS = ABYSS_MAP[0].length;
+if (!ABYSS_MAP.every(row => row.length === MAP_COLS)) {
+    throw new Error('ABYSS_MAP must be rectangular.');
+}
+const MAP_GRID_ORIGIN = (MAP_COLS - 1) / 2; // 7 for the 15-column map
+const MAP_WORLD_WIDTH = MAP_COLS * MAP_CELL;
+const MAP_WORLD_DEPTH = MAP_ROWS * MAP_CELL;
+// Preserve all original world coordinates in rows 0-14; extend only southward.
+const MAP_WORLD_CENTER_X = -MAP_CELL / 2;
+const MAP_WORLD_CENTER_Z = MAP_WORLD_CENTER_X - (MAP_ROWS - MAP_COLS) * MAP_CELL / 2;
 // 1.0 = original view; 0.80 = approximately 25% wider horizontal view.
 // Adjust toward 0.70 for more width or toward 1.0 for less width.
 const CAMERA_HORIZONTAL_PROJECTION_SCALE = 1.0;
@@ -333,41 +370,31 @@ function block(x, y, z, sx, sy, sz, mat = stone) {
 // ==================================================
 // Dungeon Floor and Ceiling
 // ==================================================
-// A wall tile is 2.3 units tall, so make its X/Z footprint 2.3 x 2.3.
-// The 15x15 ABYSS_MAP grid stays exactly the same; only physical spacing
-// between grid centers changes. Relic, keys and torches retain their shapes.
-// Change this value to adjust corridor/wall width without camera distortion.
-block(MAP_WORLD_CENTER, -0.2, MAP_WORLD_CENTER, MAP_WORLD_SIZE + 0.8, 0.4, MAP_WORLD_SIZE + 0.8, floorMat);
-block(MAP_WORLD_CENTER, 4, MAP_WORLD_CENTER, MAP_WORLD_SIZE + 0.8, 0.5, MAP_WORLD_SIZE + 0.8, stone);
+// Floor / ceiling now cover all 19 rows, including the extended exit chamber.
+block(MAP_WORLD_CENTER_X, -0.2, MAP_WORLD_CENTER_Z,
+    MAP_WORLD_WIDTH + 0.8, 0.4, MAP_WORLD_DEPTH + 0.8, floorMat);
+block(MAP_WORLD_CENTER_X, 4, MAP_WORLD_CENTER_Z,
+    MAP_WORLD_WIDTH + 0.8, 0.5, MAP_WORLD_DEPTH + 0.8, stone);
 // ==================================================
 // Outer Boundary Walls
 // ==================================================
-// Keep the outer boundary beyond the newly widened 15x15 wall grid.
-const outerEdge = MAP_WORLD_SIZE / 2 + 0.2;
-block(MAP_WORLD_CENTER - outerEdge, 1.8, MAP_WORLD_CENTER, 0.4, 3.6, MAP_WORLD_SIZE + 0.8, trim);
-block(MAP_WORLD_CENTER + outerEdge, 1.8, MAP_WORLD_CENTER, 0.4, 3.6, MAP_WORLD_SIZE + 0.8, trim);
-block(MAP_WORLD_CENTER, 1.8, MAP_WORLD_CENTER - outerEdge, MAP_WORLD_SIZE + 0.8, 3.6, 0.4, trim);
-block(MAP_WORLD_CENTER, 1.8, MAP_WORLD_CENTER + outerEdge, MAP_WORLD_SIZE + 0.8, 3.6, 0.4, trim);
-// ==================================================
-// Reference 15x15 dungeon layout (same wall grid as the reference HTML)
-// ==================================================
-let ABYSS_MAP = [
-    "###############",
-    "#S....#.......#",
-    "###.#.#.#####.#",
-    "#...#...#...#.#",
-    "#.#####.#.#.#.#",
-    "#.....#...#...#",
-    "#.###.#####.###",
-    "#...#.....#...#",
-    "###.#####.###.#",
-    "#...#...#.....#",
-    "#.###.#.#######",
-    "#.....#.....K.#",
-    "#.#########.#.#",
-    "#...........#E#",
-    "###############"
-];
+// The boundary is rectangular: 15 columns wide, 19 rows deep.
+const outerEdgeX = MAP_WORLD_WIDTH / 2 + 0.2;
+const outerEdgeZ = MAP_WORLD_DEPTH / 2 + 0.2;
+block(MAP_WORLD_CENTER_X - outerEdgeX, 1.8, MAP_WORLD_CENTER_Z, 0.4, 3.6, MAP_WORLD_DEPTH + 0.8, trim);
+block(MAP_WORLD_CENTER_X + outerEdgeX, 1.8, MAP_WORLD_CENTER_Z, 0.4, 3.6, MAP_WORLD_DEPTH + 0.8, trim);
+block(MAP_WORLD_CENTER_X, 1.8, MAP_WORLD_CENTER_Z - outerEdgeZ, MAP_WORLD_WIDTH + 0.8, 3.6, 0.4, trim);
+block(MAP_WORLD_CENTER_X, 1.8, MAP_WORLD_CENTER_Z + outerEdgeZ, MAP_WORLD_WIDTH + 0.8, 3.6, 0.4, trim);
+
+// Derive the relic position from the one E cell. Future map edits need no extra constants.
+const EXIT_CELLS = [];
+for (let gz = 0; gz < MAP_ROWS; gz++) {
+    for (let gx = 0; gx < MAP_COLS; gx++) {
+        if (ABYSS_MAP[gz][gx] === 'E') EXIT_CELLS.push({gx, gz});
+    }
+}
+if (EXIT_CELLS.length !== 1) throw new Error('ABYSS_MAP must have exactly one E cell.');
+const EXIT_CELL = EXIT_CELLS[0];
 const GATE_CELL = { gx: 12, gz: 11 };
 let sealedGate = null;
 // All five key locations are fixed (grid coordinates, zero-based).
@@ -388,6 +415,9 @@ let collectedKeyCount = 0, gateUnlocked = false;
 const KEY_QUEST_DURATION_MS = 10 * 60 * 1000;
 let keyQuestDeadline = null;
 let keyQuestRemainingMs = KEY_QUEST_DURATION_MS;
+// 'won' becomes the terminal lock for either victory or a timed-out expedition.
+// 'endingState' distinguishes which cinematic is being shown.
+let endingState = null;
 const keyQuestStyle = document.createElement('style');
 keyQuestStyle.textContent = `
 #abyss-key-quest-hud { position:relative; top:auto; bottom:auto; left:auto; margin-top:12px; width:max-content; z-index:35;
@@ -408,7 +438,7 @@ keyQuestStyle.textContent = `
 document.head.appendChild(keyQuestStyle);
 const keyQuestHud = document.createElement('div');
 keyQuestHud.id = 'abyss-key-quest-hud';
-keyQuestHud.setAttribute('aria-label', '取得した鍵と封印解除までの残り時間');
+keyQuestHud.setAttribute('aria-label', document.documentElement.lang === 'en' ? 'Keys collected and time remaining' : '取得した鍵の数と残り時間');
 keyQuestHud.innerHTML = '<span class="abyss-key-count"><span class="abyss-key-icon">🗝</span> ×<span id="abyss-key-count-value">0</span><span style="opacity:.65">/5</span></span><span class="abyss-key-timer" id="abyss-key-timer">10:00</span>';
 // Place the quest HUD directly below CHAPTER I on desktop and mobile.
 const chapterHeading = document.querySelector('.chapter');
@@ -421,17 +451,20 @@ const keyTimerValue = document.getElementById('abyss-key-timer');
 function updateKeyQuestHud() {
     keyQuestHud.style.display = gameStarted && !won ? 'flex' : 'none';
     keyCountValue.textContent = String(collectedKeyCount);
-    if (keyQuestDeadline !== null && !gateUnlocked) {
+    if (keyQuestDeadline !== null) {
         keyQuestRemainingMs = Math.max(0, keyQuestDeadline - performance.now());
     }
     const totalSeconds = Math.ceil(keyQuestRemainingMs / 1000);
     const minutes = Math.floor(totalSeconds / 60);
     const seconds = String(totalSeconds % 60).padStart(2, '0');
     keyTimerValue.textContent = `${String(minutes).padStart(2, '0')}:${seconds}`;
-    keyTimerValue.classList.toggle('warning', keyQuestDeadline !== null && !gateUnlocked && totalSeconds <= 60);
+    keyTimerValue.classList.toggle('warning', keyQuestDeadline !== null && totalSeconds <= 60);
+    if (gameStarted && !won && keyQuestDeadline !== null && keyQuestRemainingMs <= 0) {
+        beginGameOver();
+    }
 }
-const mapWorldX = gx => (7 - gx) * MAP_CELL;
-const mapWorldZ = gz => (7 - gz) * MAP_CELL;
+const mapWorldX = gx => (MAP_GRID_ORIGIN - gx) * MAP_CELL;
+const mapWorldZ = gz => (MAP_GRID_ORIGIN - gz) * MAP_CELL;
 // Each '#' in the reference map becomes a real 3D wall and a collider.
 for (let gz = 0; gz < ABYSS_MAP.length; gz++) {
     for (let gx = 0; gx < ABYSS_MAP[gz].length; gx++) {
@@ -550,19 +583,26 @@ for (let z = -3; z > -19; z -= 4) {
 // ==================================================
 // Torches
 // ==================================================
-function torch(gx, gz) {
+function torch(gx, gz, wallSide = null) {
     // Place a wall-mounted 3D torch at the side of the selected walkable tile.
     // This map uses world X = 7 - grid X and world Z = 7 - grid Z.
     const cx = mapWorldX(gx) - MAP_CELL / 2;
     const cz = mapWorldZ(gz) - MAP_CELL / 2;
     const candidates = [
-        { dx: 0, dz: -1, wx: 0, wz: 1 },
-        { dx: 1, dz: 0, wx: -1, wz: 0 },
-        { dx: 0, dz: 1, wx: 0, wz: -1 },
-        { dx: -1, dz: 0, wx: 1, wz: 0 }
+        { side: 'north', dx: 0, dz: -1, wx: 0, wz: 1 },
+        { side: 'east', dx: 1, dz: 0, wx: -1, wz: 0 },
+        { side: 'south', dx: 0, dz: 1, wx: 0, wz: -1 },
+        { side: 'west', dx: -1, dz: 0, wx: 1, wz: 0 }
     ];
-    const wall = candidates.find(n => ABYSS_MAP[gz + n.dz] &&
-        ABYSS_MAP[gz + n.dz][gx + n.dx] === '#') || candidates[0];
+    const isWall = n => ABYSS_MAP[gz + n.dz]?.[gx + n.dx] === '#';
+    // Existing torches keep their original automatic selection. New torches
+    // can request a specific wall face so they do not move to a nearby wall.
+    const wall = wallSide
+        ? candidates.find(n => n.side === wallSide && isWall(n))
+        : candidates.find(isWall) || candidates[0];
+    if (!wall) {
+        throw new Error(`No ${wallSide} wall next to torch tile (${gx}, ${gz}).`);
+    }
     // World-space direction from the wall toward the corridor.
     const nx = -wall.wx;
     const nz = -wall.wz;
@@ -695,10 +735,64 @@ const TORCH_CELLS = [
     [7, 1], [13, 5], [10, 3] // Wall (7,0) south; (13,6) north; (10,2) south
 ];
 const torches = TORCH_CELLS.map(([gx, gz]) => torch(gx, gz));
+
+// Wall-mounted torches. The requested wall coordinates use 1-based
+// MAP coordinates (X=1..15, Y=1..19), unlike JS grid indices (0-based).
+// Each flame is placed on the specified FACE of the wall, not inside it.
+// The two adjusted placements are documented below because:
+// - X15,Y7 west: the adjacent west tile is another wall (not visible).
+// - X9,Y6 south: that cell is a corridor, not a wall.
+const EXTRA_WALL_TORCHES = [
+    { x: 2,  y: 15, face: 'south' },
+    { x: 4,  y: 15, face: 'south' },
+    { x: 2,  y: 19, face: 'north' },
+    { x: 4,  y: 19, face: 'north' },
+    { x: 15, y: 15, face: 'west' },
+    // X=15, Y=5 west torch removed at the user's request.
+    { x: 15, y: 8,  face: 'west' },  // requested X15,Y7: nearest visible west face
+    { x: 9,  y: 7,  face: 'south' }, // requested X9,Y6: next wall to the south
+
+    // Great hall — four on the south face of the Y=15 wall:
+    { x: 6,  y: 15, face: 'south' },
+    { x: 8,  y: 15, face: 'south' },
+    { x: 10, y: 15, face: 'south' },
+    { x: 12, y: 15, face: 'south' },
+    // Great hall — four on the north face of the Y=19 wall:
+    { x: 6,  y: 19, face: 'north' },
+    { x: 8,  y: 19, face: 'north' },
+    { x: 10, y: 19, face: 'north' },
+    { x: 12, y: 19, face: 'north' }
+];
+
+function torchOnWall({x, y, face}) {
+    const wallX = x - 1;
+    const wallY = y - 1;
+    if (ABYSS_MAP[wallY]?.[wallX] !== '#') {
+        throw new Error(`Torch mount (${x}, ${y}) is not a wall.`);
+    }
+    const offsets = {
+        north: { dx: 0, dz: -1, side: 'south' },
+        south: { dx: 0, dz: 1,  side: 'north' },
+        west:  { dx: -1, dz: 0, side: 'east' },
+        east:  { dx: 1,  dz: 0, side: 'west' }
+    };
+    const offset = offsets[face];
+    if (!offset) throw new Error(`Unsupported torch wall face: ${face}`);
+    const gx = wallX + offset.dx;
+    const gz = wallY + offset.dz;
+    const neighbor = ABYSS_MAP[gz]?.[gx];
+    if (!neighbor || neighbor === '#' || neighbor === 'K') {
+        throw new Error(`Torch (${x}, ${y}) ${face} face has no visible corridor.`);
+    }
+    // The original torch geometry/light model is reused without extra shadows.
+    return torch(gx, gz, offset.side);
+}
+const additionalTorches = EXTRA_WALL_TORCHES.map(torchOnWall);
+torches.push(...additionalTorches);
 // ==================================================
 // Relic Pedestal
 // ==================================================
-block(mapWorldX(13) - MAP_CELL / 2, 0.25, mapWorldZ(13) - MAP_CELL / 2, 0.9, 0.5, 0.9, trim);
+block(mapWorldX(EXIT_CELL.gx) - MAP_CELL / 2, 0.25, mapWorldZ(EXIT_CELL.gz) - MAP_CELL / 2, 0.9, 0.5, 0.9, trim);
 // ==================================================
 // Relic
 // ==================================================
@@ -708,13 +802,13 @@ const relic = new THREE.Mesh(new THREE.OctahedronGeometry(0.45), new THREE.MeshS
     roughness: 0.25,
     emissive: 0x4a2609
 }));
-relic.position.set(mapWorldX(13) - MAP_CELL / 2, 1.2, mapWorldZ(13) - MAP_CELL / 2);
+relic.position.set(mapWorldX(EXIT_CELL.gx) - MAP_CELL / 2, 1.2, mapWorldZ(EXIT_CELL.gz) - MAP_CELL / 2);
 scene.add(relic);
 // ==================================================
 // Relic Light
 // ==================================================
 const relicLight = new THREE.PointLight(0xd59b45, 2, 5);
-relicLight.position.set(mapWorldX(13) - MAP_CELL / 2, 1.4, mapWorldZ(13) - MAP_CELL / 2);
+relicLight.position.set(mapWorldX(EXIT_CELL.gx) - MAP_CELL / 2, 1.4, mapWorldZ(EXIT_CELL.gz) - MAP_CELL / 2);
 scene.add(relicLight);
 // Five floating keys: two fixed positions and three randomized reachable cells.
 const keyGold = new THREE.MeshStandardMaterial({ color: 0xf4c967, metalness: 0.75, roughness: 0.25, emissive: 0x6a3c0a });
@@ -758,9 +852,9 @@ function unlockGateWithKey() {
     ceiling.position.set(wx, 2.355, wz);
     ceiling.receiveShadow = true;
     scene.add(ceiling);
-    keyQuestRemainingMs = keyQuestDeadline === null ? KEY_QUEST_DURATION_MS : Math.max(0, keyQuestDeadline - performance.now());
+    // Countdown keeps running after all five keys have been collected.
     drawRetroMap();
-    showGateOpeningMessage();
+    showGateOpeningMessage('gateOpened');
     playWallMovesSe();
     updateKeyQuestHud();
 }
@@ -782,7 +876,7 @@ function checkDungeonKeyPickup() {
         scene.remove(key.light);
         drawRetroMap();
         if (key.cell.gx === 3 && key.cell.gz === 1) {
-            showGateOpeningMessage('FIVE KEYS OF THE SEAL', '10分以内に封印を解くための５つの鍵を手に入れよ');
+            showGateOpeningMessage('questStart');
         }
         if (collectedKeyCount === 5)
             unlockGateWithKey();
@@ -809,20 +903,26 @@ retroMapCanvas.id = 'abyss-retro-map';
 retroMapCanvas.style.cssText = 'position:fixed;right:14px;top:14px;width:160px;height:200px;z-index:30;display:none;image-rendering:pixelated;border:3px solid #806071;background:#100b18;box-shadow:4px 4px 0 #030205;';
 document.body.appendChild(retroMapCanvas);
 const retroMapCtx = retroMapCanvas.getContext('2d');
-// Mobile RETRO: align the minimap directly under the objective text.
+// Place the RETRO map below the OBJECTIVE block on both PC and mobile.
+// Measuring the rendered text avoids overlap when switching Japanese/English.
 function positionMobileRetroMap() {
+    const objective = document.querySelector('.objective');
+    if (!objective) return;
+    const rect = objective.getBoundingClientRect();
+    const mapTop = Math.max(10, Math.round(rect.bottom + 14));
+    const mapRight = Math.max(12, Math.round(window.innerWidth - rect.right));
     const mobile = window.matchMedia('(pointer: coarse) and (max-width: 900px)').matches;
-    if (!mobile) {
+    if (mobile) {
+        retroMapCanvas.style.setProperty('--abyss-mobile-map-top', `${mapTop}px`);
+        retroMapCanvas.style.setProperty('--abyss-mobile-map-right', `${mapRight}px`);
+        retroMapCanvas.style.removeProperty('--abyss-desktop-map-top');
+        retroMapCanvas.style.removeProperty('--abyss-desktop-map-right');
+    } else {
+        retroMapCanvas.style.setProperty('--abyss-desktop-map-top', `${mapTop}px`);
+        retroMapCanvas.style.setProperty('--abyss-desktop-map-right', `${mapRight}px`);
         retroMapCanvas.style.removeProperty('--abyss-mobile-map-top');
         retroMapCanvas.style.removeProperty('--abyss-mobile-map-right');
-        return;
     }
-    const objective = document.querySelector('.objective');
-    if (!objective)
-        return;
-    const rect = objective.getBoundingClientRect();
-    retroMapCanvas.style.setProperty('--abyss-mobile-map-top', `${Math.round(rect.bottom + 10)}px`);
-    retroMapCanvas.style.setProperty('--abyss-mobile-map-right', `${Math.max(12, Math.round(window.innerWidth - rect.right))}px`);
 }
 window.addEventListener('resize', positionMobileRetroMap);
 window.addEventListener('orientationchange', positionMobileRetroMap);
@@ -837,6 +937,12 @@ function updateOverlay() {
     locked =
         document.pointerLockElement === renderer.domElement;
     syncMobileGameConfigButton();
+    // Do not reveal the title/ending overlay during the light/dark transition.
+    if (endingState === 'victory' || endingState === 'game-over') {
+        overlay.style.opacity = '0';
+        overlay.style.pointerEvents = 'none';
+        return;
+    }
     // ゲーム開始前のみタイトル画面を表示
     if (!gameStarted || won) {
         overlay.style.opacity = '1';
@@ -909,10 +1015,10 @@ if (!mobileControls) {
     mobileControls = document.createElement('div');
     mobileControls.id = 'mobile-controls';
     mobileControls.innerHTML = `<div class="move-pad">
-        <button type="button" class="move-key up" data-key="ArrowUp" aria-label="前進">▲</button>
-        <button type="button" class="move-key left" data-key="ArrowLeft" aria-label="左回転">◀</button>
-        <button type="button" class="move-key down" data-key="ArrowDown" aria-label="後退">▼</button>
-        <button type="button" class="move-key right" data-key="ArrowRight" aria-label="右回転">▶</button>
+        <button type="button" class="move-key up" data-key="ArrowUp" aria-label="Forward">▲</button>
+        <button type="button" class="move-key left" data-key="ArrowLeft" aria-label="Left">◀</button>
+        <button type="button" class="move-key down" data-key="ArrowDown" aria-label="Back">▼</button>
+        <button type="button" class="move-key right" data-key="ArrowRight" aria-label="Right">▶</button>
     </div>`;
     document.body.appendChild(mobileControls);
 }
@@ -1066,7 +1172,7 @@ function toast(msg) {
 // Cinematic bilingual gate-opening announcement
 // ==================================================
 let gateAnnouncementTimer = null;
-function showGateOpeningMessage(title = 'A HIDDEN PASSAGE HAS OPENED', message = 'どこかで壁が開いたようだ') {
+function showGateOpeningMessage(kind = 'gateOpened') {
     let layer = document.getElementById('abyss-gate-announcement');
     if (!layer) {
         layer = document.createElement('div');
@@ -1076,14 +1182,15 @@ function showGateOpeningMessage(title = 'A HIDDEN PASSAGE HAS OPENED', message =
         layer.innerHTML = `
             <div class="abyss-gate-announcement-content">
                 <div class="abyss-gate-announcement-line"></div>
-                <h2>A HIDDEN PASSAGE HAS OPENED</h2>
-                <p>どこかで壁が開いたようだ</p>
+                <h2></h2>
+                <p></p>
                 <div class="abyss-gate-announcement-line"></div>
             </div>`;
         document.body.appendChild(layer);
     }
-    layer.querySelector('h2').textContent = title;
-    layer.querySelector('p').textContent = message;
+    layer.dataset.messageKind = kind;
+    layer.querySelector('h2').textContent = gameText(kind + 'Title');
+    layer.querySelector('p').textContent = gameText(kind + 'Message');
     if (gateAnnouncementTimer)
         clearTimeout(gateAnnouncementTimer);
     layer.classList.remove('visible');
@@ -1096,40 +1203,135 @@ function showGateOpeningMessage(title = 'A HIDDEN PASSAGE HAS OPENED', message =
     }, 3600);
 }
 // ==================================================
-// Victory
+// Timed failure and relic victory cinematics (low-load CSS/DOM overlays).
 // ==================================================
-function winGame() {
-    if (won)
-        return;
+// Slow, gentle transitions. Deliberately avoid abrupt flashes or hard edges.
+const ABYSS_GAME_OVER_FADE_MS = 4700;       // Outer shadows close in and darken over ~4.7 s
+const ABYSS_VICTORY_GLOW_MS = 1400;        // 0–1.4 s: white flame-like relic core
+const ABYSS_VICTORY_RAYS_MS = 3400;        // 1.4–4.8 s: soft rays leak outward
+const ABYSS_VICTORY_FLOOD_DELAY_MS = 3250; // 3.25 s: hazy white bloom starts
+const ABYSS_VICTORY_FLASH_MS = 4200;       // 3.25–7.45 s: bloom fills the entire screen
+
+function finishExpeditionState(kind) {
+    // Both endings halt movement, footsteps, BGM, CONFIG and pointer capture.
+    if (won) return false;
     won = true;
     gameStarted = false;
+    endingState = kind;
     syncMobileGameConfigButton();
     dungeonBgm.pause();
     stopWalkingSe();
-    // マウスロックを解除
-    if (document.pointerLockElement) {
-        document.exitPointerLock();
-    }
-    // CONFIG画面を閉じる
+    stopRetroFootstep();
+    wallMovesSe.pause();
     configOpen = false;
     configOverlay.classList.remove('active');
-    // クリア画面を表示
+    retroMapCanvas.style.display = 'none';
+    if (document.pointerLockElement) document.exitPointerLock();
+    overlay.style.opacity = '0';
+    overlay.style.pointerEvents = 'none';
+    for (const code of Object.keys(keys)) keys[code] = false;
+    return true;
+}
+
+function showEndingScreen(kind) {
+    endingState = 'finished';
+    // Keep a FULLY OPAQUE ending backdrop, so the dungeon and relic cannot
+    // show through when the result text appears. GAME OVER remains dark.
+    const isOver = kind === 'gameOver';
+    if (!isOver) {
+        document.body.classList.add('abyss-victory-complete');
+        overlay.classList.add('abyss-victory-white');
+    }
+    const title = gameText(isOver ? 'gameOverTitle' : 'victoryTitle');
+    const message = gameText(isOver ? 'gameOverMessage' : 'victoryMessage');
+    const back = gameText(isOver ? 'gameOverBack' : 'victoryBack');
     overlay.innerHTML = `
-        <div class="victory-content">
-            <h1>RELIC RECOVERED</h1>
-            <p>古代の遺物を回収した。</p>
-            <button class="config" id="return-title">
-                TITLE
-            </button>
-        </div>
-    `;
+        <div class="victory-content abyss-ending-panel ${isOver ? 'abyss-game-over-panel' : 'abyss-victory-panel'}">
+            <div class="abyss-ending-ornament" aria-hidden="true">${isOver ? '◇' : '✦'}</div>
+            <h1></h1>
+            <p></p>
+            <button type="button" class="config" id="return-title"></button>
+        </div>`;
+    overlay.querySelector('h1').textContent = title;
+    overlay.querySelector('p').textContent = message;
+    overlay.querySelector('#return-title').textContent = back;
+    overlay.style.zIndex = '110';
     overlay.style.opacity = '1';
     overlay.style.pointerEvents = 'auto';
-    // タイトル画面へ戻る
-    document.querySelector('#return-title')
-        .addEventListener('click', () => {
-        location.reload();
-    });
+    overlay.querySelector('#return-title').addEventListener('click', () => location.reload());
+}
+
+function beginGameOver() {
+    if (!finishExpeditionState('game-over')) return;
+    keyQuestRemainingMs = 0;
+    keyTimerValue.textContent = '00:00';
+    const curtain = document.createElement('div');
+    curtain.id = 'abyss-darkness-curtain';
+    curtain.setAttribute('aria-hidden', 'true');
+    curtain.style.setProperty('--abyss-shadow-duration', `${ABYSS_GAME_OVER_FADE_MS}ms`);
+    // Reach all viewport corners, including tall phones and ultrawide screens.
+    curtain.style.setProperty('--abyss-shadow-start', `${Math.ceil(Math.hypot(innerWidth, innerHeight) * 1.35)}px`);
+    document.body.appendChild(curtain);
+    requestAnimationFrame(() => curtain.classList.add('abyss-darkness-closing'));
+    setTimeout(() => {
+        // Finish with true black, regardless of color gradients or viewport shape.
+        curtain.classList.add('abyss-darkness-complete');
+        showEndingScreen('gameOver');
+    }, ABYSS_GAME_OVER_FADE_MS + 100);
+}
+
+function winGame() {
+    if (!finishExpeditionState('victory')) return;
+
+    // Make the 3D relic and its own lamp white, without changing camera,
+    // dungeon geometry, torch light, or any other game object.
+    relic.material.color.setHex(0xffffff);
+    relic.material.emissive.setHex(0xf7fbff);
+    relic.material.emissiveIntensity = 3.1;
+    relicLight.color.setHex(0xf0f8ff);
+    relicLight.intensity = 7;
+    relic.scale.setScalar(1.08);
+
+    // Position every glow/ray/flood layer on the relic's SCREEN-SPACE CORE.
+    camera.updateMatrixWorld();
+    const projected = relic.position.clone().project(camera);
+    const visible = [projected.x, projected.y, projected.z].every(Number.isFinite) &&
+        projected.z >= -1 && projected.z <= 1 &&
+        Math.abs(projected.x) <= 1 && Math.abs(projected.y) <= 1;
+    const x = visible ? `${(projected.x + 1) * 50}%` : '50%';
+    const y = visible ? `${(1 - projected.y) * 50}%` : '50%';
+
+    // White, torch-like flickering core and delicate radial leaks. DOM/CSS only:
+    // no new WebGL light sources, postprocessing or large textures.
+    const radiance = document.createElement('div');
+    radiance.id = 'abyss-relic-radiance';
+    radiance.setAttribute('aria-hidden', 'true');
+    radiance.style.setProperty('--abyss-flash-x', x);
+    radiance.style.setProperty('--abyss-flash-y', y);
+    radiance.style.setProperty('--abyss-victory-rays-ms', `${ABYSS_VICTORY_RAYS_MS}ms`);
+    radiance.innerHTML = '<span class="abyss-relic-core"><span class="abyss-relic-core-halo"></span></span><span class="abyss-relic-rays"></span>';
+    document.body.appendChild(radiance);
+    requestAnimationFrame(() => radiance.classList.add('abyss-relic-core-awake'));
+
+    // White bloom has a *feathered*, translucent edge; not a hard white disk.
+    // Its final frame is replaced by a solid white backdrop behind VICTORY.
+    const flood = document.createElement('div');
+    flood.id = 'abyss-relic-flash';
+    flood.setAttribute('aria-hidden', 'true');
+    flood.style.setProperty('--abyss-flash-x', x);
+    flood.style.setProperty('--abyss-flash-y', y);
+    flood.style.setProperty('--abyss-victory-flash-ms', `${ABYSS_VICTORY_FLASH_MS}ms`);
+    // 42% of this radius reaches the viewport corners near the end of the fade.
+    flood.style.setProperty('--abyss-flood-max', `${Math.ceil(Math.hypot(innerWidth, innerHeight) * 2.55)}px`);
+    document.body.appendChild(flood);
+
+    setTimeout(() => radiance.classList.add('abyss-relic-radiance-expand'), ABYSS_VICTORY_GLOW_MS);
+    setTimeout(() => flood.classList.add('abyss-relic-flash-expand'), ABYSS_VICTORY_FLOOD_DELAY_MS);
+    setTimeout(() => {
+        flood.classList.add('abyss-relic-flash-complete');
+        showEndingScreen('victory');
+        radiance.remove();
+    }, ABYSS_VICTORY_FLOOD_DELAY_MS + ABYSS_VICTORY_FLASH_MS);
 }
 // ==================================================
 // Configuration UI
@@ -1166,9 +1368,154 @@ configButton.addEventListener('click', openConfig);
 mobileGameConfigButton.addEventListener('click', openConfig);
 configClose.addEventListener('click', closeConfigPanel);
 configBack.addEventListener('click', closeConfigPanel);
+// CONFIG language is shared with the PHP portal through the session.
+// All gameplay labels and announcements are translated; physics and progression are unchanged.
+const CONFIG_STRINGS = {
+    "ja": {
+        "ariaConfig": "ゲーム設定",
+        "close": "設定を閉じる",
+        "eyebrow": "ダンジョン",
+        "title": "設定",
+        "languageSection": "言語",
+        "languageLabel": "表示言語",
+        "languageHint": "タイトル画面・ゲーム中・設定画面の表示言語を切り替えます。",
+        "audio": "音声",
+        "masterVolume": "マスター音量",
+        "sfxVolume": "効果音",
+        "visuals": "画面表示",
+        "brightness": "明るさ",
+        "shadows": "松明の影",
+        "bloom": "ブルーム",
+        "ambient": "環境エフェクト",
+        "hires": "高解像度",
+        "retro": "レトロモード",
+        "seCheck": "SE確認",
+        "testSE": "足音SEを試聴",
+        "backDungeon": "ダンジョンに戻る",
+        "backTitle": "タイトル画面へ戻る",
+        "seLoading": "SEを読み込んでいます…",
+        "seSuccess": "SEを再生しました。音が聞こえれば正常です。",
+        "seLoadFail": "音声ファイルの取得に失敗しました",
+        "seTypeFail": "音声以外が返されました",
+        "seFailedPrefix": "SEエラー: ",
+        "seFailedSuffix": "。SE/Walk.mp3の配置とブラウザの音量をご確認ください。",
+        "pixelRatio": "描画倍率",
+        "confirmTitle": "タイトル画面へ戻りますか？ ゲームの進行状況はリセットされます。",
+        "langSaveFail": "表示言語を保存できませんでした。"
+    },
+    "en": {
+        "ariaConfig": "Game settings",
+        "close": "Close settings",
+        "eyebrow": "THE DUNGEON",
+        "title": "CONFIGURATION",
+        "languageSection": "LANGUAGE",
+        "languageLabel": "DISPLAY LANGUAGE",
+        "languageHint": "Choose the language for the title screen, gameplay and settings.",
+        "audio": "AUDIO",
+        "masterVolume": "MASTER VOLUME",
+        "sfxVolume": "SOUND EFFECTS",
+        "visuals": "VISUALS",
+        "brightness": "BRIGHTNESS",
+        "shadows": "TORCH SHADOWS",
+        "bloom": "BLOOM",
+        "ambient": "AMBIENT EFFECTS",
+        "hires": "HIGH RESOLUTION",
+        "retro": "RETRO MODE",
+        "seCheck": "SE CHECK",
+        "testSE": "TEST WALK SE",
+        "backDungeon": "RESUME EXPLORATION",
+        "backTitle": "BACK TO TITLE",
+        "seLoading": "Loading sound effect…",
+        "seSuccess": "Footstep test started. If you hear it, sound playback is working.",
+        "seLoadFail": "Failed to load audio (HTTP",
+        "seTypeFail": "Server returned non-audio data",
+        "seFailedPrefix": "Sound error: ",
+        "seFailedSuffix": ". Check SE/Walk.mp3 and your device volume.",
+        "pixelRatio": "Rendering scale",
+        "confirmTitle": "Return to the title screen? Your current progress will be lost.",
+        "langSaveFail": "Could not save the language preference."
+    }
+};
+const configLanguageSelect = document.querySelector('#config-language');
+let currentConfigLanguage = document.documentElement.lang === 'en' ? 'en' : 'ja';
+const configText = key => CONFIG_STRINGS[currentConfigLanguage]?.[key] ?? key;
+// PHP game.php is the single source for title, HUD and event text in both languages.
+// The embedded JSON is safely escaped server-side and requires no extra API call.
+const GAME_STRINGS = JSON.parse(document.querySelector('#abyss-game-translations').textContent);
+const gameText = key => GAME_STRINGS[currentConfigLanguage]?.[key] ?? key;
+const mobileControlAria = {
+    ArrowUp: 'mobileForward',
+    ArrowDown: 'mobileBackward',
+    ArrowLeft: 'mobileTurnLeft',
+    ArrowRight: 'mobileTurnRight'
+};
+function applyGameLanguage() {
+    document.title = gameText('browserTitle');
+    document.querySelectorAll('[data-game-i18n]').forEach(el => {
+        el.textContent = gameText(el.dataset.gameI18n);
+    });
+    document.querySelectorAll('[data-game-aria]').forEach(el => {
+        el.setAttribute('aria-label', gameText(el.dataset.gameAria));
+    });
+    keyQuestHud.setAttribute('aria-label', gameText('keyHud'));
+    mobileButtons.forEach(button => {
+        const key = button.dataset.key;
+        const translationKey = mobileControlAria[key];
+        if (translationKey) button.setAttribute('aria-label', gameText(translationKey));
+    });
+    const announcement = document.getElementById('abyss-gate-announcement');
+    if (announcement?.dataset.messageKind) {
+        const kind = announcement.dataset.messageKind;
+        announcement.querySelector('h2').textContent = gameText(kind + 'Title');
+        announcement.querySelector('p').textContent = gameText(kind + 'Message');
+    }
+    positionMobileRetroMap();
+    if (retroModeEnabled) drawRetroMap();
+}
+
+function applyConfigLanguage(nextLanguage) {
+    currentConfigLanguage = nextLanguage === 'en' ? 'en' : 'ja';
+    document.documentElement.lang = currentConfigLanguage;
+    configLanguageSelect.value = currentConfigLanguage;
+    applyGameLanguage();
+    document.querySelectorAll('[data-config-i18n]').forEach(el => {
+        el.textContent = configText(el.dataset.configI18n);
+    });
+    document.querySelectorAll('[data-config-aria]').forEach(el => {
+        el.setAttribute('aria-label', configText(el.dataset.configAria));
+    });
+    if (typeof renderer !== 'undefined') {
+        updateConfigResolutionStatus();
+    }
+}
+configLanguageSelect.addEventListener('change', async () => {
+    const oldLanguage = currentConfigLanguage;
+    const nextLanguage = configLanguageSelect.value;
+    applyConfigLanguage(nextLanguage);
+    try {
+        const token = document.querySelector('meta[name="abyss-language-token"]')?.content ?? '';
+        const body = new URLSearchParams({language: nextLanguage, token});
+        const response = await fetch('language.php', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+            body,
+            credentials: 'same-origin'
+        });
+        if (!response.ok) throw new Error('HTTP ' + response.status);
+    } catch (error) {
+        console.warn('ABYSS: Could not save CONFIG language', error);
+        applyConfigLanguage(oldLanguage);
+        window.alert(configText('langSaveFail'));
+    }
+});
+function updateConfigResolutionStatus() {
+    resolutionStatus.textContent = `${configText('pixelRatio')}: ${renderer.getPixelRatio().toFixed(2)}x`;
+}
+applyConfigLanguage(currentConfigLanguage);
+
 // Reload game.php to show the in-game title without destroying the login session.
 document.querySelector('#back-to-title').addEventListener('click', () => {
-    if (!window.confirm('タイトル画面へ戻りますか？ ゲームの進行状況はリセットされます。'))
+    if (!window.confirm(configText('confirmTitle')))
         return;
     stopWalkingSe();
     stopRetroFootstep();
@@ -1179,23 +1526,23 @@ document.querySelector('#back-to-title').addEventListener('click', () => {
 // User-initiated SE diagnostic (allowed by mobile autoplay policies).
 document.querySelector('#test-walk-se').addEventListener('click', async () => {
     const status = document.querySelector('#se-test-status');
-    status.textContent = 'SEを読み込んでいます…';
+    status.textContent = configText('seLoading');
     try {
         const response = await fetch('asset.php?file=walk', { cache: 'no-store' });
         if (!response.ok)
-            throw new Error('音声ファイルの取得に失敗しました (HTTP ' + response.status + ')');
+            throw new Error(configText('seLoadFail') + ' (HTTP ' + response.status + ')');
         const contentType = response.headers.get('content-type') || '';
         if (!contentType.includes('audio/'))
-            throw new Error('音声以外が返されました: ' + contentType);
+            throw new Error(configText('seTypeFail') + ': ' + contentType);
         // A separate player ensures test playback is independent of 3D/RETRO movement state.
         const testAudio = new Audio('asset.php?file=walk');
         testAudio.volume = 0.8;
         await testAudio.play();
-        status.textContent = 'SE再生開始。音が聞こえれば配信とブラウザ再生は正常です。';
+        status.textContent = configText('seSuccess');
         setTimeout(() => { testAudio.pause(); testAudio.currentTime = 0; }, 1000);
     }
     catch (error) {
-        status.textContent = 'SEエラー: ' + error.message + '。SE/Walk.mp3の配置とブラウザの音量をご確認ください。';
+        status.textContent = configText('seFailedPrefix') + error.message + configText('seFailedSuffix');
         console.warn('ABYSS SE diagnostic:', error);
     }
 });
@@ -1282,7 +1629,7 @@ function applyResolutionSettings() {
     // A smaller projection X scale makes corridors appear wider on screen.
     camera.projectionMatrix.elements[0] *= CAMERA_HORIZONTAL_PROJECTION_SCALE;
     camera.projectionMatrixInverse.copy(camera.projectionMatrix).invert();
-    resolutionStatus.textContent = `Applied Pixel Ratio: ${renderer.getPixelRatio().toFixed(2)}x`;
+    updateConfigResolutionStatus();
     renderer.render(scene, camera);
 }
 highResolutionInput.addEventListener('change', applyResolutionSettings);
@@ -1360,7 +1707,7 @@ function retroTurn(amount) {
     drawRetroMap();
 }
 function retroMove(step) {
-    // mapWorldZ(gz) = 7 - gz のため、ミニマップ上の北はワールド +Z
+    // mapWorldZ(gz) = (MAP_GRID_ORIGIN - gz) * MAP_CELL のため、北はワールド +Z
     // 北 → 西 → 南 → 東 の順でカメラ・移動・ミニマップを統一
     const dirs = [{ x: 0, z: 1 }, { x: 1, z: 0 }, { x: 0, z: -1 }, { x: -1, z: 0 }];
     const d = dirs[retroGridDir];
@@ -1395,8 +1742,8 @@ function drawRetroMap() {
             }
         }
     }
-    const gx = Math.max(0, Math.min(14, Math.round(6.5 - camera.position.x / MAP_CELL)));
-    const gz = Math.max(0, Math.min(14, Math.round(6.5 - camera.position.z / MAP_CELL)));
+    const gx = Math.max(0, Math.min(MAP_COLS - 1, Math.round(MAP_GRID_ORIGIN - 0.5 - camera.position.x / MAP_CELL)));
+    const gz = Math.max(0, Math.min(MAP_ROWS - 1, Math.round(MAP_GRID_ORIGIN - 0.5 - camera.position.z / MAP_CELL)));
     const px = ox + gx * cell + cell / 2, py = oy + gz * cell + cell / 2;
     ctx.fillStyle = '#ff6b72';
     ctx.fillRect(px - 3, py - 3, 6, 6);
@@ -1409,7 +1756,7 @@ function drawRetroMap() {
     ctx.stroke();
     ctx.fillStyle = '#d9b9a0';
     ctx.font = 'bold 10px monospace';
-    ctx.fillText('MAP', 7, h - 7);
+    ctx.fillText(gameText('mapLabel'), 7, h - 7);
 }
 // ==================================================
 // Game Update and Rendering
@@ -1420,10 +1767,19 @@ let flameNormalFrame = 0;
 let lastTorchUpdateAt = 0;
 let lastAnimationTime = 0;
 function animate(now = 0) {
+    // Stop the animation loop after an ending becomes visible. A reload starts
+    // a fresh game and a fresh loop; no ongoing 3D rendering is required here.
+    if (endingState === 'finished') return;
     requestAnimationFrame(animate);
     if (document.hidden)
         return;
-    const targetInterval = 1000 / (gameStarted && !configOpen && !won ? ABYSS_MAX_FPS : ABYSS_IDLE_FPS);
+    // Use a modestly higher refresh rate around the relic, only while playing.
+    const relicNearby = gameStarted && !configOpen && !won &&
+        camera.position.distanceToSquared(relic.position) < (MAP_CELL * 3.5) ** 2;
+    const activeFPS = relicNearby ? ABYSS_RELIC_NEAR_FPS : ABYSS_MAX_FPS;
+    const targetInterval = 1000 / ((gameStarted && !configOpen && !won) || endingState === 'victory'
+        ? (endingState === 'victory' ? ABYSS_RELIC_NEAR_FPS : activeFPS)
+        : ABYSS_IDLE_FPS);
     if (now - lastFrameAt < targetInterval)
         return;
     lastFrameAt = now;
@@ -1544,7 +1900,19 @@ function animate(now = 0) {
                 mesh.material.opacity = Math.max(0, 0.9 * (1 - progress));
             });
         });
-        relic.rotation.y += delta * 0.6;
+    }
+    // Constant angular velocity independent of torch effects and frame duration.
+    // Rotating only inside the torch's 250ms update caused visible stutter.
+    if (endingState !== 'finished') {
+        relic.rotation.y = now * 0.001 * RELIC_SPIN_RADIANS_PER_SECOND;
+        if (endingState === 'victory') {
+            // Delicate white pulse: avoid the aggressive yellow flash.
+            const pulse = 0.5 + 0.5 * Math.sin(now * 0.0055);
+            const flutter = 0.5 + 0.5 * Math.sin(now * 0.013 + 1.3);
+            relic.scale.setScalar(1.08 + 0.055 * pulse);
+            relic.material.emissiveIntensity = 2.7 + 0.8 * pulse + 0.22 * flutter;
+            relicLight.intensity = 6.5 + 1.9 * pulse + 0.3 * flutter;
+        }
     }
     // 古代の遺物との接触判定
     if (gameStarted && !won) {
@@ -1566,8 +1934,8 @@ function animate(now = 0) {
             forward.normalize();
             const targetX = playerPosition.x - forward.x * MAP_CELL;
             const targetZ = playerPosition.z - forward.z * MAP_CELL;
-            const targetGridX = Math.round(6.5 - targetX / MAP_CELL);
-            const targetGridY = Math.round(6.5 - targetZ / MAP_CELL);
+            const targetGridX = Math.round(MAP_GRID_ORIGIN - 0.5 - targetX / MAP_CELL);
+            const targetGridY = Math.round(MAP_GRID_ORIGIN - 0.5 - targetZ / MAP_CELL);
             // Check the actual destination map square, not the player's
             // 0.3-unit collision radius, which shortened the old offset.
             const targetRow = ABYSS_MAP[targetGridY];
