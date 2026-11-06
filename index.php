@@ -21,6 +21,9 @@ $translations = [
         'hero_alt' => '松明が灯る暗い石造りの地下迷宮に立つマント姿の冒険者',
         'hero_line1' => '光の届かぬ聖域へ。',
         'hero_line2' => '五つの鍵を探し、封印された道を切り拓け。',
+        'hero_gift_note_prefix' => 'このゲームはHirotsugu Takuboのライブに足を運んでいただいた方々への特典として、',
+        'hero_gift_note_keyword' => 'ダンジョン',
+        'hero_gift_note_suffix' => 'への鍵をお渡ししたものです。',
         'hero_enter' => '迷宮へ入る',
         'hero_story' => '世界観を知る',
         'hero_footnote' => 'WORLD VISUAL — イメージビジュアル',
@@ -42,7 +45,7 @@ $translations = [
         'credits_heading1' => 'この深淵を、',
         'credits_heading2' => '形にした人々。',
         'credits_intro' => 'ABYSSの世界をともに創り上げる、制作スタッフとすべての探索者へ。',
-        'credits_special_thanks' => 'Liveにお越しの皆様♪',
+        'credits_special_thanks' => 'ライブに足を運んでいただいた皆様♪',
         'gallery_heading1' => '迷宮の',
         'gallery_heading2' => '風景',
         'gallery_intro1' => '石壁、灯火、静寂。',
@@ -92,6 +95,7 @@ $translations = [
         'hero_alt' => 'A cloaked explorer standing in a dim torchlit dungeon corridor',
         'hero_line1' => 'Descend into a sanctuary beyond the light.',
         'hero_line2' => 'Find the five keys and break the ancient seal.',
+        'hero_gift_note' => 'As a special gift for those who attended Hirotsugu Takubo’s live performance, this game offers you a key to the dungeon.',
         'hero_enter' => 'ENTER THE ABYSS',
         'hero_story' => 'DISCOVER THE STORY',
         'hero_footnote' => 'WORLD VISUAL — CONCEPT ART',
@@ -166,7 +170,7 @@ $t = static fn(string $key): string => htmlspecialchars($translations[$lang][$ke
     <meta name="theme-color" content="#0a0909">
     <meta name="description" content="<?= $t('page_description') ?>">
     <title>ABYSS // Dungeon Crawl — The Sunken Sanctum</title>
-    <link rel="stylesheet" href="portal.css?v=drone-config-i18n-v1">
+    <link rel="stylesheet" href="portal.css?v=hero-natural-wrap-20261106">
   </head>
   <body>
     <div class="ambient"></div>
@@ -191,6 +195,7 @@ $t = static fn(string $key): string => htmlspecialchars($translations[$lang][$ke
           <h1 id="hero-title">ABYSS</h1>
           <p class="hero-kicker">DUNGEON DRONE CRAWLER <span class="hero-separator" aria-hidden="true">—</span> DARK FANTASY</p>
           <p class="hero-copy"><?= $t('hero_line1') ?><br><?= $t('hero_line2') ?></p>
+          <p class="hero-gift-note"><?php if ($lang === 'ja'): ?><?= $t('hero_gift_note_prefix') ?><span class="hero-gift-word"><?= $t('hero_gift_note_keyword') ?></span><?= $t('hero_gift_note_suffix') ?><?php else: ?><?= $t('hero_gift_note') ?><?php endif; ?></p>
           </div>
             <aside class="login-panel hero-login" id="login" aria-label="THE ENTRANCE">
               <div class="login-top"><span>THE ENTRANCE</span><span class="login-symbol">✦</span></div>
@@ -361,11 +366,7 @@ $t = static fn(string $key): string => htmlspecialchars($translations[$lang][$ke
             <div class="credits-names">
               <dl class="credits-list">
                 <div class="credits-entry">
-                  <dt>Project Director</dt>
-                  <dd>Hirotsugu Takubo</dd>
-                </div>
-                <div class="credits-entry">
-                  <dt>Music Designer</dt>
+                  <dt>Project Director / Music Designer</dt>
                   <dd>Hirotsugu Takubo</dd>
                 </div>
                 <div class="credits-entry">
