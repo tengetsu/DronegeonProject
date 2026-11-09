@@ -16,12 +16,18 @@ $translations = [
         'brand_top' => 'ABYSS トップ',
         'nav_label' => 'ページ内ナビゲーション',
         'change_language' => '表示言語を切り替える',
+        'menu_open' => 'ナビゲーションメニューを開く',
+        'menu_close' => 'ナビゲーションメニューを閉じる',
+        'menu_label' => 'メニュー',
+        'fullscreen_on' => '全画面',
+        'fullscreen_off' => '戻す',
+        'fullscreen_error' => 'このブラウザでは全画面表示を開始できません。通常表示でご利用ください。',
         'language_japanese' => '日本語に切り替える',
         'language_english' => '英語に切り替える',
         'hero_alt' => '松明が灯る暗い石造りの地下迷宮に立つマント姿の冒険者',
         'hero_line1' => '光の届かぬ聖域へ。',
         'hero_line2' => '五つの鍵を探し、封印された道を切り拓け。',
-        'hero_gift_note_prefix' => 'このゲームはHirotsugu Takuboのライブに足を運んでいただいた方々への特典として、',
+        'hero_gift_note_prefix' => 'このゲームはHirotsugu Takuboのライブに足を運んでくれた方への特典として、',
         'hero_gift_note_keyword' => 'ダンジョン',
         'hero_gift_note_suffix' => 'への鍵をお渡ししたものです。',
         'hero_enter' => '迷宮へ入る',
@@ -33,19 +39,18 @@ $translations = [
         'story_text2_before' => '入口近くの鍵を手にすると10分間のカウントダウンが始まる。迷宮に隠された',
         'story_text2_highlight' => '5つの鍵',
         'story_text2_after' => 'を集め、閉ざされた壁の先へ進め。',
-        'sound_heading1' => '闇の奥へ、',
-        'sound_heading2' => '音が沈んでいく。',
-        'sound_intro' => '音で描く、もうひとつの迷宮。',
+        'sound_heading1' => '音が描く、',
+        'sound_heading2' => 'もうひとつの迷宮。',
         'sound_text1' => 'ABYSSのBGMには、静かに響き続ける音を中心としたドローンミュージックを採用しています。',
         'sound_text2' => '強いメロディで導くのではなく、持続する音と緩やかな変化が、石壁の冷たさ、灯火の揺らぎ、深い闇に包まれる感覚を引き立てます。',
         'sound_text3' => '足音に耳を澄ませながら、音の余韻とともに進む探索をお楽しみください。',
         'sound_definition_title' => 'DRONE MUSIC とは',
-        'sound_definition' => '長く続く音や響きの重なり、ゆっくりとした変化そのものを味わう音楽表現です。',
+        'sound_definition' => 'メロディやリズムを極限までそぎ落とし、持続音そのものを主役に据えて、微細な音のゆらぎや倍音、音響の質感に意識を集中させる実験的な音楽表現。1960年代にラ・モンテ・ヤングらが確立し、その後アンビエントや現代音楽、ロック、メタルの文脈などにも広がりました。',
         'sound_visual_label' => '深淵に響く、見えない風景。',
         'credits_heading1' => 'この深淵を、',
         'credits_heading2' => '形にした人々。',
         'credits_intro' => 'ABYSSの世界をともに創り上げる、制作スタッフとすべての探索者へ。',
-        'credits_special_thanks' => 'ライブに足を運んでいただいた皆様♪',
+        'credits_special_thanks' => 'Liveにお越しの皆様♪',
         'gallery_heading1' => '迷宮の',
         'gallery_heading2' => '風景',
         'gallery_intro1' => '石壁、灯火、静寂。',
@@ -90,6 +95,12 @@ $translations = [
         'brand_top' => 'ABYSS home',
         'nav_label' => 'Page navigation',
         'change_language' => 'Choose display language',
+        'menu_open' => 'Open navigation menu',
+        'menu_close' => 'Close navigation menu',
+        'menu_label' => 'MENU',
+        'fullscreen_on' => 'FULLSCREEN',
+        'fullscreen_off' => 'EXIT FULLSCREEN',
+        'fullscreen_error' => 'Fullscreen is unavailable in this browser. You can continue in the normal view.',
         'language_japanese' => 'Switch to Japanese',
         'language_english' => 'Switch to English',
         'hero_alt' => 'A cloaked explorer standing in a dim torchlit dungeon corridor',
@@ -105,9 +116,8 @@ $translations = [
         'story_text2_before' => 'Collect the key near the entrance to start the ten-minute countdown. Find all ',
         'story_text2_highlight' => 'five hidden keys',
         'story_text2_after' => ' and discover what lies beyond the sealed passage.',
-        'sound_heading1' => 'Beyond the dark,',
-        'sound_heading2' => 'sound descends.',
-        'sound_intro' => 'Another labyrinth, made of sound.',
+        'sound_heading1' => 'Sound paints,',
+        'sound_heading2' => 'another labyrinth.',
         'sound_text1' => 'ABYSS features drone music: an atmospheric form built around sustained tones and resonance.',
         'sound_text2' => 'Rather than leading with a pronounced melody, slowly evolving layers of sound evoke the cold stone, flickering firelight, and the vast silence beyond each corridor.',
         'sound_text3' => 'Listen to your footsteps, linger in the echoes, and let the soundscape accompany your descent.',
@@ -170,30 +180,58 @@ $t = static fn(string $key): string => htmlspecialchars($translations[$lang][$ke
     <meta name="theme-color" content="#0a0909">
     <meta name="description" content="<?= $t('page_description') ?>">
     <title>ABYSS // Dungeon Crawl — The Sunken Sanctum</title>
-    <link rel="stylesheet" href="portal.css?v=hero-natural-wrap-20261106">
+    <link rel="stylesheet" href="portal.css?v=20261110-sound-spaces">
   </head>
   <body>
     <div class="ambient"></div>
-    <header class="topbar shell">
-      <a class="brand" href="#top" aria-label="<?= $t('brand_top') ?>">✦ <span>ABYSS</span></a>
-      <nav aria-label="<?= $t('nav_label') ?>">
-        <a href="#story">STORY</a>
-        <a href="#sound">MUSIC</a>
-        <a href="#gallery">GALLERY</a>
-        <a href="#guide">HOW TO PLAY</a>
-        <a href="#credits">CREDITS</a>
-        <div class="language-switch" role="group" aria-label="<?= $t('change_language') ?>"><a class="language-link<?= $lang === 'ja' ? ' is-active' : '' ?>" href="?lang=ja" lang="ja" hreflang="ja" aria-label="<?= $t('language_japanese') ?>" <?= $lang === 'ja' ? 'aria-current="page"' : '' ?>>JP</a><a class="language-link<?= $lang === 'en' ? ' is-active' : '' ?>" href="?lang=en" lang="en" hreflang="en" aria-label="<?= $t('language_english') ?>" <?= $lang === 'en' ? 'aria-current="page"' : '' ?>>EN</a></div>
-      </nav>
+    <!-- Fixed navigation is kept outside the centered shell so its background covers the entire viewport. -->
+    <header class="site-header" id="site-header">
+      <div class="topbar shell">
+        <a class="brand" href="#top" aria-label="<?= $t('brand_top') ?>">✦ <span>ABYSS</span><small>DUNGEON DRONE CRAWLER</small></a>
+        <button type="button" id="mobile-fullscreen-toggle" class="mobile-fullscreen-toggle" hidden
+          aria-label="<?= $t('fullscreen_on') ?>"
+          data-fullscreen-on="<?= $t('fullscreen_on') ?>"
+          data-fullscreen-off="<?= $t('fullscreen_off') ?>"
+          data-fullscreen-error="<?= $t('fullscreen_error') ?>"
+          aria-pressed="false"><span aria-hidden="true">⛶</span><span class="fullscreen-label"><?= $t('fullscreen_on') ?></span></button>
+        <button
+          class="mobile-menu-toggle"
+          type="button"
+          id="mobile-menu-toggle"
+          aria-controls="site-navigation"
+          aria-expanded="false"
+          aria-label="<?= $t('menu_open') ?>"
+          data-label-open="<?= $t('menu_open') ?>"
+          data-label-close="<?= $t('menu_close') ?>"
+        >
+          <span class="menu-icon" aria-hidden="true"><span></span><span></span><span></span></span>
+          <span class="menu-toggle-label"><?= $t('menu_label') ?></span>
+        </button>
+        <nav id="site-navigation" class="site-navigation" aria-label="<?= $t('nav_label') ?>">
+          <a href="#story">ABOUT</a>
+          <a href="#sound">SOUND</a>
+          <a href="#gallery">VIEWS</a>
+          <a href="#guide">CONTROLS</a>
+          <a href="#credits">CREDITS</a>
+          <div class="language-switch" role="group" aria-label="<?= $t('change_language') ?>">
+            <a class="language-link<?= $lang === 'ja' ? ' is-active' : '' ?>" href="?lang=ja" lang="ja" hreflang="ja" aria-label="<?= $t('language_japanese') ?>" <?= $lang === 'ja' ? 'aria-current="page"' : '' ?>>JP</a>
+            <a class="language-link<?= $lang === 'en' ? ' is-active' : '' ?>" href="?lang=en" lang="en" hreflang="en" aria-label="<?= $t('language_english') ?>" <?= $lang === 'en' ? 'aria-current="page"' : '' ?>>EN</a>
+          </div>
+        </nav>
+      </div>
     </header>
+    <div id="fullscreen-message" class="fullscreen-message" role="status" aria-live="polite" hidden></div>
     <main id="top">
+      <div class="hero-outer">
       <section class="hero" aria-labelledby="hero-title">
         <img class="hero-image" src="portal_assets/hero.webp" alt="<?= $t('hero_alt') ?>" fetchpriority="high">
         <div class="hero-shade"></div>
         <div class="hero-layout shell">
           <div class="hero-inner">
-          <p class="eyebrow"><span class="diamond">✧</span> CHAPTER I — THE SUNKEN SANCTUM</p>
-          <h1 id="hero-title">ABYSS</h1>
-          <p class="hero-kicker">DUNGEON DRONE CRAWLER <span class="hero-separator" aria-hidden="true">—</span> DARK FANTASY</p>
+          <div class="hero-title-lockup">
+            <h1 id="hero-title">ABYSS</h1>
+            <p class="hero-kicker">DUNGEON DRONE CRAWLER</p>
+          </div>
           <p class="hero-copy"><?= $t('hero_line1') ?><br><?= $t('hero_line2') ?></p>
           <p class="hero-gift-note"><?php if ($lang === 'ja'): ?><?= $t('hero_gift_note_prefix') ?><span class="hero-gift-word"><?= $t('hero_gift_note_keyword') ?></span><?= $t('hero_gift_note_suffix') ?><?php else: ?><?= $t('hero_gift_note') ?><?php endif; ?></p>
           </div>
@@ -212,11 +250,13 @@ $t = static fn(string $key): string => htmlspecialchars($translations[$lang][$ke
               <p class="login-note"><?= $t('login_note') ?></p>
             </aside>
         </div>
-        <div class="hero-index shell"><span>SCROLL TO EXPLORE ↓</span></div>
       </section>
+    </div><!-- /.hero-outer: centred FHD stage -->
       <section class="story shell section" id="story">
+        <div class="story-overline-row">
+          <span class="overline">01 — ABOUT</span>
+        </div>
         <div class="section-heading">
-          <span class="overline">01 — THE CHRONICLE</span>
           <h2><?= $t('story_heading1') ?><br><em><?= $t('story_heading2') ?></em></h2>
         </div>
         <div class="story-body">
@@ -228,18 +268,38 @@ $t = static fn(string $key): string => htmlspecialchars($translations[$lang][$ke
             <div><strong>02</strong><span>PLAY MODES</span></div>
           </div>
         </div>
+        <!-- The three exploration cards now follow the ABOUT key/time/mode metrics. -->
+        <div class="guide-grid">
+          <article class="guide-card">
+            <span class="card-num">01 / EXPLORE</span>
+            <div class="card-glyph">⌖</div>
+            <h3><?= $t('guide_mode_title') ?></h3>
+            <p><strong>3D MODE</strong><?= $t('guide_mode_before') ?><strong>RETRO MODE</strong><?= $t('guide_mode_after') ?></p>
+          </article>
+          <article class="guide-card">
+            <span class="card-num">02 / COLLECT</span>
+            <div class="card-glyph">⚿</div>
+            <h3><?= $t('guide_key_title') ?></h3>
+            <p><?= $t('guide_key_before') ?><strong><?= $t('guide_key_highlight') ?></strong><?= $t('guide_key_after') ?></p>
+          </article>
+          <article class="guide-card">
+            <span class="card-num">03 / UNSEAL</span>
+            <div class="card-glyph">◇</div>
+            <h3><?= $t('guide_unlock_title') ?></h3>
+            <p><?= $t('guide_unlock_text') ?></p>
+          </article>
+        </div>
       </section>
       <!-- 02: An editorial introduction to the game's drone-music atmosphere. -->
       <section class="sound-section section" id="sound" aria-labelledby="sound-heading">
         <div class="shell">
           <div class="sound-overline-row">
-            <span class="overline">02 — THE RESONANCE</span>
+            <span class="overline">02 — SOUND</span>
             <span class="sound-overline-detail">SOUND AS ATMOSPHERE / ABYSS</span>
           </div>
           <div class="sound-layout">
             <div class="sound-description">
               <h2 id="sound-heading"><?= $t('sound_heading1') ?><br><em><?= $t('sound_heading2') ?></em></h2>
-              <p class="sound-lead"><?= $t('sound_intro') ?></p>
               <p><?= $t('sound_text1') ?></p>
               <p><?= $t('sound_text2') ?></p>
               <p><?= $t('sound_text3') ?></p>
@@ -318,26 +378,6 @@ $t = static fn(string $key): string => htmlspecialchars($translations[$lang][$ke
           </div>
           <p><?= $t('guide_intro1') ?><br><?= $t('guide_intro2') ?></p>
         </div>
-        <div class="guide-grid">
-          <article class="guide-card">
-            <span class="card-num">01 / EXPLORE</span>
-            <div class="card-glyph">⌖</div>
-            <h3><?= $t('guide_mode_title') ?></h3>
-            <p><strong>3D MODE</strong><?= $t('guide_mode_before') ?><strong>RETRO MODE</strong><?= $t('guide_mode_after') ?></p>
-          </article>
-          <article class="guide-card">
-            <span class="card-num">02 / COLLECT</span>
-            <div class="card-glyph">⚿</div>
-            <h3><?= $t('guide_key_title') ?></h3>
-            <p><?= $t('guide_key_before') ?><strong><?= $t('guide_key_highlight') ?></strong><?= $t('guide_key_after') ?></p>
-          </article>
-          <article class="guide-card">
-            <span class="card-num">03 / UNSEAL</span>
-            <div class="card-glyph">◇</div>
-            <h3><?= $t('guide_unlock_title') ?></h3>
-            <p><?= $t('guide_unlock_text') ?></p>
-          </article>
-        </div>
         <div class="controls">
           <div>
             <span class="overline">CONTROLS</span>
@@ -389,5 +429,118 @@ $t = static fn(string $key): string => htmlspecialchars($translations[$lang][$ke
       <p>CHAPTER I — THE SUNKEN SANCTUM</p>
       <small>© ABYSS // DUNGEON CRAWL</small>
     </footer>
+    <script>
+      (() => {
+        const header = document.getElementById('site-header');
+        const toggle = document.getElementById('mobile-menu-toggle');
+        const nav = document.getElementById('site-navigation');
+        const mobileBreakpoint = window.matchMedia('(max-width: 820px), (pointer: coarse) and (orientation: landscape) and (max-height: 600px)');
+
+
+        // Hero image placement is CSS-only: 100% stage width up to 1920 CSS px,
+        // with proportional scaling and no horizontal cropping. Above 1920,
+        // the stage is centered and capped, with equal black side margins.
+
+        // Match the tagline's width to the rendered ABYSS title without stretching glyphs.
+        const heroTitle = document.getElementById('hero-title');
+        const heroKicker = document.querySelector('.hero-title-lockup .hero-kicker');
+        function fitHeroKicker() {
+          if (!heroTitle || !heroKicker) return;
+          const targetWidth = heroTitle.getBoundingClientRect().width;
+          if (targetWidth <= 0) return;
+          // Measure the actual browser font and allow for CSS letter spacing.
+          const css = getComputedStyle(heroKicker);
+          const canvas = document.createElement('canvas');
+          const context = canvas.getContext('2d');
+          if (!context) return;
+          context.font = `600 100px ${css.fontFamily}`;
+          const word = heroKicker.textContent.trim();
+          const emSpacing = 0.045;
+          const units = context.measureText(word).width / 100 + emSpacing * (word.length - 1);
+          if (units <= 0) return;
+          heroKicker.style.fontSize = `${(targetWidth / units).toFixed(2)}px`;
+          heroKicker.style.width = `${targetWidth.toFixed(2)}px`;
+        }
+        fitHeroKicker();
+        window.addEventListener('resize', fitHeroKicker, {passive: true});
+        if (document.fonts && document.fonts.ready) {
+          document.fonts.ready.then(fitHeroKicker);
+        }
+
+        function setMenuOpen(open) {
+          const mobile = mobileBreakpoint.matches;
+          const isOpen = Boolean(open && mobile);
+          header.classList.toggle('menu-open', isOpen);
+          toggle.setAttribute('aria-expanded', String(isOpen));
+          toggle.setAttribute('aria-label', toggle.dataset[isOpen ? 'labelClose' : 'labelOpen']);
+        }
+
+        toggle.addEventListener('click', () => {
+          setMenuOpen(toggle.getAttribute('aria-expanded') !== 'true');
+        });
+
+        // Closing on section selection keeps the chosen destination visible.
+        nav.addEventListener('click', (event) => {
+          if (event.target.closest('a')) setMenuOpen(false);
+        });
+        document.addEventListener('click', (event) => {
+          if (!header.contains(event.target)) setMenuOpen(false);
+        });
+        document.addEventListener('keydown', (event) => {
+          if (event.key === 'Escape' && header.classList.contains('menu-open')) {
+            setMenuOpen(false);
+            toggle.focus();
+          }
+        });
+        if (mobileBreakpoint.addEventListener) {
+          mobileBreakpoint.addEventListener('change', () => setMenuOpen(false));
+        } else {
+          mobileBreakpoint.addListener(() => setMenuOpen(false));
+        }
+
+        // A webpage cannot programmatically remove browser UI. Fullscreen is
+        // offered only after a tap and only when the browser supports its API.
+        // When turning back to portrait, release fullscreen to restore chrome.
+        const fsButton = document.getElementById('mobile-fullscreen-toggle');
+        const fsMessage = document.getElementById('fullscreen-message');
+        const landscapePhone = window.matchMedia('(orientation: landscape) and (max-height: 650px) and (pointer: coarse)');
+        const canFullscreen = typeof document.documentElement.requestFullscreen === 'function' &&
+                              typeof document.exitFullscreen === 'function';
+        function updateFullscreenUI() {
+          const active = Boolean(document.fullscreenElement);
+          const visible = canFullscreen && landscapePhone.matches;
+          fsButton.hidden = !visible;
+          fsButton.setAttribute('aria-pressed', String(active));
+          fsButton.setAttribute('aria-label', active ? fsButton.dataset.fullscreenOff : fsButton.dataset.fullscreenOn);
+          fsButton.querySelector('.fullscreen-label').textContent = active ? fsButton.dataset.fullscreenOff : fsButton.dataset.fullscreenOn;
+          if (!landscapePhone.matches && active) {
+            document.exitFullscreen().catch(() => {});
+          }
+          if (!landscapePhone.matches) {
+            fsMessage.hidden = true;
+            fsMessage.textContent = '';
+          }
+        }
+        fsButton.addEventListener('click', async () => {
+          fsMessage.hidden = true;
+          fsMessage.textContent = '';
+          try {
+            if (document.fullscreenElement) await document.exitFullscreen();
+            else await document.documentElement.requestFullscreen({navigationUI: 'hide'});
+          } catch (error) {
+            // iOS Safari or browser policy may reject Fullscreen API requests.
+            fsMessage.textContent = fsButton.dataset.fullscreenError;
+            fsMessage.hidden = false;
+          }
+          updateFullscreenUI();
+        });
+        document.addEventListener('fullscreenchange', updateFullscreenUI);
+        window.addEventListener('resize', updateFullscreenUI, {passive: true});
+        window.addEventListener('orientationchange', updateFullscreenUI, {passive: true});
+        if (landscapePhone.addEventListener) landscapePhone.addEventListener('change', updateFullscreenUI);
+        else landscapePhone.addListener(updateFullscreenUI);
+        updateFullscreenUI();
+      })();
+    </script>
   </body>
 </html>
