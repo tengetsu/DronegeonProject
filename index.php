@@ -25,31 +25,31 @@ $translations = [
         'language_japanese' => '日本語に切り替える',
         'language_english' => '英語に切り替える',
         'hero_alt' => '松明が灯る暗い石造りの地下迷宮に立つマント姿の冒険者',
-        'hero_line1' => '光の届かぬ聖域へ。',
-        'hero_line2' => '五つの鍵を探し、封印された道を切り拓け。',
+        'hero_line1' => '光の届かぬ聖域へ',
+        'hero_line2' => '五つの鍵を探し、封印された道を切り拓け',
         'hero_gift_note_prefix' => 'このゲームはHirotsugu Takuboのライブに足を運んでくれた方への特典として、',
         'hero_gift_note_keyword' => 'ダンジョン',
         'hero_gift_note_suffix' => 'への鍵をお渡ししたものです。',
         'hero_enter' => '迷宮へ入る',
         'hero_story' => '世界観を知る',
         'hero_footnote' => 'WORLD VISUAL — イメージビジュアル',
-        'story_heading1' => '闇の底に、',
-        'story_heading2' => '忘れられた聖域がある。',
+        'story_heading1' => '闇の底に',
+        'story_heading2' => '忘れられた聖域がある',
         'story_text1' => '石壁に囲まれた地下迷宮。揺れる松明を頼りに通路を進み、古代の遺物へと続く道を探し出す、一人称視点のダークファンタジー探索ゲーム。',
         'story_text2_before' => '入口近くの鍵を手にすると10分間のカウントダウンが始まる。迷宮に隠された',
         'story_text2_highlight' => '5つの鍵',
         'story_text2_after' => 'を集め、閉ざされた壁の先へ進め。',
-        'sound_heading1' => '音が描く、',
-        'sound_heading2' => 'もうひとつの迷宮。',
+        'sound_heading1' => '音が描く',
+        'sound_heading2' => 'もうひとつの迷宮',
         'sound_text1' => 'ABYSSのBGMには、静かに響き続ける音を中心としたドローンミュージックを採用しています。',
         'sound_text2' => '強いメロディで導くのではなく、持続する音と緩やかな変化が、石壁の冷たさ、灯火の揺らぎ、深い闇に包まれる感覚を引き立てます。',
         'sound_text3' => '足音に耳を澄ませながら、音の余韻とともに進む探索をお楽しみください。',
         'sound_definition_title' => 'DRONE MUSIC とは',
         'sound_definition' => 'メロディやリズムを極限までそぎ落とし、持続音そのものを主役に据えて、微細な音のゆらぎや倍音、音響の質感に意識を集中させる実験的な音楽表現。1960年代にラ・モンテ・ヤングらが確立し、その後アンビエントや現代音楽、ロック、メタルの文脈などにも広がりました。',
         'sound_visual_label' => '深淵に響く、見えない風景。',
-        'credits_heading1' => 'この深淵を、',
-        'credits_heading2' => '形にした人々。',
-        'credits_intro' => 'ABYSSの世界をともに創り上げる、制作スタッフとすべての探索者へ。',
+        'credits_heading' => '創造主たち',
+        'credits_director_bio' => 'サウンドデザイナーとしてプリミティブなドローンミュージックを電子とアコースティックの両面から追求する。また、Sylvan Echoes名義でSpotifyで17万再生されるダンジョンシンセの音源もリリース。',
+        'credits_game_designer_bio' => 'ゲーム・Web・UI/UXのデザインを通じて、ABYSSの世界観と探索体験を形にする。ダンジョンの表現や操作画面、ポータルサイトまで一貫して設計し、遊びやすさとダークファンタジーの没入感の両立を追求する。',
         'credits_special_thanks' => 'Liveにお越しの皆様♪',
         'gallery_heading1' => '迷宮の',
         'gallery_heading2' => '風景',
@@ -64,8 +64,8 @@ $translations = [
         'gallery_screenshot' => '開発中のゲーム画面',
         'guide_heading1' => '探索の',
         'guide_heading2' => '手引き',
-        'guide_intro1' => '初めての探索者へ。',
-        'guide_intro2' => 'ゲームの基本を、ここで確認。',
+        'guide_intro1' => 'はじめての探索者の諸君へ。',
+        'guide_intro2' => 'ゲームの目的と操作を、ここで確認。',
         'guide_mode_title' => '二つの探索モード',
         'guide_mode_before' => 'は滑らかに移動する自由探索。',
         'guide_mode_after' => 'はマス目単位で移動・旋回する、クラシックなダンジョン探索です。',
@@ -75,11 +75,14 @@ $translations = [
         'guide_key_after' => 'が始まります。',
         'guide_unlock_title' => '封印された道を開く',
         'guide_unlock_text' => '5つすべての鍵を集めると、迷宮のどこかで壁が開きます。変化した通路を探して、さらに奥へ進みましょう。',
-        'controls_title' => '操作方法',
+        'controls_title' => '操作説明',
         'controls_pc' => 'WASD・矢印キーで移動します。3D MODEではマウスで視点を操作。ゲーム中にCキーでCONFIGを開き、Escキーで閉じられます。RETRO MODEではA・D（←・→）で90度回転、W・S（↑・↓）で1マスずつ前進・後退します。',
         'controls_mobile' => '画面上の方向ボタンで移動・方向転換します。ゲーム中は右下のCONFIGボタンから設定を開けます。RETRO MODEでは1回のタップで1マス移動します。',
-        'controls_mobile_label' => 'スマートフォン',
+        'controls_mobile_label' => 'スマホ',
         'controls_note' => 'CONFIGでは音量・描画品質・3D/RETRO MODE・表示言語（日本語／英語）を切り替えられます。',
+        'controls_pc_alt' => 'PC keyboard and mouse controls diagram',
+        'controls_mobile_alt' => 'Smartphone directional buttons and CONFIG controls diagram',
+        'controls_config_alt' => 'Audio, shadow, mode, and language settings diagram',
         'login_heading1' => '扉の向こうへ。',
         'login_heading2' => '探索を始めよう。',
         'login_intro' => 'ゲームを始めるにはログインが必要です。LOGIN IDとPASSWORDを入力し、封印された聖域へ進んでください。',
@@ -124,9 +127,9 @@ $translations = [
         'sound_definition_title' => 'WHAT IS DRONE MUSIC?',
         'sound_definition' => 'A style of music that explores continuous tones, layered resonance, and subtle changes over time.',
         'sound_visual_label' => 'An unseen landscape, heard in the abyss.',
-        'credits_heading1' => 'The people',
-        'credits_heading2' => 'behind the abyss.',
-        'credits_intro' => 'For the creators who shape ABYSS, and everyone who joins us on the journey.',
+        'credits_heading' => 'THE CREATORS',
+        'credits_director_bio' => 'As a sound designer, he explores primitive drone music through both electronic and acoustic expression. Under the name Sylvan Echoes, he has also released dungeon synth music with 170,000 streams on Spotify.',
+        'credits_game_designer_bio' => 'Through game, web, and UI/UX design, he shapes the world of ABYSS and the experience of exploring it. From the dungeon environments and controls to the portal website, his design work seeks to combine intuitive play with immersive dark fantasy.',
         'credits_special_thanks' => 'Everyone who joined us at the live show ♪',
         'gallery_heading1' => 'GLIMPSES OF',
         'gallery_heading2' => 'THE LABYRINTH',
@@ -141,8 +144,8 @@ $translations = [
         'gallery_screenshot' => 'DEVELOPMENT SCREENSHOT',
         'guide_heading1' => 'THE EXPLORER’S',
         'guide_heading2' => 'FIELD GUIDE',
-        'guide_intro1' => 'For those entering the dungeon for the first time.',
-        'guide_intro2' => 'Everything you need to begin your journey.',
+        'guide_intro1' => 'For first-time explorers.',
+        'guide_intro2' => 'Review the objective and controls here.',
         'guide_mode_title' => 'Two ways to explore',
         'guide_mode_before' => ' offers smooth, free movement. ',
         'guide_mode_after' => ' brings back classic grid-based movement and 90-degree turns.',
@@ -157,6 +160,9 @@ $translations = [
         'controls_mobile' => 'Use the on-screen directional buttons to move or turn. Tap CONFIG in the lower-right corner during play to open settings. In RETRO MODE, each forward or backward tap moves one tile.',
         'controls_mobile_label' => 'MOBILE',
         'controls_note' => 'In CONFIG, adjust audio, graphics, 3D/RETRO MODE and the Japanese/English display language.',
+        'controls_pc_alt' => 'PC keyboard and mouse controls diagram',
+        'controls_mobile_alt' => 'Smartphone directional buttons and CONFIG controls diagram',
+        'controls_config_alt' => 'Audio, shadow, mode, and language settings diagram',
         'login_heading1' => 'Beyond the gate,',
         'login_heading2' => 'your journey begins.',
         'login_intro' => 'Log in to enter the dungeon. Enter your LOGIN ID and PASSWORD to step into the sealed sanctuary.',
@@ -180,14 +186,14 @@ $t = static fn(string $key): string => htmlspecialchars($translations[$lang][$ke
     <meta name="theme-color" content="#0a0909">
     <meta name="description" content="<?= $t('page_description') ?>">
     <title>ABYSS // Dungeon Crawl — The Sunken Sanctum</title>
-    <link rel="stylesheet" href="portal.css?v=20261110-sound-spaces">
+    <link rel="stylesheet" href="portal.css?v=mobile-45-type-footer-center-20261111">
   </head>
   <body>
     <div class="ambient"></div>
     <!-- Fixed navigation is kept outside the centered shell so its background covers the entire viewport. -->
     <header class="site-header" id="site-header">
       <div class="topbar shell">
-        <a class="brand" href="#top" aria-label="<?= $t('brand_top') ?>">✦ <span>ABYSS</span><small>DUNGEON DRONE CRAWLER</small></a>
+        <a class="brand" href="#top" aria-label="<?= $t('brand_top') ?>"><span class="brand-sigil" aria-hidden="true">✦</span><span class="brand-wordmark"><span>ABYSS</span><small>DUNGEON DRONE CRAWLER</small></span></a>
         <button type="button" id="mobile-fullscreen-toggle" class="mobile-fullscreen-toggle" hidden
           aria-label="<?= $t('fullscreen_on') ?>"
           data-fullscreen-on="<?= $t('fullscreen_on') ?>"
@@ -233,12 +239,11 @@ $t = static fn(string $key): string => htmlspecialchars($translations[$lang][$ke
             <p class="hero-kicker">DUNGEON DRONE CRAWLER</p>
           </div>
           <p class="hero-copy"><?= $t('hero_line1') ?><br><?= $t('hero_line2') ?></p>
-          <p class="hero-gift-note"><?php if ($lang === 'ja'): ?><?= $t('hero_gift_note_prefix') ?><span class="hero-gift-word"><?= $t('hero_gift_note_keyword') ?></span><?= $t('hero_gift_note_suffix') ?><?php else: ?><?= $t('hero_gift_note') ?><?php endif; ?></p>
           </div>
-            <aside class="login-panel hero-login" id="login" aria-label="THE ENTRANCE">
-              <div class="login-top"><span>THE ENTRANCE</span><span class="login-symbol">✦</span></div>
+            <aside class="login-panel hero-login" id="login" aria-label="ENTRANCE">
+              <div class="login-top"><span>ENTRANCE</span><span class="login-symbol">✦</span></div>
               <h3>ACCESS THE ABYSS</h3>
-              <p><?= $t('login_subheading') ?></p>
+              <p class="login-subheading"><?= $t('login_subheading') ?></p>
               <form action="login.php" method="post">
                 <label for="username">LOGIN ID</label>
                 <input id="username" name="username" autocomplete="username" required maxlength="128" placeholder="<?= $t('placeholder_id') ?>">
@@ -295,7 +300,6 @@ $t = static fn(string $key): string => htmlspecialchars($translations[$lang][$ke
         <div class="shell">
           <div class="sound-overline-row">
             <span class="overline">02 — SOUND</span>
-            <span class="sound-overline-detail">SOUND AS ATMOSPHERE / ABYSS</span>
           </div>
           <div class="sound-layout">
             <div class="sound-description">
@@ -335,9 +339,11 @@ $t = static fn(string $key): string => htmlspecialchars($translations[$lang][$ke
       </section>
       <section class="gallery section" id="gallery">
         <div class="shell">
+          <div class="gallery-overline-row">
+            <span class="overline">03 — VIEWS</span>
+          </div>
           <div class="section-top">
             <div>
-              <span class="overline">03 — THROUGH THE DARKNESS</span>
               <h2><?= $t('gallery_heading1') ?><?= $lang === 'en' ? ' ' : '' ?><em><?= $t('gallery_heading2') ?></em></h2>
             </div>
             <p><?= $t('gallery_intro1') ?><br><?= $t('gallery_intro2') ?></p>
@@ -370,24 +376,49 @@ $t = static fn(string $key): string => htmlspecialchars($translations[$lang][$ke
           </div>
         </div>
       </section>
-      <section class="guide shell section" id="guide">
-        <div class="section-top">
+      <section class="guide section" id="guide">
+        <div class="shell guide-inner">
+        <div class="controls-overline-row">
+          <span class="overline">04 — CONTROLS</span>
+        </div>
+        <div class="section-top guide-section-top">
           <div>
-            <span class="overline">04 — FIELD GUIDE</span>
             <h2><?= $t('guide_heading1') ?><?= $lang === 'en' ? ' ' : '' ?><em><?= $t('guide_heading2') ?></em></h2>
           </div>
           <p><?= $t('guide_intro1') ?><br><?= $t('guide_intro2') ?></p>
         </div>
-        <div class="controls">
-          <div>
-            <span class="overline">CONTROLS</span>
-            <h3><?= $t('controls_title') ?></h3>
+        <div class="controls-panel">
+          <h3><?= $t('controls_title') ?></h3>
+          <div class="controls-cards">
+            <article class="control-card">
+              <figure class="control-figure" aria-hidden="true">
+                <img loading="lazy" src="portal_assets/control_pc.svg" alt="<?= $t('controls_pc_alt') ?>">
+              </figure>
+              <div class="control-copy">
+                <h4>PC</h4>
+                <p><?= $t('controls_pc') ?></p>
+              </div>
+            </article>
+            <article class="control-card">
+              <figure class="control-figure" aria-hidden="true">
+                <img loading="lazy" src="portal_assets/control_mobile.svg" alt="<?= $t('controls_mobile_alt') ?>">
+              </figure>
+              <div class="control-copy">
+                <h4><?= $t('controls_mobile_label') ?></h4>
+                <p><?= $t('controls_mobile') ?></p>
+              </div>
+            </article>
+            <article class="control-card">
+              <figure class="control-figure" aria-hidden="true">
+                <img loading="lazy" src="portal_assets/control_config.svg" alt="<?= $t('controls_config_alt') ?>">
+              </figure>
+              <div class="control-copy">
+                <h4>CONFIG</h4>
+                <p class="muted"><?= $t('controls_note') ?></p>
+              </div>
+            </article>
           </div>
-          <div class="control-details">
-            <p><strong>PC</strong> — <?= $t('controls_pc') ?></p>
-            <p><strong><?= $t('controls_mobile_label') ?></strong> — <?= $t('controls_mobile') ?></p>
-            <p class="muted"><?= $t('controls_note') ?></p>
-          </div>
+        </div>
         </div>
       </section>
       <!-- 05: Production credits, in the requested order and spelling. -->
@@ -395,23 +426,26 @@ $t = static fn(string $key): string => htmlspecialchars($translations[$lang][$ke
         <div class="shell">
           <div class="credits-header">
             <span class="overline">05 — CREDITS</span>
-            <span class="credits-header-mark" aria-hidden="true">✦</span>
           </div>
           <div class="credits-layout">
             <div class="credits-intro">
-              <h2 id="credits-heading"><?= $t('credits_heading1') ?><br><em><?= $t('credits_heading2') ?></em></h2>
-              <p><?= $t('credits_intro') ?></p>
-              <span class="credits-ornament" aria-hidden="true">✧ ───── ◇ ───── ✧</span>
+              <h2 id="credits-heading"><?= $t('credits_heading') ?></h2>
             </div>
             <div class="credits-names">
               <dl class="credits-list">
                 <div class="credits-entry">
-                  <dt>Project Director / Music Designer</dt>
-                  <dd>Hirotsugu Takubo</dd>
+                  <dt>
+                    <span class="credits-role">DIRECTION / MUSIC DESIGN</span>
+                    <span class="credits-person-name">HIROTSUGU TAKUBO</span>
+                  </dt>
+                  <dd class="credits-person-bio"><?= $t('credits_director_bio') ?></dd>
                 </div>
                 <div class="credits-entry">
-                  <dt>Game/Web/UI/UX Designer</dt>
-                  <dd>Tsutomu Kaneko</dd>
+                  <dt>
+                    <span class="credits-role">GAME/WEB/UI/UX DESIGN</span>
+                    <span class="credits-person-name">TSUTOMU KANEKO</span>
+                  </dt>
+                  <dd class="credits-person-bio"><?= $t('credits_game_designer_bio') ?></dd>
                 </div>
               </dl>
               <div class="credits-thanks">
@@ -420,14 +454,16 @@ $t = static fn(string $key): string => htmlspecialchars($translations[$lang][$ke
               </div>
             </div>
           </div>
-          <div class="credits-end" aria-hidden="true"><span>✧</span> ABYSS // THE SUNKEN SANCTUM <span>✧</span></div>
+          <p class="credits-gift-note"><?php if ($lang === 'ja'): ?><?= $t('hero_gift_note_prefix') ?><span class="credits-gift-word"><?= $t('hero_gift_note_keyword') ?></span><?= $t('hero_gift_note_suffix') ?><?php else: ?><?= $t('hero_gift_note') ?><?php endif; ?></p>
         </div>
       </section>
     </main>
     <footer class="footer shell">
-      <div class="brand">✦ <span>ABYSS</span><small>/ DEPTHS</small></div>
-      <p>CHAPTER I — THE SUNKEN SANCTUM</p>
-      <small>© ABYSS // DUNGEON CRAWL</small>
+      <a class="brand footer-brand" href="#top" aria-label="ABYSS — TOPへ戻る">
+        <span class="brand-sigil" aria-hidden="true">✦</span>
+        <span class="brand-wordmark"><span>ABYSS</span><small>DUNGEON DRONE CRAWLER</small></span>
+      </a>
+      <small>© STUDIO APOGEE 2027</small>
     </footer>
     <script>
       (() => {

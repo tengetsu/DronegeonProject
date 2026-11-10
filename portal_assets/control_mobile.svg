@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="420" viewBox="0 0 720 420" role="img">
+<defs>
+  <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#191a18"/><stop offset="1" stop-color="#10110f"/></linearGradient>
+  <linearGradient id="screen" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#25251f"/><stop offset="1" stop-color="#11110f"/></linearGradient>
+</defs>
+<rect width="720" height="420" rx="9" fill="url(#bg)"/>
+<rect x="15" y="15" width="690" height="390" rx="5" fill="none" stroke="#5f503f" stroke-width="1.3"/>
+<path d="M26 44V26h18M676 26h18v18M26 376v18h18M676 394h18v-18" fill="none" stroke="#bfa175" stroke-width="2"/>
+<path d="M35 62h650" stroke="#544738" stroke-width="1"/>
+<path d="M35 380h650" stroke="#544738" stroke-width="1"/>
+<text x="42" y="48" fill="#cbb286" font-size="15" font-weight="600" font-family="Arial, Helvetica, sans-serif" letter-spacing="2">02 TOUCH CONTROLS</text>
+<text x="668" y="48" fill="#a38a69" font-size="14" font-weight="600" font-family="Arial, Helvetica, sans-serif" text-anchor="end" letter-spacing="2">MOBILE</text>
+
+<rect x="52" y="82" width="276" height="282" rx="30" fill="#141512" stroke="#d0b181" stroke-width="3"/>
+<rect x="68" y="103" width="244" height="240" rx="14" fill="url(#screen)" stroke="#786449" stroke-width="1.8"/>
+<rect x="164" y="89" width="52" height="4" rx="2" fill="#8f7653"/>
+<circle cx="190" cy="351" r="6" fill="none" stroke="#a58b65" stroke-width="1.5"/>
+<path d="M84 136L190 192 296 136M84 288l106-96 106 96M108 149L190 192 272 149M108 273l82-81 82 81" fill="none" stroke="#6f6045" stroke-width="1.3" opacity=".6"/>
+<path d="M190 186v12m-6-6h12" stroke="#d9ba87" stroke-width="2" stroke-linecap="round"/>
+<g stroke="#d7b788" stroke-width="2" fill="#26231e">
+  <rect x="110" y="224" width="44" height="38" rx="6"/>
+  <rect x="64" y="266" width="44" height="38" rx="6"/>
+  <rect x="110" y="266" width="44" height="38" rx="6"/>
+  <rect x="156" y="266" width="44" height="38" rx="6"/>
+</g>
+<path d="M132 234l-8 13h16zM77 285l12-9v18zM132 295l-8-13h16zM187 285l-12 9v-18z" fill="none" stroke="#eedbb8" stroke-width="2.1" stroke-linejoin="round"/>
+<circle cx="258" cy="279" r="31" fill="#24201c" stroke="#caaa7b" stroke-width="2.2"/>
+<circle cx="258" cy="279" r="10.5" fill="none" stroke="#a98c63" stroke-width="1.6"/>
+<path d="M252 279h12m-6-6v12" stroke="#e1c99f" stroke-width="1.6" stroke-linecap="round"/>
+<rect x="237" y="113" width="58" height="26" rx="5" fill="#25201a" stroke="#ac8c62" stroke-width="1.5"/>
+<text x="266" y="131" fill="#e8d8bb" font-size="12" font-weight="600" font-family="Arial, Helvetica, sans-serif" text-anchor="middle" letter-spacing="0.7">CFG</text>
+
+<text x="390" y="116" fill="#d5b689" font-size="20" font-weight="600" font-family="Arial, Helvetica, sans-serif" letter-spacing="2">01</text>
+<text x="446" y="116" fill="#eee0c6" font-size="24" font-weight="600" font-family="Arial, Helvetica, sans-serif" letter-spacing="1">D-PAD</text>
+<text x="446" y="146" fill="#b4a48d" font-size="15" font-weight="500" font-family="Arial, Helvetica, sans-serif" letter-spacing="1">MOVE / TURN</text>
+<path d="M392 170H662" stroke="#5d5041" stroke-width="1"/>
+<text x="390" y="214" fill="#d5b689" font-size="20" font-weight="600" font-family="Arial, Helvetica, sans-serif" letter-spacing="2">02</text>
+<text x="446" y="214" fill="#eee0c6" font-size="24" font-weight="600" font-family="Arial, Helvetica, sans-serif" letter-spacing="1">SWIPE</text>
+<text x="446" y="244" fill="#b4a48d" font-size="15" font-weight="500" font-family="Arial, Helvetica, sans-serif" letter-spacing="1">LOOK AROUND</text>
+<path d="M392 268H662" stroke="#5d5041" stroke-width="1"/>
+<text x="390" y="312" fill="#d5b689" font-size="20" font-weight="600" font-family="Arial, Helvetica, sans-serif" letter-spacing="2">03</text>
+<text x="446" y="312" fill="#eee0c6" font-size="24" font-weight="600" font-family="Arial, Helvetica, sans-serif" letter-spacing="1">CONFIG</text>
+<text x="446" y="342" fill="#b4a48d" font-size="15" font-weight="500" font-family="Arial, Helvetica, sans-serif" letter-spacing="1">OPEN SETTINGS</text>
+</svg>
