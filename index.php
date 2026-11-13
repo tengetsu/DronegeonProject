@@ -36,7 +36,9 @@ $translations = [
         'story_heading1' => '闇の底に',
         'story_heading2' => '忘れられた聖域がある',
         'story_text1' => '石壁に囲まれた地下迷宮。揺れる松明を頼りに通路を進み、古代の遺物へと続く道を探し出す、一人称視点のダークファンタジー探索ゲーム。',
-        'story_text2_before' => '入口近くの鍵を手にすると10分間のカウントダウンが始まる。迷宮に隠された',
+        'story_text2_before' => '入口近くの鍵を手にすると',
+        'story_text2_timer' => '10分間のカウントダウン',
+        'story_text2_after_timer' => 'が始まる。迷宮に隠された',
         'story_text2_highlight' => '5つの鍵',
         'story_text2_after' => 'を集め、閉ざされた壁の先へ進め。',
         'sound_heading1' => '音が描く',
@@ -65,7 +67,7 @@ $translations = [
         'guide_heading1' => '探索の',
         'guide_heading2' => '手引き',
         'guide_intro1' => 'はじめての探索者の諸君へ。',
-        'guide_intro2' => 'ゲームの目的と操作を、ここで確認。',
+        'guide_intro2' => 'ゲームの操作を、ここで確認。',
         'guide_mode_title' => '二つの探索モード',
         'guide_mode_before' => 'は滑らかに移動する自由探索。',
         'guide_mode_after' => 'はマス目単位で移動・旋回する、クラシックなダンジョン探索です。',
@@ -74,9 +76,10 @@ $translations = [
         'guide_key_highlight' => '10分間の制限時間',
         'guide_key_after' => 'が始まります。',
         'guide_unlock_title' => '封印された道を開く',
-        'guide_unlock_text' => '5つすべての鍵を集めると、迷宮のどこかで壁が開きます。変化した通路を探して、さらに奥へ進みましょう。',
+        'guide_unlock_highlight' => '5つすべての鍵を集める',
+        'guide_unlock_tail' => 'と、迷宮のどこかで壁が開きます。変化した通路を探して、さらに奥へ進みましょう。',
         'controls_title' => '操作説明',
-        'controls_pc' => 'WASD・矢印キーで移動します。3D MODEではマウスで視点を操作。ゲーム中にCキーでCONFIGを開き、Escキーで閉じられます。RETRO MODEではA・D（←・→）で90度回転、W・S（↑・↓）で1マスずつ前進・後退します。',
+        'controls_pc' => '3D MODEでは、WASD・矢印キー（↑・↓・←・→）で移動します。マウスで視点を操作。ゲーム中にCキーでCONFIGを開き、Escキーで閉じられます。RETRO MODEではA・D（←・→）で90度回転、W・S（↑・↓）で1マスずつ前進・後退します。',
         'controls_mobile' => '画面上の方向ボタンで移動・方向転換します。ゲーム中は右下のCONFIGボタンから設定を開けます。RETRO MODEでは1回のタップで1マス移動します。',
         'controls_mobile_label' => 'スマホ',
         'controls_note' => 'CONFIGでは音量・描画品質・3D/RETRO MODE・表示言語（日本語／英語）を切り替えられます。',
@@ -116,7 +119,9 @@ $translations = [
         'story_heading1' => 'Beneath the darkness,',
         'story_heading2' => 'a forgotten sanctuary awaits.',
         'story_text1' => 'A maze of ancient stone walls. Guided by flickering torches, make your way through shadowy corridors toward a lost relic in this first-person dark fantasy dungeon crawler.',
-        'story_text2_before' => 'Collect the key near the entrance to start the ten-minute countdown. Find all ',
+        'story_text2_before' => 'Collect the key near the entrance to start the ',
+        'story_text2_timer' => 'ten-minute countdown',
+        'story_text2_after_timer' => '. Find all ',
         'story_text2_highlight' => 'five hidden keys',
         'story_text2_after' => ' and discover what lies beyond the sealed passage.',
         'sound_heading1' => 'Sound paints,',
@@ -145,7 +150,7 @@ $translations = [
         'guide_heading1' => 'THE EXPLORER’S',
         'guide_heading2' => 'FIELD GUIDE',
         'guide_intro1' => 'For first-time explorers.',
-        'guide_intro2' => 'Review the objective and controls here.',
+        'guide_intro2' => 'Review the controls here.',
         'guide_mode_title' => 'Two ways to explore',
         'guide_mode_before' => ' offers smooth, free movement. ',
         'guide_mode_after' => ' brings back classic grid-based movement and 90-degree turns.',
@@ -154,9 +159,10 @@ $translations = [
         'guide_key_highlight' => 'ten-minute countdown',
         'guide_key_after' => '.',
         'guide_unlock_title' => 'Break the seal',
-        'guide_unlock_text' => 'Gather all five keys to open a hidden wall somewhere in the maze. Find the new passage and continue deeper into the sanctum.',
+        'guide_unlock_highlight' => 'Gather all five keys',
+        'guide_unlock_tail' => ' to open a hidden wall somewhere in the maze. Find the new passage and continue deeper into the sanctum.',
         'controls_title' => 'HOW TO PLAY',
-        'controls_pc' => 'Move with WASD or the arrow keys. In 3D MODE, move the mouse to look around. Press C during play to open CONFIG, or Esc to close it. In RETRO MODE, A/D (left/right arrows) turn 90 degrees; W/S (up/down arrows) move one tile forward or backward.',
+        'controls_pc' => 'In 3D MODE, move with WASD or the arrow keys (↑・↓・←・→). Use the mouse to look around. Press C during play to open CONFIG, or Esc to close it. In RETRO MODE, A/D (left/right arrows) turn 90 degrees; W/S (up/down arrows) move one tile forward or backward.',
         'controls_mobile' => 'Use the on-screen directional buttons to move or turn. Tap CONFIG in the lower-right corner during play to open settings. In RETRO MODE, each forward or backward tap moves one tile.',
         'controls_mobile_label' => 'MOBILE',
         'controls_note' => 'In CONFIG, adjust audio, graphics, 3D/RETRO MODE and the Japanese/English display language.',
@@ -186,14 +192,14 @@ $t = static fn(string $key): string => htmlspecialchars($translations[$lang][$ke
     <meta name="theme-color" content="#0a0909">
     <meta name="description" content="<?= $t('page_description') ?>">
     <title>ABYSS // Dungeon Crawl — The Sunken Sanctum</title>
-    <link rel="stylesheet" href="portal.css?v=mobile-45-type-footer-center-20261111">
+    <link rel="stylesheet" href="portal.css?v=controls-fullbleed-20261114b">
   </head>
   <body>
     <div class="ambient"></div>
     <!-- Fixed navigation is kept outside the centered shell so its background covers the entire viewport. -->
     <header class="site-header" id="site-header">
       <div class="topbar shell">
-        <a class="brand" href="#top" aria-label="<?= $t('brand_top') ?>"><span class="brand-sigil" aria-hidden="true">✦</span><span class="brand-wordmark"><span>ABYSS</span><small>DUNGEON DRONE CRAWLER</small></span></a>
+        <a class="brand" href="#top" aria-label="<?= $t('brand_top') ?>"><span class="brand-wordmark"><span>ABYSS</span><small>DUNGEON DRONE CRAWLER</small></span></a>
         <button type="button" id="mobile-fullscreen-toggle" class="mobile-fullscreen-toggle" hidden
           aria-label="<?= $t('fullscreen_on') ?>"
           data-fullscreen-on="<?= $t('fullscreen_on') ?>"
@@ -266,8 +272,8 @@ $t = static fn(string $key): string => htmlspecialchars($translations[$lang][$ke
         </div>
         <div class="story-body">
           <p><?= $t('story_text1') ?></p>
-          <p><?= $t('story_text2_before') ?><strong><?= $t('story_text2_highlight') ?></strong><?= $t('story_text2_after') ?></p>
-          <div class="stats">
+          <p><?= $t('story_text2_before') ?><strong><?= $t('story_text2_timer') ?></strong><?= $t('story_text2_after_timer') ?><strong><?= $t('story_text2_highlight') ?></strong><?= $t('story_text2_after') ?></p>
+          <div class="stats" aria-label="Dungeon game statistics">
             <div><strong>05</strong><span>SEALED KEYS</span></div>
             <div><strong>10<span class="unit">MIN</span></strong><span>AFTER FIRST KEY</span></div>
             <div><strong>02</strong><span>PLAY MODES</span></div>
@@ -277,21 +283,24 @@ $t = static fn(string $key): string => htmlspecialchars($translations[$lang][$ke
         <div class="guide-grid">
           <article class="guide-card">
             <span class="card-num">01 / EXPLORE</span>
+            <span class="card-metric" aria-label="02 PLAY MODES"><strong>02</strong><span>PLAY MODES</span></span>
             <div class="card-glyph">⌖</div>
             <h3><?= $t('guide_mode_title') ?></h3>
             <p><strong>3D MODE</strong><?= $t('guide_mode_before') ?><strong>RETRO MODE</strong><?= $t('guide_mode_after') ?></p>
           </article>
           <article class="guide-card">
             <span class="card-num">02 / COLLECT</span>
+            <span class="card-metric" aria-label="10 MIN AFTER FIRST KEY"><strong>10<span class="card-metric-unit">MIN</span></strong><span>AFTER FIRST KEY</span></span>
             <div class="card-glyph">⚿</div>
             <h3><?= $t('guide_key_title') ?></h3>
             <p><?= $t('guide_key_before') ?><strong><?= $t('guide_key_highlight') ?></strong><?= $t('guide_key_after') ?></p>
           </article>
           <article class="guide-card">
             <span class="card-num">03 / UNSEAL</span>
+            <span class="card-metric" aria-label="05 SEALED KEYS"><strong>05</strong><span>SEALED KEYS</span></span>
             <div class="card-glyph">◇</div>
             <h3><?= $t('guide_unlock_title') ?></h3>
-            <p><?= $t('guide_unlock_text') ?></p>
+            <p><strong><?= $t('guide_unlock_highlight') ?></strong><?= $t('guide_unlock_tail') ?></p>
           </article>
         </div>
       </section>
@@ -315,22 +324,16 @@ $t = static fn(string $key): string => htmlspecialchars($translations[$lang][$ke
                 </div>
               </div>
             </div>
-            <div class="sound-visual" aria-label="Drone music atmosphere illustration">
+            <div class="sound-visual sound-visual--bandcamp" aria-label="Bandcamp: Live at hisomine, October 2026">
               <div class="sound-visual-top"><span>ABYSS / SOUND LANDSCAPE</span><span>02.01 — ◇</span></div>
-              <div class="sound-art" aria-hidden="true">
-                <div class="sound-orbit sound-orbit-outer"></div>
-                <div class="sound-orbit sound-orbit-middle"></div>
-                <div class="sound-orbit sound-orbit-inner"></div>
-                <div class="sound-halo"></div>
-                <div class="sound-core">✦</div>
-                <span class="sound-art-axis sound-art-axis-x"></span>
-                <span class="sound-art-axis sound-art-axis-y"></span>
-              </div>
-              <div class="sound-visual-caption">
-                <span class="sound-track-kind">BGM — DRONE MUSIC</span>
-                <strong>LIVE AT HISOMINE</strong>
-                <span class="sound-track-date">JULY 2026</span>
-                <p><?= $t('sound_visual_label') ?></p>
+              <div class="sound-bandcamp-frame">
+                <iframe
+                  class="sound-bandcamp-player"
+                  title="Live at hisomine, October 2026 — Hirotsugu Takubo (Bandcamp)"
+                  src="https://bandcamp.com/EmbeddedPlayer/album=3851380802/size=large/bgcol=333333/linkcol=a78e68/tracklist=false/transparent=true/"
+                  loading="lazy"
+                  referrerpolicy="strict-origin-when-cross-origin"
+                  seamless><a href="https://hirotsugutakubo.bandcamp.com/album/live-at-hisomine-october-2026">Live at hisomine, October 2026 by Hirotsugu Takubo</a></iframe>
               </div>
               <div class="sound-visual-bottom"><span>THE SOUND OF THE SUNKEN SANCTUM</span><span>✧</span></div>
             </div>
@@ -392,7 +395,7 @@ $t = static fn(string $key): string => htmlspecialchars($translations[$lang][$ke
           <div class="controls-cards">
             <article class="control-card">
               <figure class="control-figure" aria-hidden="true">
-                <img loading="lazy" src="portal_assets/control_pc.svg" alt="<?= $t('controls_pc_alt') ?>">
+                <img loading="lazy" src="portal_assets/control_pc.svg?v=controls-fullbleed-20261114b" alt="<?= $t('controls_pc_alt') ?>">
               </figure>
               <div class="control-copy">
                 <h4>PC</h4>
@@ -401,7 +404,7 @@ $t = static fn(string $key): string => htmlspecialchars($translations[$lang][$ke
             </article>
             <article class="control-card">
               <figure class="control-figure" aria-hidden="true">
-                <img loading="lazy" src="portal_assets/control_mobile.svg" alt="<?= $t('controls_mobile_alt') ?>">
+                <img loading="lazy" src="portal_assets/control_mobile.svg?v=controls-fullbleed-20261114b" alt="<?= $t('controls_mobile_alt') ?>">
               </figure>
               <div class="control-copy">
                 <h4><?= $t('controls_mobile_label') ?></h4>
@@ -410,7 +413,7 @@ $t = static fn(string $key): string => htmlspecialchars($translations[$lang][$ke
             </article>
             <article class="control-card">
               <figure class="control-figure" aria-hidden="true">
-                <img loading="lazy" src="portal_assets/control_config.svg" alt="<?= $t('controls_config_alt') ?>">
+                <img loading="lazy" src="portal_assets/control_config.svg?v=controls-fullbleed-20261114b" alt="<?= $t('controls_config_alt') ?>">
               </figure>
               <div class="control-copy">
                 <h4>CONFIG</h4>
@@ -460,7 +463,7 @@ $t = static fn(string $key): string => htmlspecialchars($translations[$lang][$ke
     </main>
     <footer class="footer shell">
       <a class="brand footer-brand" href="#top" aria-label="ABYSS — TOPへ戻る">
-        <span class="brand-sigil" aria-hidden="true">✦</span>
+        
         <span class="brand-wordmark"><span>ABYSS</span><small>DUNGEON DRONE CRAWLER</small></span>
       </a>
       <small>© STUDIO APOGEE 2027</small>

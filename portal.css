@@ -312,10 +312,10 @@ img {
   position: relative;
   width: 100%;
   margin-inline: 0;
-  /* 03 VIEWS: subtly brighter than SOUND, but darker than the prior version. */
+  /* 03 VIEWS: a substantially darker charcoal, close to black. */
   background:
-    radial-gradient(ellipse at 76% 34%, rgba(132, 101, 69, .08), transparent 50%),
-    linear-gradient(180deg, #161714 0%, #141512 56%, #121310 100%);
+    radial-gradient(ellipse at 76% 34%, rgba(132, 101, 69, .035), transparent 50%),
+    linear-gradient(180deg, #0e100e 0%, #0c0e0c 56%, #090b09 100%);
   /* Outer section-border line removed; internal card rules stay. */
 }
 
@@ -442,10 +442,10 @@ img {
   position: relative;
   width: 100%;
   margin-inline: 0;
-  /* 04 CONTROLS: a small step lighter than 03, but less gray than before. */
+  /* 04 CONTROLS: nearly black with only a subtle lift above 03 VIEWS. */
   background:
-    radial-gradient(ellipse at 18% 10%, rgba(164, 151, 123, .07), transparent 50%),
-    linear-gradient(180deg, #1a1c19 0%, #181a17 54%, #161814 100%);
+    radial-gradient(ellipse at 18% 10%, rgba(164, 151, 123, .04), transparent 50%),
+    linear-gradient(180deg, #121411 0%, #10120f 54%, #0c0e0c 100%);
 }
 .guide-inner { position: relative; }
 
@@ -3986,4 +3986,372 @@ html[lang="en"] .credits-thanks p {
     transform: none;
     text-align: center;
   }
+}
+
+
+/* ======================================================================
+   2026-11-13 — Header / footer, HERO, ABOUT metric-card reorganization.
+   Desktop is FHD-scaled, smartphone keeps existing card/metric positions.
+   ====================================================================== */
+/* Wordmarks without decorative sigils; typography is +2px on both devices. */
+.site-header .brand-wordmark,
+.footer .footer-brand .brand-wordmark { gap: 9px; }
+.site-header .brand { font-size: 19px; }
+.site-header .brand small { font-size: 13px; }
+.footer .footer-brand { font-size: 19px; }
+.footer .footer-brand small { font-size: 13px; }
+.footer > small { font-size: 12px; }
+
+/* All header navigation labels also grow by 2px; fixed header height stays
+   unchanged to keep the existing anchor alignment and 4K section rhythm. */
+.site-header .site-navigation > a { font-size: 12px; }
+.site-header .topbar nav .language-switch .language-link { font-size: 13px; }
+
+/* Metrics are in all cards semantically. Only PC moves them into view; on
+   phones existing 05 / 10 MIN / 02 statistics remain in their current grid. */
+.story .guide-card .card-metric { display: none; }
+
+@media (min-width: 821px) and (pointer: fine) {
+  .site-header .brand { font-size: calc(19 * var(--abyss-desktop-px)); }
+  .site-header .brand small { font-size: calc(13 * var(--abyss-desktop-px)); }
+  .site-header .site-navigation > a { font-size: calc(12 * var(--abyss-desktop-px)); }
+  .site-header .topbar nav .language-switch .language-link { font-size: calc(13 * var(--abyss-desktop-px)); }
+  .footer .footer-brand { font-size: calc(19 * var(--abyss-desktop-px)); }
+  .footer .footer-brand small { font-size: calc(13 * var(--abyss-desktop-px)); }
+  .footer > small { font-size: calc(12 * var(--abyss-desktop-px)); }
+
+  /* The first Hero line sits nearer the cloaked figure's left knee; more
+     breathing room after the DUNGEON DRONE CRAWLER tagline, without moving
+     the login form or changing the image's FHD crop. */
+  .hero-outer .hero-inner { transform: translateY(calc(25 * var(--abyss-desktop-px))); }
+  .hero-outer .hero-copy {
+    margin-top: calc(110 * var(--abyss-desktop-px));
+  }
+  .hero-login button[type="submit"] { font-size: calc(15 * var(--abyss-desktop-px)); }
+
+  /* Preserve the main intro's two columns. Move three data badges inside
+     their corresponding cards, not into an extra row above the cards. */
+  .story .story-body > .stats { display: none; }
+  .story .guide-grid { margin-top: calc(28 * var(--abyss-desktop-px)); }
+  .story > .guide-grid > .guide-card {
+    position: relative;
+    min-width: 0;
+    padding: calc(22 * var(--abyss-desktop-px));
+    min-height: calc(264 * var(--abyss-desktop-px));
+  }
+  .story > .guide-grid .card-num {
+    display: inline-block;
+    max-width: 60%;
+    font-size: calc(16 * var(--abyss-desktop-px));
+    letter-spacing: .09em;
+    line-height: 1.4;
+    vertical-align: top;
+  }
+  .story > .guide-grid .card-metric {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: calc(17 * var(--abyss-desktop-px));
+    right: calc(20 * var(--abyss-desktop-px));
+    align-items: flex-end;
+    gap: calc(4 * var(--abyss-desktop-px));
+    max-width: 45%;
+    color: #d8c5a9;
+    text-align: right;
+    white-space: normal;
+    line-height: 1.1;
+    pointer-events: none;
+  }
+  .story > .guide-grid .card-metric strong {
+    font: 500 calc(29 * var(--abyss-desktop-px))/1 Cinzel,Georgia,serif;
+    color: #d8c5a9;
+  }
+  .story > .guide-grid .card-metric > span {
+    font: 500 calc(10 * var(--abyss-desktop-px))/1.35 Cinzel,Georgia,serif;
+    letter-spacing: .08em;
+    color: #b5a58e;
+    max-width: 100%;
+  }
+  .story > .guide-grid .card-glyph {
+    font-size: calc(52 * var(--abyss-desktop-px));
+    margin-top: calc(42 * var(--abyss-desktop-px));
+    margin-bottom: calc(5 * var(--abyss-desktop-px));
+    line-height: 1.1;
+  }
+  .story > .guide-grid .guide-card p { font-size: calc(16 * var(--abyss-desktop-px)); }
+}
+/* Avoid over-sized decorative spacing on shorter desktop windows while
+   retaining 16px FHD copy and the compact FHD / 4K sections. */
+@media (min-width: 821px) and (pointer: fine) and (max-height: 960px) {
+  .story > .guide-grid > .guide-card { padding: calc(18 * var(--abyss-desktop-px)); }
+  .story > .guide-grid .card-metric {
+    top: calc(13 * var(--abyss-desktop-px));
+    right: calc(16 * var(--abyss-desktop-px));
+  }
+  .story > .guide-grid .card-glyph { margin-top: calc(35 * var(--abyss-desktop-px)); }
+}
+
+/* The 2px header/footer increase is also applied to phones without
+   changing their existing navigation, fixed height or Hero presentation. */
+@media (max-width: 820px) and (orientation: portrait) {
+  .site-header .brand {
+    font-size: calc(clamp(12px, 3.6vw, 16px) + 4px);
+  }
+  .site-header .brand small {
+    font-size: calc(clamp(7px, 1.8vw, 9px) + 4px);
+  }
+  .site-header .mobile-menu-toggle { font-size: 12px; }
+  .site-header .site-navigation > a { font-size: 14px; }
+  .footer .footer-brand { font-size: 19px; }
+  .footer .footer-brand small { font-size: 13px; }
+  .footer > small { font-size: 12px; }
+}
+@media (orientation: landscape) and (pointer: coarse) and (max-height: 650px) {
+  .site-header .brand { font-size: calc(clamp(11px, 1.8vw, 15px) + 2px); }
+  .site-header .brand small { font-size: calc(clamp(7px, 1vw, 10px) + 2px); }
+  .site-header .mobile-menu-toggle { font-size: 12px; }
+  .site-header .site-navigation > a { font-size: 14px; }
+  .footer .footer-brand { font-size: 19px; }
+  .footer .footer-brand small { font-size: 13px; }
+  .footer > small { font-size: 12px; }
+}
+
+/* Higher specificity preserves the requested 16px despite the pre-existing
+   .story > .guide-grid .guide-card .card-num mobile/desktop rules. */
+@media (min-width: 821px) and (pointer: fine) {
+  .story > .guide-grid .guide-card .card-num {
+    font-size: calc(16 * var(--abyss-desktop-px));
+    line-height: 1.4;
+    letter-spacing: .09em;
+  }
+  .story > .guide-grid .card-metric .card-metric-unit {
+    font: 500 calc(11 * var(--abyss-desktop-px))/1 Cinzel, Georgia, serif;
+    margin-left: calc(4 * var(--abyss-desktop-px));
+  }
+}
+
+/* ========================================================================
+   2026-11-13 — ABOUT desktop alignment follow-up.
+   Match SOUND's first label and main title positions rather than vertically
+   centering ABOUT. Anchor the 3-card row to the section's lower inner edge:
+   the space below it equals the top padding above '01 — ABOUT'.
+   Phone layouts are unaffected and the cards remain intrinsic-height.
+   ======================================================================== */
+@media (min-width: 821px) and (pointer: fine) {
+  .story.section {
+    align-content: stretch;
+    grid-template-rows: auto auto minmax(min-content, 1fr);
+  }
+  .story > .guide-grid {
+    align-self: end;
+  }
+}
+/* Shorter PC viewports use SOUND's reduced divider-to-heading spacing too. */
+@media (min-width: 821px) and (pointer: fine) and (max-height: 960px) {
+  .story-overline-row {
+    margin-bottom: calc(30 * var(--abyss-desktop-px));
+  }
+}
+
+
+/* ========================================================================
+   2026-11-13 — ABOUT: restore the original metrics typography inside cards.
+   Keep each badge in its existing upper-right position, but center the
+   number, unit, and caption within the badge. This is desktop-only;
+   the portrait and landscape mobile statistics retain their prior layout.
+   ======================================================================== */
+@media (min-width: 821px) and (pointer: fine) {
+  .story > .guide-grid .card-metric {
+    /* Keep the original top/right anchor.  The former 156px fixed width
+       shifted the centered digits away from the card corner. */
+    width: max-content;
+    max-width: 45%;
+    align-items: center;
+    text-align: center;
+    gap: calc(10 * var(--abyss-desktop-px));
+  }
+  .story > .guide-grid .card-metric strong {
+    font: 500 calc(42 * var(--abyss-desktop-px))/1 Cinzel, Georgia, serif;
+    text-align: center;
+    white-space: nowrap;
+  }
+  .story > .guide-grid .card-metric .card-metric-unit {
+    font: 500 calc(15 * var(--abyss-desktop-px))/1 Cinzel, Georgia, serif;
+    margin-left: calc(4 * var(--abyss-desktop-px));
+  }
+  .story > .guide-grid .card-metric > span {
+    text-align: center;
+    width: 100%;
+  }
+}
+
+
+/* ========================================================================
+   2026-11-13 — Bandcamp audio player inside the SOUND decorative panel.
+   The player uses the supplied 350 × 470 ratio at every responsive width.
+   Retain the panel's existing gold trim and heading/footer ornamentation.
+   ======================================================================== */
+.sound-visual--bandcamp {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  min-width: 0;
+}
+.sound-bandcamp-frame {
+  width: min(100%, 350px);
+  aspect-ratio: 350 / 470;
+  position: relative;
+  isolation: isolate;
+  flex: none;
+  min-width: 0;
+  height: auto;
+  margin: 18px auto 17px;
+  overflow: hidden;
+  background: #333333;
+}
+/* The cross-origin Bandcamp embed may draw its own light edge rules.
+   Cover only the 4px left/right edges and top strip, leaving the interior
+   controls untouched and keeping the ABYSS gold decorative border visible. */
+.sound-bandcamp-frame::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(#333333, #333333) top / 100% 4px no-repeat,
+    linear-gradient(#333333, #333333) left / 4px 100% no-repeat,
+    linear-gradient(#333333, #333333) right / 4px 100% no-repeat;
+  pointer-events: none;
+  z-index: 2;
+}
+/* Bandcamp draws a white 1–2px rule at the very bottom of its own
+   cross-origin iframe. The site cannot restyle that inner document.
+   Mask only the bottom four pixels using the embed's background color;
+   playback, links, controls, and the 350:470 aspect ratio stay intact. */
+.sound-bandcamp-frame::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 4px;
+  background: #333333;
+  pointer-events: none;
+  z-index: 2;
+}
+.sound-bandcamp-player {
+  display: block;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: #131311;
+}
+/* Reduce padding in compact landscape viewports, without cropping player. */
+@media (orientation: landscape) and (pointer: coarse) and (max-height: 650px) {
+  .sound-bandcamp-frame {
+    margin-block: 10px;
+  }
+  .sound-visual--bandcamp .sound-visual-top { padding-bottom: 8px; }
+  .sound-visual--bandcamp .sound-visual-bottom { padding-top: 8px; }
+}
+@media (max-width: 720px) and (orientation: portrait) {
+  .sound-bandcamp-frame { margin-block: 14px; }
+}
+
+/* ========================================================================
+   2026-11-13 — SOUND heading-to-body gap: desktop only.
+   Original FHD 46px -> 69px (1.5x). Short desktop viewports:
+   original 28px -> 42px. Mobile/touch layout remains unchanged.
+   ======================================================================== */
+@media (min-width: 821px) and (pointer: fine) {
+  .sound-description h2 {
+    margin-bottom: calc(69 * var(--abyss-desktop-px));
+  }
+}
+@media (min-width: 821px) and (pointer: fine) and (max-height: 960px) {
+  .sound-description h2 {
+    margin-bottom: calc(42 * var(--abyss-desktop-px));
+  }
+}
+
+
+/* 2026-11-14 | CONTROLS illustrations edge-to-edge inside each card.
+   Remove the card's inset around the SVG while keeping comfortable
+   padding for the explanation text.  The SVG's own outer ornaments were
+   removed and the viewBox cropped (with its original 12:7 ratio). */
+.control-card {
+  padding: 0;
+  gap: 0;
+  grid-template-rows: max-content minmax(0, 1fr);
+  overflow: hidden;
+}
+.control-figure {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  box-shadow: none;
+  background: #151512;
+  aspect-ratio: 12 / 7;
+  overflow: hidden;
+  line-height: 0;
+}
+.control-figure img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 12 / 7;
+  object-fit: cover;
+}
+.control-copy {
+  min-width: 0;
+  padding: 16px 18px 18px;
+}
+@media (min-width: 821px) and (pointer: fine) {
+  .guide .control-card { padding: 0; gap: 0; }
+  .guide .control-copy {
+    padding: calc(14 * var(--abyss-desktop-px)) calc(16 * var(--abyss-desktop-px)) calc(16 * var(--abyss-desktop-px));
+  }
+}
+@media (min-width: 821px) and (pointer: fine) and (max-height: 960px) {
+  .guide .control-card { padding: 0; }
+  .guide .control-copy { padding: calc(12 * var(--abyss-desktop-px)) calc(14 * var(--abyss-desktop-px)) calc(14 * var(--abyss-desktop-px)); }
+}
+@media (orientation: landscape) and (pointer: coarse) and (max-height: 650px) {
+  .guide .control-card { padding: 0; gap: 0; }
+  .guide .control-copy { padding: clamp(8px, 1.4vw, 14px); }
+}
+
+
+/* 2026-11-14: CONTROLS full-bleed illustrations (refined).
+   The cards already had zero image padding. Keep that geometry on all
+   breakpoints and allow the enlarged SVG art to fill its own viewport.
+   The captions retain independent padding and are never overlaid. */
+.guide .control-card {
+  padding: 0;
+  gap: 0;
+  overflow: hidden;
+  grid-template-rows: max-content minmax(0, 1fr);
+}
+.guide .control-card .control-figure {
+  display: block;
+  flex: none;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  box-shadow: none;
+  aspect-ratio: 12 / 7;
+  line-height: 0;
+  overflow: hidden;
+}
+.guide .control-card .control-figure img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  margin: 0;
+  aspect-ratio: 12 / 7;
+  object-fit: cover;
+  object-position: center;
 }

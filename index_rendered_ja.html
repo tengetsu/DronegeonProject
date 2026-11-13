@@ -1,0 +1,396 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+    <meta name="theme-color" content="#0a0909">
+    <meta name="description" content="ABYSS // Dungeon Crawl。沈んだ聖域を探索するダークファンタジー・ダンジョンクローラー。">
+    <title>ABYSS // Dungeon Crawl — The Sunken Sanctum</title>
+    <link rel="stylesheet" href="portal.css?v=20261111-views-align-fhd">
+  </head>
+  <body>
+    <div class="ambient"></div>
+    <!-- Fixed navigation is kept outside the centered shell so its background covers the entire viewport. -->
+    <header class="site-header" id="site-header">
+      <div class="topbar shell">
+        <a class="brand" href="#top" aria-label="ABYSS トップ"><span class="brand-sigil" aria-hidden="true">✦</span><span class="brand-wordmark"><span>ABYSS</span><small>DUNGEON DRONE CRAWLER</small></span></a>
+        <button type="button" id="mobile-fullscreen-toggle" class="mobile-fullscreen-toggle" hidden
+          aria-label="全画面"
+          data-fullscreen-on="全画面"
+          data-fullscreen-off="戻す"
+          data-fullscreen-error="このブラウザでは全画面表示を開始できません。通常表示でご利用ください。"
+          aria-pressed="false"><span aria-hidden="true">⛶</span><span class="fullscreen-label">全画面</span></button>
+        <button
+          class="mobile-menu-toggle"
+          type="button"
+          id="mobile-menu-toggle"
+          aria-controls="site-navigation"
+          aria-expanded="false"
+          aria-label="ナビゲーションメニューを開く"
+          data-label-open="ナビゲーションメニューを開く"
+          data-label-close="ナビゲーションメニューを閉じる"
+        >
+          <span class="menu-icon" aria-hidden="true"><span></span><span></span><span></span></span>
+          <span class="menu-toggle-label">メニュー</span>
+        </button>
+        <nav id="site-navigation" class="site-navigation" aria-label="ページ内ナビゲーション">
+          <a href="#story">ABOUT</a>
+          <a href="#sound">SOUND</a>
+          <a href="#gallery">VIEWS</a>
+          <a href="#guide">CONTROLS</a>
+          <a href="#credits">CREDITS</a>
+          <div class="language-switch" role="group" aria-label="表示言語を切り替える">
+            <a class="language-link is-active" href="?lang=ja" lang="ja" hreflang="ja" aria-label="日本語に切り替える" aria-current="page">JP</a>
+            <a class="language-link" href="?lang=en" lang="en" hreflang="en" aria-label="英語に切り替える" >EN</a>
+          </div>
+        </nav>
+      </div>
+    </header>
+    <div id="fullscreen-message" class="fullscreen-message" role="status" aria-live="polite" hidden></div>
+    <main id="top">
+      <div class="hero-outer">
+      <section class="hero" aria-labelledby="hero-title">
+        <img class="hero-image" src="portal_assets/hero.webp" alt="松明が灯る暗い石造りの地下迷宮に立つマント姿の冒険者" fetchpriority="high">
+        <div class="hero-shade"></div>
+        <div class="hero-layout shell">
+          <div class="hero-inner">
+          <div class="hero-title-lockup">
+            <h1 id="hero-title">ABYSS</h1>
+            <p class="hero-kicker">DUNGEON DRONE CRAWLER</p>
+          </div>
+          <p class="hero-copy">光の届かぬ聖域へ<br>五つの鍵を探し、封印された道を切り拓け</p>
+          </div>
+            <aside class="login-panel hero-login" id="login" aria-label="ENTRANCE">
+              <div class="login-top"><span>ENTRANCE</span><span class="login-symbol">✦</span></div>
+              <h3>ACCESS THE ABYSS</h3>
+              <p class="login-subheading">探索者認証</p>
+              <form action="login.php" method="post">
+                <label for="username">LOGIN ID</label>
+                <input id="username" name="username" autocomplete="username" required maxlength="128" placeholder="LOGIN IDを入力">
+                <label for="password">PASSWORD</label>
+                <input id="password" type="password" name="password" autocomplete="current-password" required placeholder="PASSWORDを入力">
+                <button type="submit">ENTER THE DUNGEON <span>↗</span></button>
+              </form>
+              <p class="error" id="error" role="alert"></p>
+              <p class="login-note">認証後、ゲーム画面へ移動します。ゲーム画面にログイン情報は埋め込まれません。</p>
+            </aside>
+        </div>
+      </section>
+    </div><!-- /.hero-outer: centred FHD stage -->
+      <section class="story shell section" id="story">
+        <div class="story-overline-row">
+          <span class="overline">01 — ABOUT</span>
+        </div>
+        <div class="section-heading">
+          <h2>闇の底に<br><em>忘れられた聖域がある</em></h2>
+        </div>
+        <div class="story-body">
+          <p>石壁に囲まれた地下迷宮。揺れる松明を頼りに通路を進み、古代の遺物へと続く道を探し出す、一人称視点のダークファンタジー探索ゲーム。</p>
+          <p>入口近くの鍵を手にすると10分間のカウントダウンが始まる。迷宮に隠された<strong>5つの鍵</strong>を集め、閉ざされた壁の先へ進め。</p>
+          <div class="stats">
+            <div><strong>05</strong><span>SEALED KEYS</span></div>
+            <div><strong>10<span class="unit">MIN</span></strong><span>AFTER FIRST KEY</span></div>
+            <div><strong>02</strong><span>PLAY MODES</span></div>
+          </div>
+        </div>
+        <!-- The three exploration cards now follow the ABOUT key/time/mode metrics. -->
+        <div class="guide-grid">
+          <article class="guide-card">
+            <span class="card-num">01 / EXPLORE</span>
+            <div class="card-glyph">⌖</div>
+            <h3>二つの探索モード</h3>
+            <p><strong>3D MODE</strong>は滑らかに移動する自由探索。<strong>RETRO MODE</strong>はマス目単位で移動・旋回する、クラシックなダンジョン探索です。</p>
+          </article>
+          <article class="guide-card">
+            <span class="card-num">02 / COLLECT</span>
+            <div class="card-glyph">⚿</div>
+            <h3>五つの鍵を集める</h3>
+            <p>迷宮のどこかに眠る鍵を探してください。入口近くの鍵を拾うと<strong>10分間の制限時間</strong>が始まります。</p>
+          </article>
+          <article class="guide-card">
+            <span class="card-num">03 / UNSEAL</span>
+            <div class="card-glyph">◇</div>
+            <h3>封印された道を開く</h3>
+            <p>5つすべての鍵を集めると、迷宮のどこかで壁が開きます。変化した通路を探して、さらに奥へ進みましょう。</p>
+          </article>
+        </div>
+      </section>
+      <!-- 02: An editorial introduction to the game's drone-music atmosphere. -->
+      <section class="sound-section section" id="sound" aria-labelledby="sound-heading">
+        <div class="shell">
+          <div class="sound-overline-row">
+            <span class="overline">02 — SOUND</span>
+          </div>
+          <div class="sound-layout">
+            <div class="sound-description">
+              <h2 id="sound-heading">音が描く<br><em>もうひとつの迷宮</em></h2>
+              <p>ABYSSのBGMには、静かに響き続ける音を中心としたドローンミュージックを採用しています。</p>
+              <p>強いメロディで導くのではなく、持続する音と緩やかな変化が、石壁の冷たさ、灯火の揺らぎ、深い闇に包まれる感覚を引き立てます。</p>
+              <p>足音に耳を澄ませながら、音の余韻とともに進む探索をお楽しみください。</p>
+              <div class="sound-definition">
+                <span class="sound-definition-mark" aria-hidden="true">✧</span>
+                <div>
+                  <h3>DRONE MUSIC とは</h3>
+                  <p>メロディやリズムを極限までそぎ落とし、持続音そのものを主役に据えて、微細な音のゆらぎや倍音、音響の質感に意識を集中させる実験的な音楽表現。1960年代にラ・モンテ・ヤングらが確立し、その後アンビエントや現代音楽、ロック、メタルの文脈などにも広がりました。</p>
+                </div>
+              </div>
+            </div>
+            <div class="sound-visual" aria-label="Drone music atmosphere illustration">
+              <div class="sound-visual-top"><span>ABYSS / SOUND LANDSCAPE</span><span>02.01 — ◇</span></div>
+              <div class="sound-art" aria-hidden="true">
+                <div class="sound-orbit sound-orbit-outer"></div>
+                <div class="sound-orbit sound-orbit-middle"></div>
+                <div class="sound-orbit sound-orbit-inner"></div>
+                <div class="sound-halo"></div>
+                <div class="sound-core">✦</div>
+                <span class="sound-art-axis sound-art-axis-x"></span>
+                <span class="sound-art-axis sound-art-axis-y"></span>
+              </div>
+              <div class="sound-visual-caption">
+                <span class="sound-track-kind">BGM — DRONE MUSIC</span>
+                <strong>LIVE AT HISOMINE</strong>
+                <span class="sound-track-date">JULY 2026</span>
+                <p>深淵に響く、見えない風景。</p>
+              </div>
+              <div class="sound-visual-bottom"><span>THE SOUND OF THE SUNKEN SANCTUM</span><span>✧</span></div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="gallery section" id="gallery">
+        <div class="shell">
+          <div class="gallery-overline-row">
+            <span class="overline">03 — VIEWS</span>
+          </div>
+          <div class="section-top">
+            <div>
+              <h2>迷宮の<em>風景</em></h2>
+            </div>
+            <p>石壁、灯火、静寂。<br>ふたつの視点から、深淵を探索する。</p>
+          </div>
+          <div class="gallery-grid">
+            <figure class="shot shot-wide">
+              <img loading="lazy" src="portal_assets/3dmode.webp" alt="開発中のABYSSの3D MODEゲーム画面。鍵と石造りの通路が映る">
+              <figcaption>
+                <span>01 / 3D MODE</span>
+                <strong>自らの足で、闇を進む。</strong>
+                <small>開発中のゲーム画面</small>
+              </figcaption>
+            </figure>
+            <figure class="shot">
+              <img loading="lazy" src="portal_assets/retromode.webp" alt="開発中のABYSSのRETRO MODEゲーム画面。ドット絵風の通路とミニマップが映る">
+              <figcaption>
+                <span>02 / RETRO MODE</span>
+                <strong>一歩ずつ、迷宮を刻む。</strong>
+                <small>開発中のゲーム画面</small>
+              </figcaption>
+            </figure>
+            <figure class="shot">
+              <img loading="lazy" src="portal_assets/taimatsu.webp" alt="開発中のABYSSのゲーム画面内の松明">
+              <figcaption>
+                <span>03 / THE ATMOSPHERE</span>
+                <strong>灯火だけが、道標。</strong>
+                <small>開発中のゲーム画面</small>
+              </figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+      <section class="guide shell section" id="guide">
+        <div class="controls-overline-row">
+          <span class="overline">04 — CONTROLS</span>
+        </div>
+        <div class="section-top guide-section-top">
+          <div>
+            <h2>探索の<em>手引き</em></h2>
+          </div>
+          <p>はじめての探索者の諸君へ。<br>ゲームの目的と操作を、ここで確認。</p>
+        </div>
+        <div class="controls-panel">
+          <h3>操作説明</h3>
+          <div class="controls-cards">
+            <article class="control-card">
+              <figure class="control-figure" aria-hidden="true">
+                <img loading="lazy" src="portal_assets/control_pc.svg" alt="PC controls illustration">
+              </figure>
+              <div class="control-copy">
+                <h4>PC</h4>
+                <p>WASD・矢印キーで移動します。3D MODEではマウスで視点を操作。ゲーム中にCキーでCONFIGを開き、Escキーで閉じられます。RETRO MODEではA・D（←・→）で90度回転、W・S（↑・↓）で1マスずつ前進・後退します。</p>
+              </div>
+            </article>
+            <article class="control-card">
+              <figure class="control-figure" aria-hidden="true">
+                <img loading="lazy" src="portal_assets/control_mobile.svg" alt="Mobile controls illustration">
+              </figure>
+              <div class="control-copy">
+                <h4>スマホ</h4>
+                <p>画面上の方向ボタンで移動・方向転換します。ゲーム中は右下のCONFIGボタンから設定を開けます。RETRO MODEでは1回のタップで1マス移動します。</p>
+              </div>
+            </article>
+            <article class="control-card">
+              <figure class="control-figure" aria-hidden="true">
+                <img loading="lazy" src="portal_assets/control_config.svg" alt="Config controls illustration">
+              </figure>
+              <div class="control-copy">
+                <h4>CONFIG</h4>
+                <p class="muted">CONFIGでは音量・描画品質・3D/RETRO MODE・表示言語（日本語／英語）を切り替えられます。</p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+      <!-- 05: Production credits, in the requested order and spelling. -->
+      <section class="credits-section section" id="credits" aria-labelledby="credits-heading">
+        <div class="shell">
+          <div class="credits-header">
+            <span class="overline">05 — CREDITS</span>
+            <span class="credits-header-mark" aria-hidden="true">✦</span>
+          </div>
+          <div class="credits-layout">
+            <div class="credits-intro">
+              <h2 id="credits-heading">この深淵を、<br><em>形にした人々。</em></h2>
+              <p>ABYSSの世界をともに創り上げる、制作スタッフとすべての探索者へ。</p>
+              <span class="credits-ornament" aria-hidden="true">✧ ───── ◇ ───── ✧</span>
+            </div>
+            <div class="credits-names">
+              <dl class="credits-list">
+                <div class="credits-entry">
+                  <dt>Project Director / Music Designer</dt>
+                  <dd>Hirotsugu Takubo</dd>
+                </div>
+                <div class="credits-entry">
+                  <dt>Game/Web/UI/UX Designer</dt>
+                  <dd>Tsutomu Kaneko</dd>
+                </div>
+              </dl>
+              <div class="credits-thanks">
+                <span>SPECIAL THANKS</span>
+                <p>Liveにお越しの皆様♪</p>
+              </div>
+            </div>
+          </div>
+          <div class="credits-end" aria-hidden="true"><span>✧</span> ABYSS // THE SUNKEN SANCTUM <span>✧</span></div>
+          <p class="credits-gift-note">このゲームはHirotsugu Takuboのライブに足を運んでくれた方への特典として、<span class="credits-gift-word">ダンジョン</span>への鍵をお渡ししたものです。</p>
+        </div>
+      </section>
+    </main>
+    <footer class="footer shell">
+      <div class="brand">✦ <span>ABYSS</span><small>/ DEPTHS</small></div>
+      <p>CHAPTER I — THE SUNKEN SANCTUM</p>
+      <small>© ABYSS // DUNGEON CRAWL</small>
+    </footer>
+    <script>
+      (() => {
+        const header = document.getElementById('site-header');
+        const toggle = document.getElementById('mobile-menu-toggle');
+        const nav = document.getElementById('site-navigation');
+        const mobileBreakpoint = window.matchMedia('(max-width: 820px), (pointer: coarse) and (orientation: landscape) and (max-height: 600px)');
+
+
+        // Hero image placement is CSS-only: 100% stage width up to 1920 CSS px,
+        // with proportional scaling and no horizontal cropping. Above 1920,
+        // the stage is centered and capped, with equal black side margins.
+
+        // Match the tagline's width to the rendered ABYSS title without stretching glyphs.
+        const heroTitle = document.getElementById('hero-title');
+        const heroKicker = document.querySelector('.hero-title-lockup .hero-kicker');
+        function fitHeroKicker() {
+          if (!heroTitle || !heroKicker) return;
+          const targetWidth = heroTitle.getBoundingClientRect().width;
+          if (targetWidth <= 0) return;
+          // Measure the actual browser font and allow for CSS letter spacing.
+          const css = getComputedStyle(heroKicker);
+          const canvas = document.createElement('canvas');
+          const context = canvas.getContext('2d');
+          if (!context) return;
+          context.font = `600 100px ${css.fontFamily}`;
+          const word = heroKicker.textContent.trim();
+          const emSpacing = 0.045;
+          const units = context.measureText(word).width / 100 + emSpacing * (word.length - 1);
+          if (units <= 0) return;
+          heroKicker.style.fontSize = `${(targetWidth / units).toFixed(2)}px`;
+          heroKicker.style.width = `${targetWidth.toFixed(2)}px`;
+        }
+        fitHeroKicker();
+        window.addEventListener('resize', fitHeroKicker, {passive: true});
+        if (document.fonts && document.fonts.ready) {
+          document.fonts.ready.then(fitHeroKicker);
+        }
+
+        function setMenuOpen(open) {
+          const mobile = mobileBreakpoint.matches;
+          const isOpen = Boolean(open && mobile);
+          header.classList.toggle('menu-open', isOpen);
+          toggle.setAttribute('aria-expanded', String(isOpen));
+          toggle.setAttribute('aria-label', toggle.dataset[isOpen ? 'labelClose' : 'labelOpen']);
+        }
+
+        toggle.addEventListener('click', () => {
+          setMenuOpen(toggle.getAttribute('aria-expanded') !== 'true');
+        });
+
+        // Closing on section selection keeps the chosen destination visible.
+        nav.addEventListener('click', (event) => {
+          if (event.target.closest('a')) setMenuOpen(false);
+        });
+        document.addEventListener('click', (event) => {
+          if (!header.contains(event.target)) setMenuOpen(false);
+        });
+        document.addEventListener('keydown', (event) => {
+          if (event.key === 'Escape' && header.classList.contains('menu-open')) {
+            setMenuOpen(false);
+            toggle.focus();
+          }
+        });
+        if (mobileBreakpoint.addEventListener) {
+          mobileBreakpoint.addEventListener('change', () => setMenuOpen(false));
+        } else {
+          mobileBreakpoint.addListener(() => setMenuOpen(false));
+        }
+
+        // A webpage cannot programmatically remove browser UI. Fullscreen is
+        // offered only after a tap and only when the browser supports its API.
+        // When turning back to portrait, release fullscreen to restore chrome.
+        const fsButton = document.getElementById('mobile-fullscreen-toggle');
+        const fsMessage = document.getElementById('fullscreen-message');
+        const landscapePhone = window.matchMedia('(orientation: landscape) and (max-height: 650px) and (pointer: coarse)');
+        const canFullscreen = typeof document.documentElement.requestFullscreen === 'function' &&
+                              typeof document.exitFullscreen === 'function';
+        function updateFullscreenUI() {
+          const active = Boolean(document.fullscreenElement);
+          const visible = canFullscreen && landscapePhone.matches;
+          fsButton.hidden = !visible;
+          fsButton.setAttribute('aria-pressed', String(active));
+          fsButton.setAttribute('aria-label', active ? fsButton.dataset.fullscreenOff : fsButton.dataset.fullscreenOn);
+          fsButton.querySelector('.fullscreen-label').textContent = active ? fsButton.dataset.fullscreenOff : fsButton.dataset.fullscreenOn;
+          if (!landscapePhone.matches && active) {
+            document.exitFullscreen().catch(() => {});
+          }
+          if (!landscapePhone.matches) {
+            fsMessage.hidden = true;
+            fsMessage.textContent = '';
+          }
+        }
+        fsButton.addEventListener('click', async () => {
+          fsMessage.hidden = true;
+          fsMessage.textContent = '';
+          try {
+            if (document.fullscreenElement) await document.exitFullscreen();
+            else await document.documentElement.requestFullscreen({navigationUI: 'hide'});
+          } catch (error) {
+            // iOS Safari or browser policy may reject Fullscreen API requests.
+            fsMessage.textContent = fsButton.dataset.fullscreenError;
+            fsMessage.hidden = false;
+          }
+          updateFullscreenUI();
+        });
+        document.addEventListener('fullscreenchange', updateFullscreenUI);
+        window.addEventListener('resize', updateFullscreenUI, {passive: true});
+        window.addEventListener('orientationchange', updateFullscreenUI, {passive: true});
+        if (landscapePhone.addEventListener) landscapePhone.addEventListener('change', updateFullscreenUI);
+        else landscapePhone.addListener(updateFullscreenUI);
+        updateFullscreenUI();
+      })();
+    </script>
+  </body>
+</html>
