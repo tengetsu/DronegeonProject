@@ -74,7 +74,7 @@ $cfgTranslations = [
 $cfg = static fn(string $key): string => htmlspecialchars($cfgTranslations[$gameLanguage][$key], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
 $gameTranslations = [
     'ja' => [
-        'browserTitle' => 'ABYSS — 深淵の迷宮',
+        'browserTitle' => 'Rustrata — 深淵の迷宮',
         'mobileConfig' => '設定',
         'openSettings' => '設定画面を開く',
         'hudChapter' => '第1章 — 沈みし聖域',
@@ -106,7 +106,7 @@ $gameTranslations = [
         'mobileBackward' => '後退',
         'mobileTurnLeft' => '左を向く',
         'mobileTurnRight' => '右を向く',
-        'startupTitle' => 'ABYSS — 起動エラー',
+        'startupTitle' => 'Rustrata — 起動エラー',
         'startupInitial' => 'ゲームの起動状態を確認しています。',
         'startupHelp' => 'F12キーで開発者ツールのConsoleを確認できます。音声ファイルがなくてもゲーム本体は起動できます。',
         'startupRetry' => '再読み込み',
@@ -117,7 +117,7 @@ $gameTranslations = [
         'startupTimeout' => 'ゲームの初期化が完了しませんでした。Three.jsの読み込みやConsoleのエラーを確認してください。',
     ],
     'en' => [
-        'browserTitle' => 'ABYSS — The Sunken Sanctum',
+        'browserTitle' => 'Rustrata — The Sunken Sanctum',
         'mobileConfig' => 'CONFIG',
         'openSettings' => 'Open game settings',
         'hudChapter' => 'CHAPTER I — THE SUNKEN SANCTUM',
@@ -126,7 +126,7 @@ $gameTranslations = [
         'vitality' => 'VITALITY',
         'mana' => 'MANA',
         'titleChapter' => 'CHAPTER I — THE SUNKEN SANCTUM',
-        'titleSubtitle' => 'DUNGEON DRONE CRAWLER',
+        'titleSubtitle' => 'Dungeon Drone Crawler',
         'titleDesc1' => 'Find the five keys hidden throughout the dungeon to break the seal.',
         'titleDesc2' => 'Then locate the ancient relic deep within the sanctuary.',
         'start' => 'ENTER THE DUNGEON',
@@ -149,7 +149,7 @@ $gameTranslations = [
         'mobileBackward' => 'Move backward',
         'mobileTurnLeft' => 'Turn left',
         'mobileTurnRight' => 'Turn right',
-        'startupTitle' => 'ABYSS — STARTUP ERROR',
+        'startupTitle' => 'Rustrata — STARTUP ERROR',
         'startupInitial' => 'Checking game initialization…',
         'startupHelp' => 'Open the developer tools (F12) and check the Console for details. Missing audio files do not prevent the game from starting.',
         'startupRetry' => 'RELOAD',
@@ -169,7 +169,7 @@ $g = static fn(string $key): string => htmlspecialchars($gameTranslations[$gameL
     <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
     <title><?= $g('browserTitle') ?></title>
     <meta name="abyss-language-token" content="<?= htmlspecialchars($_SESSION['abyss_language_token'], ENT_QUOTES, 'UTF-8') ?>">
-    <link rel="stylesheet" href="asset.php?file=style.css&amp;v=relic-radiant-victory-v2">
+    <link rel="stylesheet" href="asset.php?file=style.css&amp;v=rustrata-mixedcase-fonts-20261114">
   </head>
   <body>
     <script type="application/json" id="abyss-game-translations"><?= json_encode($gameTranslations, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?></script>
@@ -180,7 +180,7 @@ $g = static fn(string $key): string => htmlspecialchars($gameTranslations[$gameL
     <div class="hud">
       <div class="top">
         <div>
-          <div class="brand">✦ ABYSS</div>
+          <div class="brand">✦ Rustrata</div>
           <div class="chapter" data-game-i18n="hudChapter"><?= $g('hudChapter') ?></div>
         </div>
         <div class="objective"><b data-game-i18n="hudObjectiveHeading"><?= $g('hudObjectiveHeading') ?></b><span data-game-i18n="hudObjective"><?= $g('hudObjective') ?></span></div>
@@ -207,7 +207,7 @@ $g = static fn(string $key): string => htmlspecialchars($gameTranslations[$gameL
     <div id="overlay">
       <div class="panel">
         <div class="eyebrow" data-game-i18n="titleChapter"><?= $g('titleChapter') ?></div>
-        <h1>ABYSS</h1>
+        <h1>Rustrata</h1>
         <div class="subtitle" data-game-i18n="titleSubtitle"><?= $g('titleSubtitle') ?></div>
         <div class="rule"></div>
         <p class="desc"><span data-game-i18n="titleDesc1"><?= $g('titleDesc1') ?></span><br><span data-game-i18n="titleDesc2"><?= $g('titleDesc2') ?></span></p>

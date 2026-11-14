@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Noto+Sans+JP:wght@400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Cormorant+Garamond:wght@500;600;700&family=Marcellus&family=Noto+Sans+JP:wght@400;600&display=swap');
 :root {
   --gold: #c9a66b;
   --red: #a63d36;
@@ -1523,3 +1523,29 @@ body.abyss-victory-complete #abyss-key-quest-hud {
     opacity: 0;
   }
 }
+
+/* 2026-11-14 — Preserve Rustrata's mixed-case spelling in RETRO MODE. */
+body.retro-mode #overlay h1 { text-transform: none; }
+
+
+/* 2026-11-14 | Keep the game's title in true mixed case as well.
+   RETRO MODE intentionally preserves its pixel-style monospace UI. */
+.hud .brand,
+body:not(.retro-mode) #overlay h1 {
+  font-family: 'Cormorant Garamond', 'EB Garamond', 'Palatino Linotype', Georgia, serif;
+  font-weight: 600;
+  font-style: normal;
+  font-variant: normal;
+  letter-spacing: .035em;
+  text-transform: none;
+}
+body:not(.retro-mode) #overlay .subtitle {
+  font-family: 'Marcellus', 'Palatino Linotype', Georgia, serif;
+  font-weight: 400;
+  letter-spacing: .055em;
+  font-variant: normal;
+  text-transform: none;
+}
+/* The retro pixel font also keeps the source's lowercase letters. */
+body.retro-mode #overlay h1,
+body.retro-mode #overlay .subtitle { text-transform: none; }

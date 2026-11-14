@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Cormorant+Garamond:wght@500;600;700&family=Marcellus&family=Noto+Sans+JP:wght@400;500;600;700&display=swap');
 :root {
   color-scheme: dark;
   --bg: #0b0c0b;
@@ -1193,13 +1193,10 @@ html[lang="ja"] .access .access-intro h2 {
     linear-gradient(165deg, #151411 0%, #0c0d0d 74%);
   /* Outer section-border lines removed; SOUND heading divider stays. */
 }
+/* 2026-11-15: remove the faint vertical 100px stripe overlay from 02-SOUND.
+   Preserve the original atmospheric background gradient and heading divider. */
 .sound-section::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  opacity: .22;
-  background: repeating-linear-gradient(90deg, transparent 0, transparent 99px, #78694c20 100px);
+  content: none;
 }
 .sound-section > .shell { position: relative; }
 .sound-overline-row {
@@ -4354,4 +4351,1176 @@ html[lang="en"] .credits-thanks p {
   aspect-ratio: 12 / 7;
   object-fit: cover;
   object-position: center;
+}
+
+
+/* 2026-11-14 | Rustrata: elegant mixed-case titles.
+   Cinzel's inscriptional capitals looked uppercase even when the source
+   text contained lowercase letters. These overrides affect brand titles
+   only, preserving the rest of the portal's design and 8-bit UI typography. */
+:root {
+  --rustrata-title-font: 'Cormorant Garamond', 'EB Garamond', 'Palatino Linotype', Georgia, serif;
+  --rustrata-subtitle-font: 'Marcellus', 'Palatino Linotype', Georgia, serif;
+}
+.site-header .brand .brand-wordmark > span,
+.footer .footer-brand .brand-wordmark > span,
+.hero-title-lockup h1 {
+  font-family: var(--rustrata-title-font);
+  font-weight: 600;
+  font-style: normal;
+  font-variant: normal;
+  text-transform: none;
+  letter-spacing: .025em;
+}
+.site-header .brand .brand-wordmark > small,
+.footer .footer-brand .brand-wordmark > small,
+.hero-title-lockup .hero-kicker {
+  font-family: var(--rustrata-subtitle-font);
+  font-weight: 400;
+  font-style: normal;
+  font-variant: normal;
+  text-transform: none;
+  letter-spacing: .02em;
+}
+/* Make room for the new mixed-case glyph ascenders/descenders in the
+   compact two-line portrait header, without changing the header height. */
+@media (max-width: 820px) and (orientation: portrait) {
+  .site-header .brand-wordmark > span { line-height: 1.08; }
+  .site-header .brand-wordmark > small { line-height: 1.23; }
+}
+
+/* ========================================================================
+   2026-11-14 — RusTrata logo image integration for Hero / header / footer.
+   Replace text wordmarks with provided transparent PNG logos, keep the hero
+   copy in Mincho, and stack the smartphone header subtitle vertically.
+   ======================================================================== */
+.visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+.site-header .brand-wordmark,
+.footer .footer-brand .brand-wordmark {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+.site-header .brand-logo-img,
+.footer .footer-brand .brand-logo-img {
+  display: block;
+  height: auto;
+  width: auto;
+  max-width: 100%;
+}
+.site-header .brand-logo-img {
+  width: clamp(110px, 9.4vw, 166px);
+  filter: drop-shadow(0 1px 6px rgba(0,0,0,.35));
+}
+.footer .footer-brand .brand-logo-img {
+  width: clamp(126px, 11vw, 198px);
+  filter: drop-shadow(0 1px 6px rgba(0,0,0,.28));
+}
+.site-header .brand-subtitle,
+.footer .footer-brand .brand-subtitle {
+  color: #b9ab93;
+  font-family: "Marcellus", "Palatino Linotype", Georgia, serif;
+  font-weight: 400;
+  letter-spacing: .03em;
+  text-transform: none;
+}
+.site-header .header-subtitle {
+  display: inline-flex;
+  align-items: center;
+  gap: .35em;
+}
+.site-header .header-subtitle > span { display: inline; }
+.footer .footer-subtitle {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.hero-title-lockup {
+  display: block;
+  width: min(100%, 760px);
+  max-width: 100%;
+}
+.hero-main-logo {
+  display: block;
+  width: min(100%, 760px);
+  height: auto;
+  filter: drop-shadow(0 6px 22px rgba(0,0,0,.42));
+}
+.hero-copy-mincho,
+html[lang="ja"] .hero-copy-mincho,
+html[lang="en"] .hero-copy-mincho {
+  font-family: "Yu Mincho", "YuMincho", "Hiragino Mincho ProN",
+               "Noto Serif CJK JP", "MS PMincho", Georgia, serif;
+  letter-spacing: .03em;
+}
+
+@media (min-width: 821px) and (pointer: fine) {
+  .hero-outer .hero-inner {
+    transform: translateY(calc(-6 * var(--abyss-desktop-px)));
+    justify-content: flex-start;
+    padding-top: calc(18 * var(--abyss-desktop-px));
+  }
+  .hero-title-lockup {
+    width: min(100%, calc(920 * var(--abyss-desktop-px)));
+  }
+  .hero-main-logo {
+    width: min(100%, calc(920 * var(--abyss-desktop-px)));
+  }
+  .hero-outer .hero-copy {
+    margin-top: calc(44 * var(--abyss-desktop-px));
+    max-width: calc(470 * var(--abyss-desktop-px));
+    font-size: calc(18 * var(--abyss-desktop-px));
+    line-height: 1.9;
+  }
+}
+
+@media (max-width: 820px) {
+  .site-header .brand {
+    align-items: center;
+  }
+  .site-header .brand-wordmark {
+    align-items: center;
+    gap: clamp(7px, 2vw, 12px);
+  }
+  .site-header .brand-logo-img {
+    width: clamp(82px, 23vw, 122px);
+  }
+  .footer .footer-brand .brand-logo-img {
+    width: clamp(122px, 34vw, 182px);
+  }
+  .hero-title-lockup {
+    position: static !important;
+    width: min(100%, 84vw) !important;
+    height: auto !important;
+    overflow: visible !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    white-space: normal !important;
+    clip: auto !important;
+    clip-path: none !important;
+    pointer-events: auto !important;
+  }
+  .hero-main-logo {
+    width: 100%;
+    max-width: min(84vw, 640px);
+  }
+  .hero-copy-mincho {
+    text-shadow: 0 2px 10px #000, 0 0 7px #000;
+  }
+}
+
+@media (max-width: 820px) and (orientation: portrait) {
+  .site-header .brand-wordmark {
+    align-items: center;
+  }
+  .site-header .header-subtitle {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 1px;
+    line-height: 1.05;
+  }
+  .site-header .header-subtitle > span { display: block; }
+  .hero-image {
+    object-position: 65% 50%;
+  }
+  .hero-inner {
+    padding-top: clamp(120px, 34vw, 175px);
+    gap: clamp(12px, 3vw, 18px);
+  }
+  .hero-copy {
+    margin-top: clamp(18px, 4.8vw, 28px);
+    line-height: 1.85;
+  }
+}
+
+@media (orientation: landscape) and (pointer: coarse) and (max-height: 650px) {
+  .site-header .header-subtitle {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 0;
+    line-height: 1.03;
+  }
+  .site-header .header-subtitle > span { display: block; }
+  .site-header .brand-logo-img {
+    width: clamp(80px, 14vw, 112px);
+  }
+  .hero-inner {
+    padding-top: clamp(50px, 9dvh, 76px);
+    gap: clamp(6px, 1.8dvh, 12px);
+  }
+  .hero-title-lockup {
+    width: min(100%, clamp(220px, 35vw, 310px)) !important;
+  }
+  .hero-main-logo {
+    max-width: clamp(220px, 35vw, 310px);
+  }
+  .hero-copy {
+    margin-top: clamp(8px, 1.8dvh, 14px);
+    line-height: 1.75;
+  }
+}
+
+@media (max-width: 820px) {
+  .footer .footer-brand .brand-wordmark {
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  }
+  .footer .footer-subtitle {
+    text-align: center;
+    font-size: clamp(10px, 2.6vw, 13px);
+  }
+}
+
+
+/* 2026-11-15 — refined RusTrata logo placement.
+   The source PNGs have only transparent margins cropped (no redesign).
+   Desktop positions align the logo visually to the character's face and
+   the Mincho copy to the hand holding the lantern in hero.webp. */
+.site-header .brand-wordmark {
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  white-space: nowrap;
+}
+.site-header .header-subtitle { flex: 0 0 auto; }
+.site-header .brand-logo-img {
+  flex: 0 0 auto;
+  width: clamp(118px, 9.4vw, 164px);
+}
+.footer .footer-brand .brand-logo-img { width: clamp(138px, 11vw, 195px); }
+.hero-main-logo { width: 100%; height: auto; object-fit: contain; }
+.hero-copy.hero-copy-mincho,
+html[lang="ja"] .hero-copy.hero-copy-mincho {
+  font-family: "Yu Mincho", "YuMincho", "Hiragino Mincho ProN",
+               "Noto Serif JP", "Noto Serif CJK JP", "MS PMincho", serif;
+  font-weight: 400;
+  letter-spacing: .045em;
+}
+html[lang="en"] .hero-copy.hero-copy-mincho {
+  font-family: Georgia, "Times New Roman", serif;
+}
+@media (min-width: 821px) and (pointer: fine) {
+  .hero-outer .hero-layout.shell {
+    align-items: stretch;
+  }
+  .hero-outer .hero-inner {
+    position: relative;
+    align-self: stretch;
+    display: block;
+    height: auto;
+    padding: 0;
+    margin: 0;
+    min-height: 0;
+    transform: none;
+  }
+  .hero-outer .hero-title-lockup {
+    position: absolute;
+    top: 5.5%;
+    left: 0;
+    width: min(100%, calc(660 * var(--abyss-desktop-px)));
+    max-width: 100%;
+    padding: 0;
+    margin: 0;
+  }
+  .hero-outer .hero-copy.hero-copy-mincho {
+    position: absolute;
+    top: 46%;
+    left: 0;
+    margin: 0;
+    width: 100%;
+    max-width: calc(500 * var(--abyss-desktop-px));
+    line-height: 1.85;
+    font-size: calc(18 * var(--abyss-desktop-px));
+  }
+}
+@media (max-width: 820px) and (orientation: portrait) {
+  .site-header .brand-wordmark {
+    flex-direction: row;
+    align-items: center;
+    gap: clamp(8px,2vw,12px);
+  }
+  .site-header .header-subtitle {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 1px;
+    line-height: 1.08;
+  }
+  .site-header .header-subtitle span { display: block; }
+  .site-header .brand-logo-img { width: clamp(96px,26vw,120px); }
+  .hero-inner {
+    /* Logo at face height; copy below near the lantern-holding hand. */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding-top: clamp(95px, 28vw, 125px);
+  }
+  .hero-title-lockup {
+    width: min(100%, 91vw) !important;
+    max-width: 100%;
+  }
+  .hero-copy.hero-copy-mincho {
+    margin-top: clamp(22px, 7vw, 40px);
+    font-size: clamp(12px, 3.45vw, 15px);
+    line-height: 1.8;
+  }
+}
+@media (orientation: landscape) and (pointer: coarse) and (max-height: 650px) {
+  .site-header .brand-wordmark { flex-direction: row; align-items: center; }
+  .site-header .header-subtitle {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+    line-height: 1.06;
+  }
+  .site-header .header-subtitle span { display: block; }
+  .hero-inner { padding-top: 0; }
+  .hero-title-lockup { max-width: clamp(200px, 35vw, 300px) !important; }
+  .hero-copy.hero-copy-mincho {
+    margin-top: clamp(8px, 2dvh, 16px);
+    font-size: var(--abyss-landscape-font);
+    line-height: 1.6;
+  }
+}
+
+
+/* Mobile portrait intentionally retains the original Hero layout without a
+   repeated title; header logo + three-line subtitle carry the branding. */
+@media (max-width: 820px) and (orientation: portrait) {
+  .hero .hero-title-lockup {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    overflow: hidden !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    white-space: nowrap !important;
+    clip: rect(0,0,0,0) !important;
+    clip-path: inset(50%) !important;
+    pointer-events: none !important;
+  }
+  .hero-outer .hero-inner {
+    padding-top: clamp(213px, 65vw, 283px);
+  }
+  .hero-outer .hero-copy.hero-copy-mincho { margin-top: 0; }
+}
+/* Short landscape screens: shift the two-column title and copy toward the
+   character's face and the lantern-holding hand, without moving ENTRANCE. */
+@media (orientation: landscape) and (pointer: coarse) and (max-height: 650px) {
+  .hero-outer .hero-inner { transform: translateY(-50px); }
+  .hero-outer .hero-copy.hero-copy-mincho {
+    font-family: "Yu Mincho", "Hiragino Mincho ProN", "Noto Serif JP", serif;
+  }
+}
+
+/* ======================================================================
+   2026-11-15 — Hero logo reduced to reveal the entrance to the dark cave.
+   Keep the logo top/left alignment and hero copy near the lantern hand.
+   Match header and footer subtitle typography, including phone variants.
+   ====================================================================== */
+@media (min-width: 821px) and (pointer: fine) {
+  .hero-outer .hero-title-lockup {
+    width: min(100%, calc(460 * var(--abyss-desktop-px)));
+  }
+  .hero-outer .hero-title-lockup .hero-main-logo {
+    width: 100%;
+  }
+  .site-header .brand .header-subtitle,
+  .footer .footer-brand .footer-subtitle {
+    font-size: calc(15 * var(--abyss-desktop-px));
+    line-height: 1.2;
+  }
+}
+@media (max-width: 820px) and (orientation: portrait) {
+  .site-header .brand .header-subtitle,
+  .footer .footer-brand .footer-subtitle {
+    font-size: 15px;
+    line-height: 1.06;
+  }
+}
+@media (orientation: landscape) and (pointer: coarse) and (max-height: 650px) {
+  .site-header .brand .header-subtitle,
+  .footer .footer-brand .footer-subtitle {
+    font-size: 12px;
+    line-height: 1.04;
+  }
+  .hero-outer .hero-title-lockup {
+    max-width: clamp(170px, 26vw, 220px) !important;
+  }
+  .hero-outer .hero-main-logo {
+    max-width: 100%;
+  }
+}
+
+
+/* ========================================================================
+   2026-11-15 — EntrANCE natural height; seamless Hero; capped section
+   backgrounds; borderless Bandcamp embedding.
+
+   Keep desktop login at its original content-driven height instead of
+   stretching with the Hero's grid row. Mobile inputs retain their separate
+   portrait and compact-landscape rules.
+   ======================================================================== */
+@media (min-width: 821px) and (pointer: fine) {
+  .hero-outer .hero-login {
+    align-self: center;
+    height: auto;
+    min-height: 0;
+  }
+
+  /* The stage image starts exactly at the bottom of the fixed header.
+     Its natural aspect ratio is unchanged; any spare stage height is below. */
+  .hero-outer .hero-image,
+  .hero-outer .hero:not(.hero-art-ready) .hero-image {
+    top: 0;
+    transform: none;
+  }
+
+  /* A 4K screen retains black bars either side of 1920px-wide sections,
+     matching the existing capped Hero background. */
+  body { background: #000; }
+  .story.section {
+    position: relative;
+    isolation: isolate;
+  }
+  .story.section::before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: min(100vw, 1920px);
+    max-width: 1920px;
+    transform: translateX(-50%);
+    background: #0b0c0b;
+    pointer-events: none;
+  }
+  .sound-section.section,
+  .gallery.section,
+  .guide.section,
+  .credits-section.section {
+    width: 100%;
+    max-width: 1920px;
+    margin-inline: auto;
+  }
+}
+
+/* Remove the offset between the mobile fixed header and Hero artwork. */
+@media (max-width: 820px) and (orientation: portrait) {
+  .hero-outer .hero-image {
+    top: 0;
+  }
+}
+@media (orientation: landscape) and (pointer: coarse) and (max-height: 650px) {
+  .hero-outer .hero-image {
+    top: 0;
+  }
+}
+
+/* The second SOUND column now contains the actual Bandcamp player only:
+   no outer gold box, decorative symbols, top/bottom captions or inner frame.
+   Preserve the existing edge masks that hide Bandcamp's own white rules. */
+.sound-bandcamp-only {
+  width: 100%;
+  min-width: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.sound-bandcamp-only .sound-bandcamp-frame {
+  margin: 0 auto;
+}
+
+
+/* ========================================================================
+   2026-11-15 — Hero / SOUND / initial-letter subtitle refinements.
+   1. Mobile Hero art + vignette follow the PC's tonal treatment.
+   2. Increase the Hero intro type by 4 CSS px for each screen class.
+   3. Center-align SOUND text and embedded Bandcamp player vertically.
+   4. Accents on D, D and C use the footer's established subtitle gold.
+   ======================================================================== */
+
+/* Uppercase initials only; preserve each subtitle's original lowercase color. */
+.site-header .brand .header-subtitle .subtitle-initial,
+.footer .footer-brand .footer-subtitle .subtitle-initial {
+  color: #b9ab93;
+  font-weight: inherit;
+  font-style: normal;
+}
+
+/* Both columns share a true vertical midpoint; the embed's fixed 350:470
+   ratio is unchanged. The portrait single-column layout is not affected. */
+#sound .sound-layout { align-items: center; }
+
+/* PC: preserve the design's FHD-based proportional scaling. */
+@media (min-width: 821px) and (pointer: fine) {
+  .hero-outer .hero-copy.hero-copy-mincho {
+    font-size: calc(22 * var(--abyss-desktop-px));
+  }
+}
+
+/* Match the PC's art processing rather than the former 50% brightness.
+   This includes its lateral/bottom gradient; the Hero image itself retains
+   its existing positioning, layout, and separate dark-overlay layer. */
+@media (max-width: 820px) and (orientation: portrait),
+       (orientation: landscape) and (pointer: coarse) and (max-height: 650px) {
+  .hero-outer .hero-image {
+    filter: brightness(0.8) saturate(0.8);
+  }
+  .hero-outer .hero-shade {
+    background:
+      linear-gradient(90deg,
+        rgba(6, 6, 8, .92) 0%,
+        rgba(7, 6, 8, .70) 26%,
+        rgba(7, 6, 8, .17) 48%,
+        rgba(7, 6, 8, .45) 72%,
+        rgba(7, 6, 8, .87) 100%),
+      linear-gradient(0deg, #0b0c0b 0%, transparent 29%, rgba(0,0,0,.21) 100%);
+    pointer-events: none;
+  }
+}
+@media (max-width: 820px) and (orientation: portrait) {
+  .hero-outer .hero-copy.hero-copy-mincho {
+    font-size: calc(clamp(12px, 3.45vw, 15px) + 4px);
+  }
+  /* SOUND becomes a vertical stack on narrow portrait screens. */
+  #sound .sound-layout { align-items: stretch; }
+}
+@media (orientation: landscape) and (pointer: coarse) and (max-height: 650px) {
+  .hero-outer .hero-copy.hero-copy-mincho {
+    font-size: calc(var(--abyss-landscape-font) + 4px);
+  }
+}
+
+
+/* ========================================================================
+   2026-11-15 — Header/footer 1920px stage, mixed-case login heading,
+   uniform editorial section labels and refreshed ABOUT story.
+   The existing phone navigation, footer TOP link and ABOUT highlights stay.
+   ======================================================================== */
+/* The fixed header is a capped stage, not a viewport-wide surface. Its
+   navigation content stays in the existing 1200px centered .shell. */
+.site-header {
+  left: 50%;
+  right: auto;
+  width: min(100%, 1920px);
+  max-width: 1920px;
+  transform: translateX(-50%);
+}
+/* Restrict the translucent decorative glow too: no tint outside the
+   1920px stage when a large monitor leaves black side margins. */
+.ambient {
+  left: 50%;
+  right: auto;
+  width: min(100%, 1920px);
+  transform: translateX(-50%);
+}
+
+/* The footer now also has a 1920px dark stage and black margins on 4K.
+   Keep the wordmark centered on the stage and copyright near the usual
+   1200px content's right edge, without inserting extra DOM wrappers. */
+.footer.shell {
+  width: min(100%, 1920px);
+  max-width: 1920px;
+  margin-inline: auto;
+  background: #0b0c0b;
+}
+@media (min-width: 821px) and (pointer: fine) {
+  .footer.shell {
+    /* Capped at 360px so 4K viewports do not inflate the footer box. */
+    padding-inline: clamp(24px, calc((100vw - 1200px) / 2), 360px);
+  }
+  .footer.shell > small {
+    right: clamp(24px, calc((100vw - 1200px) / 2), 360px);
+  }
+}
+
+/* Cinzel can resemble uppercase lettering even for mixed-case source text.
+   Marcellus distinguishes the requested capital and lowercase glyphs. */
+.hero-login h3 {
+  font-family: 'Marcellus', 'Palatino Linotype', Georgia, serif;
+  text-transform: none;
+  font-variant: normal;
+  letter-spacing: .018em;
+}
+
+/* All five numbered section labels share the same responsive type metric as
+   their corresponding navigation menu items; large Japanese headings below
+   those labels deliberately retain their previous sizes. */
+:root { --rustrata-nav-label-size: 12px; }
+@media (min-width: 821px) and (pointer: fine) {
+  :root { --rustrata-nav-label-size: calc(12 * var(--abyss-desktop-px)); }
+}
+@media (max-width: 820px) and (orientation: portrait) {
+  :root { --rustrata-nav-label-size: 12px; }
+}
+@media (orientation: landscape) and (pointer: coarse) and (max-height: 650px) {
+  :root { --rustrata-nav-label-size: 14px; }
+}
+.site-header .site-navigation > a,
+.story-overline-row > .overline,
+.sound-overline-row > .overline,
+.gallery-overline-row > .overline,
+.controls-overline-row > .overline,
+.credits-header > .overline {
+  font-size: var(--rustrata-nav-label-size);
+}
+
+/* ========================================================================
+   2026-11-15 — Responsive FHD master scale / Bandcamp and labels.
+   One consistent desktop unit follows the smaller of available width and
+   height relative to 1920x1080. Nothing grows past the FHD master scale.
+   Mobile-specific one/two-column layouts remain separate and readable.
+   ======================================================================== */
+/* Preserve the old Cinzel's classical, carved-serif character but use true
+   mixed-case glyphs for "Access the RusTrata" rather than Roman small caps. */
+.hero-login h3 {
+  font-family: "Cormorant Garamond", "EB Garamond", "Palatino Linotype", Georgia, serif;
+  font-style: normal;
+  font-variant: normal;
+  font-weight: 600;
+  text-transform: none;
+  letter-spacing: .045em;
+}
+
+/* Half the distance between the three numerals and MODE / LIMIT / KEYS. */
+.story .stats > div { gap: 4px; }
+
+@media (min-width: 821px) and (pointer: fine) {
+  :root {
+    /* Keep the FHD desktop presentation identical to the pre-responsive
+       version. Only widths BELOW 1920 scale down proportionally. Height is
+       not part of the master scale; otherwise normal browser chrome on a
+       1080p display makes every font look unintentionally smaller. */
+    --abyss-desktop-px: clamp(0.60px, 0.05208333333vw, 1px);
+    --site-header-height: calc(88 * var(--abyss-desktop-px));
+    --abyss-desktop-section-height: calc(992 * var(--abyss-desktop-px));
+  }
+
+  /* Uniform scaled section geometry eliminates abrupt 960px-high desktop
+     alternate padding that formerly changed the layout's aspect ratio. */
+  .story.section,
+  .sound-section.section,
+  .gallery.section,
+  .guide.section,
+  .credits-section.section {
+    box-sizing: border-box;
+    min-height: var(--abyss-desktop-section-height);
+  }
+  .story.section,
+  .gallery.section,
+  .guide.section {
+    padding-block: calc(56 * var(--abyss-desktop-px));
+  }
+  .sound-section.section,
+  .credits-section.section {
+    padding-top: calc(56 * var(--abyss-desktop-px));
+    padding-bottom: calc(76 * var(--abyss-desktop-px));
+  }
+  .story-overline-row,
+  .gallery-overline-row,
+  .controls-overline-row,
+  .sound-overline-row {
+    padding-bottom: calc(24 * var(--abyss-desktop-px));
+  }
+  .story-overline-row { margin-bottom: calc(46 * var(--abyss-desktop-px)); }
+  .story > .guide-grid { margin-top: calc(28 * var(--abyss-desktop-px)); }
+  .story > .guide-grid > .guide-card {
+    min-height: calc(264 * var(--abyss-desktop-px));
+    padding: calc(22 * var(--abyss-desktop-px));
+  }
+  .story > .guide-grid .guide-card h3 { margin-block: calc(12 * var(--abyss-desktop-px)); }
+  .story > .guide-grid .card-glyph {
+    margin: calc(16 * var(--abyss-desktop-px)) 0 calc(8 * var(--abyss-desktop-px));
+  }
+  .story > .guide-grid .card-metric { gap: calc(5 * var(--abyss-desktop-px)); }
+
+  /* SOUND's columns, line breaks and player now reduce as a unit. Previously
+     the iframe stayed 350px even when surrounding labels/cards shrank. */
+  #sound .sound-layout {
+    grid-template-columns: minmax(0, 1fr) minmax(0, .87fr);
+    gap: calc(120 * var(--abyss-desktop-px));
+    padding-top: calc(46 * var(--abyss-desktop-px));
+    align-items: center;
+  }
+  .sound-description h2 { margin-bottom: calc(69 * var(--abyss-desktop-px)); }
+  .sound-definition {
+    margin-top: calc(32 * var(--abyss-desktop-px));
+    padding-top: calc(24 * var(--abyss-desktop-px));
+  }
+  .sound-bandcamp-only .sound-bandcamp-frame {
+    width: min(100%, calc(350 * var(--abyss-desktop-px)));
+    aspect-ratio: 350 / 470;
+    height: auto;
+    flex: none;
+  }
+
+  .gallery .section-top { margin-bottom: calc(36 * var(--abyss-desktop-px)); }
+  .guide .guide-section-top { margin-bottom: calc(36 * var(--abyss-desktop-px)); }
+  .guide .controls-panel { margin-top: calc(30 * var(--abyss-desktop-px)); }
+  .guide .controls-panel h3 { margin-bottom: calc(18 * var(--abyss-desktop-px)); }
+  .guide .controls-cards { gap: calc(16 * var(--abyss-desktop-px)); }
+
+  .site-header .brand-logo-img { width: calc(166 * var(--abyss-desktop-px)); }
+  .footer .footer-brand .brand-logo-img { width: calc(198 * var(--abyss-desktop-px)); }
+  .footer.shell {
+    min-height: calc(114 * var(--abyss-desktop-px));
+    padding-block: calc(35 * var(--abyss-desktop-px));
+    padding-inline: max(calc(24 * var(--abyss-desktop-px)),
+                        calc((100% - 1200 * var(--abyss-desktop-px)) / 2));
+  }
+  .footer.shell > small {
+    right: max(calc(24 * var(--abyss-desktop-px)),
+               calc((100% - 1200 * var(--abyss-desktop-px)) / 2));
+  }
+}
+
+/* On a 4K-height desktop, retain the previously requested two full sections
+   within 2160px (88px header + 1036px ABOUT + 1036px SOUND). UI and images
+   remain FHD-sized; only the background's minimum vertical area uses 1036px. */
+@media (min-width: 1920px) and (min-height: 1600px) and (pointer: fine) {
+  :root { --abyss-desktop-section-height: 1036px; }
+}
+
+/* Landscape touch screens: shrink the actual Bandcamp player when the screen
+   height is short. The player keeps its exact 350:470 native aspect ratio and
+   never forces a 470px-tall block into a ~393px-tall phone viewport. */
+@media (orientation: landscape) and (pointer: coarse) and (max-height: 650px) {
+  .sound-bandcamp-only .sound-bandcamp-frame {
+    width: min(100%, 350px, 55svh);
+    aspect-ratio: 350 / 470;
+    height: auto;
+  }
+}
+
+
+/* ========================================================================
+   2026-11-15 — FHD Hero fit restoration
+   ------------------------------------------------------------------------
+   Restore the large desktop feel from the pre-responsive version. The Hero
+   itself fills the visible desktop viewport beneath the fixed header so the
+   next section never peeks through at FHD. The artwork is allowed to cover
+   the stage on desktop; width-limited windows still shrink proportionally.
+   ======================================================================== */
+@media (min-width: 821px) and (pointer: fine) {
+  .hero-outer > .hero {
+    min-height: calc(100svh - var(--site-header-height));
+  }
+  .hero-outer .hero-layout.shell {
+    min-height: calc(100svh - var(--site-header-height));
+    align-items: center;
+  }
+  .hero-outer .hero-image,
+  .hero-outer .hero:not(.hero-art-ready) .hero-image {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    object-fit: cover;
+    object-position: 50% 52%;
+    transform: none;
+  }
+}
+
+/* ========================================================================
+   2026-11-15 — Menu destination: one desktop viewport per section.
+   FHD 1920x1080 is the maximum scale. For narrower/shorter PC viewports,
+   uniformly reduce the existing desktop CSS unit using the more restrictive
+   axis. The 5 editorial section backgrounds occupy exactly the visible area
+   below the fixed header, but never scale editorial content upward to fill
+   an unusually tall or narrow viewport (preserves proportions).
+   On 4K tall screens retain the requested 1036px cap so two sections fit.
+   Touch-device portrait/landscape reading layouts are intentionally separate.
+   ======================================================================== */
+@media (min-width: 821px) and (pointer: fine) {
+  :root {
+    /* Every FHD-derived font/padding/asset uses the SAME scale for width and
+       height. Exact FHD remains 1px. Browser chrome reducing CSS viewport
+       height also reduces the design, rather than clipping section bottoms. */
+    --abyss-desktop-px: min(1px, 0.05208333333vw, 0.09259259259svh);
+    --site-header-height: calc(88 * var(--abyss-desktop-px));
+    --abyss-desktop-section-height: calc(100svh - var(--site-header-height));
+  }
+  /* Each anchor occupies precisely one visible screen after the header.
+     The min-height avoids cutting off content should user zoom fonts; this
+     leaves normal page scrolling as an accessibility fallback. */
+  .story.section,
+  .sound-section.section,
+  .gallery.section,
+  .guide.section,
+  .credits-section.section {
+    min-height: var(--abyss-desktop-section-height);
+  }
+}
+/* Keep the established 4K composition: the FHD-scale content is capped,
+   not enlarged to 2160px, allowing ABOUT + SOUND to appear together. */
+@media (min-width: 1920px) and (min-height: 1600px) and (pointer: fine) {
+  :root { --abyss-desktop-section-height: 1036px; }
+}
+/* The tall-desktop 4K layout intentionally has two 1036px sections visible at
+   once. Leave sufficient black scrolling space after the footer so the final
+   CREDITS anchor, too, can reach the fixed header's lower edge. */
+@media (min-width: 1920px) and (min-height: 1600px) and (pointer: fine) {
+  body::after {
+    content: "";
+    display: block;
+    height: max(0px, calc(100svh - var(--site-header-height) - var(--abyss-desktop-section-height)));
+    background: #000;
+  }
+}
+
+/* ========================================================================
+   2026-11-15 — Tall desktop: show TWO FHD-capped stages in a 2160px view.
+
+   Previously the five editorial sections were already capped at 1036px,
+   but the Hero still grew to 100svh - header (2072px at 1920x2160).
+   That made the first screen show only the Hero. Apply the SAME 1036px
+   stage-height cap to the Hero while keeping the 1920x1080 layout intact.
+
+   1920x2160: 88px header + 1036px Hero + 1036px ABOUT = 2160px.
+   When jumping to ABOUT, ABOUT + SOUND likewise occupy the two slots.
+   The 1920px maximum horizontal scale and mobile layouts are unchanged.
+   ======================================================================== */
+@media (min-width: 1920px) and (min-height: 1600px) and (pointer: fine) {
+  .hero-outer > .hero,
+  .hero-outer .hero-layout.shell {
+    box-sizing: border-box;
+    height: var(--abyss-desktop-section-height);
+    min-height: var(--abyss-desktop-section-height);
+  }
+  .hero-outer .hero-image,
+  .hero-outer .hero:not(.hero-art-ready) .hero-image {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    object-position: 50% 52%;
+  }
+}
+
+/* Portrait-shaped, tall desktop windows (including a 1920x2160 monitor
+   displayed with OS scaling / browser zoom) also get two equal stages.
+   These windows can report, for example, 1536x1728 CSS pixels instead of
+   their physical 1920x2160 resolution. Do not rely on 1920 CSS px alone. */
+@media (min-width: 821px) and (min-height: 1200px) and (max-aspect-ratio: 1/1) and (pointer: fine) {
+  :root {
+    --abyss-desktop-section-height: calc((100svh - var(--site-header-height)) / 2);
+  }
+  .hero-outer > .hero,
+  .hero-outer .hero-layout.shell {
+    box-sizing: border-box;
+    height: var(--abyss-desktop-section-height);
+    min-height: var(--abyss-desktop-section-height);
+  }
+}
+
+/* ========================================================================
+   2026-11-15 — CONTROLS / CREDITS visual alignment and copy refinements.
+   1) 04 CONTROLS and 05 CREDITS share the same overline rule treatment.
+   2) The uploaded smartphone control illustration is slightly reduced.
+   3) Desktop header subtitle matches the footer subtitle palette.
+   4) CREDITS labels / live note styling cleaned and aligned as requested.
+   ======================================================================== */
+
+/* 04 and 05 should feel like the same heading system. */
+.credits-header {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  justify-content: flex-start;
+  border-bottom: 1px solid #3b352c;
+  padding-bottom: 24px;
+  margin-bottom: var(--abyss-about-sound-gap);
+}
+.credits-header > .overline,
+.controls-overline-row > .overline {
+  font-family: Cinzel, serif;
+  font-weight: 500;
+  letter-spacing: .18em;
+  color: #bfa57c;
+}
+.credits-layout {
+  padding-top: 0;
+}
+.credits-intro h2 {
+  margin-top: 0;
+  line-height: 1.7;
+}
+
+/* Make only the smartphone card illustration slightly smaller. */
+.guide .controls-cards > .control-card:nth-child(2) .control-figure img {
+  transform: none;
+}
+
+/* Desktop header subtitle palette should mirror the footer's subtitle. */
+@media (min-width: 821px) and (pointer: fine) {
+  .site-header .brand .header-subtitle,
+  .site-header .brand .header-subtitle .subtitle-initial {
+    color: #b9ab93;
+  }
+}
+
+/* CREDITS: remove side ornaments/backgrounds and restyle copy. */
+.credits-thanks {
+  border-left: 0;
+  padding: 0;
+  margin-top: 30px;
+}
+.credits-thanks > span {
+  display: block;
+  color: #b6a384;
+  font-family: Cinzel, 'Noto Sans JP', sans-serif;
+  font-weight: 600;
+  letter-spacing: .075em;
+  line-height: 1.65;
+  margin: 0;
+}
+.credits-thanks p,
+html[lang="ja"] .credits-thanks p,
+html[lang="en"] .credits-thanks p {
+  margin: 10px 0 0;
+  color: #ece4d8;
+  font-family: Cinzel, 'Noto Sans JP', sans-serif;
+  font-weight: 500;
+  letter-spacing: .04em;
+  line-height: 1.6;
+}
+
+/* Let the note sit near the bottom with the same breathing room as the
+   section's top inset; no left ornament and no tinted background. */
+.credits-section > .shell {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.credits-gift-note,
+html[lang="ja"] .credits-gift-note,
+html[lang="en"] .credits-gift-note {
+  width: 100%;
+  max-width: none;
+  margin: auto 0 0;
+  padding: 0;
+  border-left: 0;
+  background: none;
+  color: #b6a384;
+  font-family: Cinzel, 'Noto Sans JP', sans-serif;
+  font-weight: 600;
+  letter-spacing: .075em;
+  line-height: 1.65;
+  text-align: left;
+  white-space: normal;
+}
+@media (min-width: 821px) and (pointer: fine) {
+  .credits-section > .shell {
+    min-height: calc(var(--abyss-desktop-section-height) - calc(132 * var(--abyss-desktop-px)));
+  }
+  .credits-gift-note,
+  html[lang="ja"] .credits-gift-note,
+  html[lang="en"] .credits-gift-note {
+    font-size: calc(14 * var(--abyss-desktop-px));
+    padding-top: calc(30 * var(--abyss-desktop-px));
+    padding-bottom: 0;
+  }
+  .credits-thanks > span { font-size: calc(14 * var(--abyss-desktop-px)); }
+  .credits-thanks p,
+  html[lang="ja"] .credits-thanks p,
+  html[lang="en"] .credits-thanks p {
+    font-size: calc(14 * var(--abyss-desktop-px));
+  }
+}
+@media (max-width: 820px) and (orientation: portrait) {
+  .credits-thanks > span,
+  .credits-gift-note,
+  html[lang="ja"] .credits-gift-note,
+  html[lang="en"] .credits-gift-note {
+    font-size: 14px;
+  }
+  .credits-thanks p,
+  html[lang="ja"] .credits-thanks p,
+  html[lang="en"] .credits-thanks p {
+    font-size: 14px;
+  }
+}
+@media (orientation: landscape) and (pointer: coarse) and (max-height: 650px) {
+  .credits-thanks > span,
+  .credits-gift-note,
+  html[lang="ja"] .credits-gift-note,
+  html[lang="en"] .credits-gift-note {
+    font-size: clamp(10px, 1.4vw, 12px);
+  }
+  .credits-thanks p,
+  html[lang="ja"] .credits-thanks p,
+  html[lang="en"] .credits-thanks p {
+    font-size: clamp(12px, 1.65vw, 14px);
+  }
+}
+
+
+/* 2026-11-15 follow-up: restore mobile card size, adjust only game-screen motif,
+   sync desktop header subtitle colors with footer, and center the live-note copy. */
+@media (min-width: 821px) and (pointer: fine) {
+  .site-header .brand .header-subtitle,
+  .site-header .brand .header-subtitle span,
+  .site-header .brand .header-subtitle .subtitle-initial {
+    color: #b9ab93;
+  }
+}
+.credits-gift-note,
+html[lang="ja"] .credits-gift-note,
+html[lang="en"] .credits-gift-note {
+  text-align: center;
+}
+
+
+/* 2026-11-15 — Restore Bandcamp's native desktop presentation.
+   IMPORTANT: Bandcamp's large-player internal layout changes if the actual
+   cross-origin iframe is resized below its native 350x470 CSS pixel size.
+   Keep its inner viewport at 350x470 and proportionally scale the complete
+   rendered player inside the existing responsive frame instead. This keeps
+   album art, text and controls exactly as in the original large embed. */
+@media (min-width: 821px) and (pointer: fine) {
+  #sound .sound-bandcamp-only .sound-bandcamp-player {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: auto;
+    bottom: auto;
+    width: 350px;
+    height: 470px;
+    min-width: 350px;
+    max-width: none;
+    min-height: 470px;
+    transform: scale(var(--rustrata-bandcamp-scale, 1));
+    transform-origin: top left;
+  }
+}
+
+
+/* ========================================================================
+   2026-11-15 — CREDITS smartphone live-note spacing and biography type.
+   These two phone-specific rules leave the FHD/2160px desktop presentation
+   and the Bandcamp desktop embed completely unchanged.
+   ======================================================================== */
+@media (max-width: 820px) and (orientation: portrait) {
+  .credits-section .credits-gift-note,
+  html[lang="ja"] .credits-section .credits-gift-note,
+  html[lang="en"] .credits-section .credits-gift-note {
+    margin-top: clamp(64px, 17vw, 84px);
+    font-size: 12px; /* same as .credits-entry dd.credits-person-bio */
+    line-height: 1.85;
+  }
+}
+@media (orientation: landscape) and (pointer: coarse) and (max-height: 650px) {
+  .credits-section .credits-gift-note,
+  html[lang="ja"] .credits-section .credits-gift-note,
+  html[lang="en"] .credits-section .credits-gift-note {
+    margin-top: clamp(38px, 5vw, 54px);
+    font-size: calc(var(--abyss-landscape-body) - 2px);
+    line-height: 1.85;
+  }
+}
+
+
+/* 2026-11-15 — Requested ABOUT cards / mobile CREDITS alignment.
+   The card group is centred vertically in the available lower area on
+   desktop; a small JS measurement makes its midpoint exactly equal to the
+   midpoint between the final ABOUT paragraph and the section bottom.
+   Portrait and landscape touch layouts keep their original card positions. */
+@media (min-width: 821px) and (pointer: fine) {
+  .story.section > .guide-grid {
+    align-self: center;
+    transform: translateY(var(--rustrata-about-card-offset, 0px));
+  }
+}
+
+/* Keep the note itself centered in its parent, but align its written lines
+   to the left. All existing mobile font sizes and generous top gaps stay. */
+@media (max-width: 820px) and (orientation: portrait),
+       (orientation: landscape) and (pointer: coarse) and (max-height: 650px) {
+  .credits-section .credits-gift-note,
+  html[lang="ja"] .credits-section .credits-gift-note,
+  html[lang="en"] .credits-section .credits-gift-note {
+    width: fit-content;
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: left;
+  }
+}
+
+
+/* ======================================================================
+   2026-11-15 — RusTrata mobile navigation: slide down / slide up.
+   A clipping viewport keeps the panel below the fixed header while it
+   animates. The menu stays mounted so the exit transition can complete.
+   Desktop navigation and all content sections remain untouched.
+   ====================================================================== */
+.site-header .mobile-navigation-viewport {
+  display: contents;
+}
+@media (max-width: 820px),
+       (orientation: landscape) and (max-height: 600px) and (pointer: coarse) {
+  .site-header .mobile-navigation-viewport {
+    display: block;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    width: 100%;
+    max-height: calc(100dvh - var(--site-header-height));
+    overflow: hidden;
+    pointer-events: none;
+  }
+  .site-header.menu-open .mobile-navigation-viewport {
+    pointer-events: auto;
+  }
+  .site-header .mobile-navigation-viewport .site-navigation {
+    display: flex;
+    position: relative;
+    inset: auto;
+    top: auto;
+    left: auto;
+    right: auto;
+    width: 100%;
+    margin: 0;
+    box-sizing: border-box;
+    transform: translate3d(0, -102%, 0);
+    visibility: hidden;
+    pointer-events: none;
+    transition: transform .38s cubic-bezier(.4, 0, .2, 1),
+                visibility 0s linear .38s;
+    will-change: transform;
+  }
+  .site-header.menu-open .mobile-navigation-viewport .site-navigation {
+    display: flex;
+    transform: translate3d(0, 0, 0);
+    visibility: visible;
+    pointer-events: auto;
+    transition: transform .42s cubic-bezier(.22, 1, .36, 1),
+                visibility 0s linear 0s;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .site-header .mobile-navigation-viewport .site-navigation {
+    transition: none !important;
+  }
 }

@@ -12,8 +12,8 @@ $lang = ($_SESSION['abyss_portal_lang'] ?? 'ja') === 'en' ? 'en' : 'ja';
 
 $translations = [
     'ja' => [
-        'page_description' => 'ABYSS // Dungeon Crawl。沈んだ聖域を探索するダークファンタジー・ダンジョンクローラー。',
-        'brand_top' => 'ABYSS トップ',
+        'page_description' => 'Rustrata // Dungeon Crawl。沈んだ聖域を探索するダークファンタジー・ダンジョンクローラー。',
+        'brand_top' => 'RusTrata トップ',
         'nav_label' => 'ページ内ナビゲーション',
         'change_language' => '表示言語を切り替える',
         'menu_open' => 'ナビゲーションメニューを開く',
@@ -35,7 +35,7 @@ $translations = [
         'hero_footnote' => 'WORLD VISUAL — イメージビジュアル',
         'story_heading1' => '闇の底に',
         'story_heading2' => '忘れられた聖域がある',
-        'story_text1' => '石壁に囲まれた地下迷宮。揺れる松明を頼りに通路を進み、古代の遺物へと続く道を探し出す、一人称視点のダークファンタジー探索ゲーム。',
+        'story_text1' => '「帰らずの片道回廊」 と呼ばれる地下迷宮。一度踏み入れたら、生きて引き返すことが許されないと恐れられている。揺れる松明を頼りに、古代の遺物へと続く道を探し出す、一人称視点のダンジョン探索ゲーム。',
         'story_text2_before' => '入口近くの鍵を手にすると',
         'story_text2_timer' => '10分間のカウントダウン',
         'story_text2_after_timer' => 'が始まる。迷宮に隠された',
@@ -52,7 +52,7 @@ $translations = [
         'credits_heading' => '創造主たち',
         'credits_director_bio' => 'サウンドデザイナーとしてプリミティブなドローンミュージックを電子とアコースティックの両面から追求する。また、Sylvan Echoes名義でSpotifyで17万再生されるダンジョンシンセの音源もリリース。',
         'credits_game_designer_bio' => 'ゲーム・Web・UI/UXのデザインを通じて、ABYSSの世界観と探索体験を形にする。ダンジョンの表現や操作画面、ポータルサイトまで一貫して設計し、遊びやすさとダークファンタジーの没入感の両立を追求する。',
-        'credits_special_thanks' => 'Liveにお越しの皆様♪',
+        'credits_special_thanks' => 'Liveにお越しの皆様',
         'gallery_heading1' => '迷宮の',
         'gallery_heading2' => '風景',
         'gallery_intro1' => '石壁、灯火、静寂。',
@@ -66,7 +66,7 @@ $translations = [
         'gallery_screenshot' => '開発中のゲーム画面',
         'guide_heading1' => '探索の',
         'guide_heading2' => '手引き',
-        'guide_intro1' => 'はじめての探索者の諸君へ。',
+        'guide_intro1' => 'はじめての探索者諸君へ。',
         'guide_intro2' => 'ゲームの操作を、ここで確認。',
         'guide_mode_title' => '二つの探索モード',
         'guide_mode_before' => 'は滑らかに移動する自由探索。',
@@ -97,8 +97,8 @@ $translations = [
         'placeholder_password' => 'PASSWORDを入力',
     ],
     'en' => [
-        'page_description' => 'ABYSS // Dungeon Crawl. Explore the Sunken Sanctum, a dark fantasy first-person dungeon crawler.',
-        'brand_top' => 'ABYSS home',
+        'page_description' => 'Rustrata // Dungeon Crawl. Explore the Sunken Sanctum, a dark fantasy first-person dungeon crawler.',
+        'brand_top' => 'RusTrata home',
         'nav_label' => 'Page navigation',
         'change_language' => 'Choose display language',
         'menu_open' => 'Open navigation menu',
@@ -118,7 +118,7 @@ $translations = [
         'hero_footnote' => 'WORLD VISUAL — CONCEPT ART',
         'story_heading1' => 'Beneath the darkness,',
         'story_heading2' => 'a forgotten sanctuary awaits.',
-        'story_text1' => 'A maze of ancient stone walls. Guided by flickering torches, make your way through shadowy corridors toward a lost relic in this first-person dark fantasy dungeon crawler.',
+        'story_text1' => 'An underground labyrinth known as the “One-Way Corridor of No Return.” It is feared that anyone who enters will never return alive. Guided by flickering torches, seek the path to ancient relics in this first-person dungeon exploration game.',
         'story_text2_before' => 'Collect the key near the entrance to start the ',
         'story_text2_timer' => 'ten-minute countdown',
         'story_text2_after_timer' => '. Find all ',
@@ -191,15 +191,20 @@ $t = static fn(string $key): string => htmlspecialchars($translations[$lang][$ke
     <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
     <meta name="theme-color" content="#0a0909">
     <meta name="description" content="<?= $t('page_description') ?>">
-    <title>ABYSS // Dungeon Crawl — The Sunken Sanctum</title>
-    <link rel="stylesheet" href="portal.css?v=controls-fullbleed-20261114b">
+    <title>RusTrata // Dungeon Drone Crawler — The Sunken Sanctum</title>
+    <link rel="stylesheet" href="portal.css?v=rustrata-nav-slide-down-up-20261115">
   </head>
   <body>
     <div class="ambient"></div>
     <!-- Fixed navigation is kept outside the centered shell so its background covers the entire viewport. -->
     <header class="site-header" id="site-header">
       <div class="topbar shell">
-        <a class="brand" href="#top" aria-label="<?= $t('brand_top') ?>"><span class="brand-wordmark"><span>ABYSS</span><small>DUNGEON DRONE CRAWLER</small></span></a>
+        <a class="brand" href="#top" aria-label="<?= $t('brand_top') ?>">
+          <span class="brand-wordmark">
+            <img class="brand-logo-img" src="portal_assets/rustrata_header_footer_logo.png" alt="RusTrata">
+            <small class="brand-subtitle header-subtitle"><span><em class="subtitle-initial">D</em>ungeon</span> <span><em class="subtitle-initial">D</em>rone</span> <span><em class="subtitle-initial">C</em>rawler</span></small>
+          </span>
+        </a>
         <button type="button" id="mobile-fullscreen-toggle" class="mobile-fullscreen-toggle" hidden
           aria-label="<?= $t('fullscreen_on') ?>"
           data-fullscreen-on="<?= $t('fullscreen_on') ?>"
@@ -219,6 +224,7 @@ $t = static fn(string $key): string => htmlspecialchars($translations[$lang][$ke
           <span class="menu-icon" aria-hidden="true"><span></span><span></span><span></span></span>
           <span class="menu-toggle-label"><?= $t('menu_label') ?></span>
         </button>
+        <div class="mobile-navigation-viewport">
         <nav id="site-navigation" class="site-navigation" aria-label="<?= $t('nav_label') ?>">
           <a href="#story">ABOUT</a>
           <a href="#sound">SOUND</a>
@@ -230,6 +236,7 @@ $t = static fn(string $key): string => htmlspecialchars($translations[$lang][$ke
             <a class="language-link<?= $lang === 'en' ? ' is-active' : '' ?>" href="?lang=en" lang="en" hreflang="en" aria-label="<?= $t('language_english') ?>" <?= $lang === 'en' ? 'aria-current="page"' : '' ?>>EN</a>
           </div>
         </nav>
+        </div>
       </div>
     </header>
     <div id="fullscreen-message" class="fullscreen-message" role="status" aria-live="polite" hidden></div>
@@ -241,14 +248,14 @@ $t = static fn(string $key): string => htmlspecialchars($translations[$lang][$ke
         <div class="hero-layout shell">
           <div class="hero-inner">
           <div class="hero-title-lockup">
-            <h1 id="hero-title">ABYSS</h1>
-            <p class="hero-kicker">DUNGEON DRONE CRAWLER</p>
+            <img class="hero-main-logo" src="portal_assets/rustrata_hero_logo.png" alt="">
+            <h1 id="hero-title" class="visually-hidden">RusTrata — Dungeon Drone Crawler</h1>
           </div>
-          <p class="hero-copy"><?= $t('hero_line1') ?><br><?= $t('hero_line2') ?></p>
+          <p class="hero-copy hero-copy-mincho"><?= $t('hero_line1') ?><br><?= $t('hero_line2') ?></p>
           </div>
             <aside class="login-panel hero-login" id="login" aria-label="ENTRANCE">
               <div class="login-top"><span>ENTRANCE</span><span class="login-symbol">✦</span></div>
-              <h3>ACCESS THE ABYSS</h3>
+              <h3>Access the RusTrata</h3>
               <p class="login-subheading"><?= $t('login_subheading') ?></p>
               <form action="login.php" method="post">
                 <label for="username">LOGIN ID</label>
@@ -274,30 +281,30 @@ $t = static fn(string $key): string => htmlspecialchars($translations[$lang][$ke
           <p><?= $t('story_text1') ?></p>
           <p><?= $t('story_text2_before') ?><strong><?= $t('story_text2_timer') ?></strong><?= $t('story_text2_after_timer') ?><strong><?= $t('story_text2_highlight') ?></strong><?= $t('story_text2_after') ?></p>
           <div class="stats" aria-label="Dungeon game statistics">
-            <div><strong>05</strong><span>SEALED KEYS</span></div>
-            <div><strong>10<span class="unit">MIN</span></strong><span>AFTER FIRST KEY</span></div>
-            <div><strong>02</strong><span>PLAY MODES</span></div>
+            <div><strong>05</strong><span>KEYS</span></div>
+            <div><strong>10<span class="unit">MIN</span></strong><span>LIMIT</span></div>
+            <div><strong>02</strong><span>MODE</span></div>
           </div>
         </div>
         <!-- The three exploration cards now follow the ABOUT key/time/mode metrics. -->
         <div class="guide-grid">
           <article class="guide-card">
             <span class="card-num">01 / EXPLORE</span>
-            <span class="card-metric" aria-label="02 PLAY MODES"><strong>02</strong><span>PLAY MODES</span></span>
+            <span class="card-metric" aria-label="02 MODE"><strong>02</strong><span>MODE</span></span>
             <div class="card-glyph">⌖</div>
             <h3><?= $t('guide_mode_title') ?></h3>
             <p><strong>3D MODE</strong><?= $t('guide_mode_before') ?><strong>RETRO MODE</strong><?= $t('guide_mode_after') ?></p>
           </article>
           <article class="guide-card">
             <span class="card-num">02 / COLLECT</span>
-            <span class="card-metric" aria-label="10 MIN AFTER FIRST KEY"><strong>10<span class="card-metric-unit">MIN</span></strong><span>AFTER FIRST KEY</span></span>
+            <span class="card-metric" aria-label="10 MIN LIMIT"><strong>10<span class="card-metric-unit">MIN</span></strong><span>LIMIT</span></span>
             <div class="card-glyph">⚿</div>
             <h3><?= $t('guide_key_title') ?></h3>
             <p><?= $t('guide_key_before') ?><strong><?= $t('guide_key_highlight') ?></strong><?= $t('guide_key_after') ?></p>
           </article>
           <article class="guide-card">
             <span class="card-num">03 / UNSEAL</span>
-            <span class="card-metric" aria-label="05 SEALED KEYS"><strong>05</strong><span>SEALED KEYS</span></span>
+            <span class="card-metric" aria-label="05 KEYS"><strong>05</strong><span>KEYS</span></span>
             <div class="card-glyph">◇</div>
             <h3><?= $t('guide_unlock_title') ?></h3>
             <p><strong><?= $t('guide_unlock_highlight') ?></strong><?= $t('guide_unlock_tail') ?></p>
@@ -324,8 +331,7 @@ $t = static fn(string $key): string => htmlspecialchars($translations[$lang][$ke
                 </div>
               </div>
             </div>
-            <div class="sound-visual sound-visual--bandcamp" aria-label="Bandcamp: Live at hisomine, October 2026">
-              <div class="sound-visual-top"><span>ABYSS / SOUND LANDSCAPE</span><span>02.01 — ◇</span></div>
+            <div class="sound-bandcamp-only" aria-label="Bandcamp: Live at hisomine, October 2026">
               <div class="sound-bandcamp-frame">
                 <iframe
                   class="sound-bandcamp-player"
@@ -335,7 +341,6 @@ $t = static fn(string $key): string => htmlspecialchars($translations[$lang][$ke
                   referrerpolicy="strict-origin-when-cross-origin"
                   seamless><a href="https://hirotsugutakubo.bandcamp.com/album/live-at-hisomine-october-2026">Live at hisomine, October 2026 by Hirotsugu Takubo</a></iframe>
               </div>
-              <div class="sound-visual-bottom"><span>THE SOUND OF THE SUNKEN SANCTUM</span><span>✧</span></div>
             </div>
           </div>
         </div>
@@ -438,7 +443,7 @@ $t = static fn(string $key): string => htmlspecialchars($translations[$lang][$ke
               <dl class="credits-list">
                 <div class="credits-entry">
                   <dt>
-                    <span class="credits-role">DIRECTION / MUSIC DESIGN</span>
+                    <span class="credits-role">DIRECTION / SOUND DESIGN</span>
                     <span class="credits-person-name">HIROTSUGU TAKUBO</span>
                   </dt>
                   <dd class="credits-person-bio"><?= $t('credits_director_bio') ?></dd>
@@ -462,9 +467,11 @@ $t = static fn(string $key): string => htmlspecialchars($translations[$lang][$ke
       </section>
     </main>
     <footer class="footer shell">
-      <a class="brand footer-brand" href="#top" aria-label="ABYSS — TOPへ戻る">
-        
-        <span class="brand-wordmark"><span>ABYSS</span><small>DUNGEON DRONE CRAWLER</small></span>
+      <a class="brand footer-brand" href="#top" aria-label="RusTrata — TOPへ戻る">
+        <span class="brand-wordmark">
+          <img class="brand-logo-img" src="portal_assets/rustrata_header_footer_logo.png" alt="RusTrata">
+          <small class="brand-subtitle footer-subtitle"><em class="subtitle-initial">D</em>ungeon <em class="subtitle-initial">D</em>rone <em class="subtitle-initial">C</em>rawler</small>
+        </span>
       </a>
       <small>© STUDIO APOGEE 2027</small>
     </footer>
@@ -480,7 +487,7 @@ $t = static fn(string $key): string => htmlspecialchars($translations[$lang][$ke
         // with proportional scaling and no horizontal cropping. Above 1920,
         // the stage is centered and capped, with equal black side margins.
 
-        // Match the tagline's width to the rendered ABYSS title without stretching glyphs.
+        // Match the tagline's width to the rendered Rustrata title without stretching glyphs.
         const heroTitle = document.getElementById('hero-title');
         const heroKicker = document.querySelector('.hero-title-lockup .hero-kicker');
         function fitHeroKicker() {
@@ -492,9 +499,9 @@ $t = static fn(string $key): string => htmlspecialchars($translations[$lang][$ke
           const canvas = document.createElement('canvas');
           const context = canvas.getContext('2d');
           if (!context) return;
-          context.font = `600 100px ${css.fontFamily}`;
+          context.font = `${css.fontWeight} 100px ${css.fontFamily}`;
           const word = heroKicker.textContent.trim();
-          const emSpacing = 0.045;
+          const emSpacing = 0.02;
           const units = context.measureText(word).width / 100 + emSpacing * (word.length - 1);
           if (units <= 0) return;
           heroKicker.style.fontSize = `${(targetWidth / units).toFixed(2)}px`;
@@ -512,6 +519,14 @@ $t = static fn(string $key): string => htmlspecialchars($translations[$lang][$ke
           header.classList.toggle('menu-open', isOpen);
           toggle.setAttribute('aria-expanded', String(isOpen));
           toggle.setAttribute('aria-label', toggle.dataset[isOpen ? 'labelClose' : 'labelOpen']);
+          // Keep hidden mobile links out of the keyboard/screen-reader focus order.
+          if (mobile) {
+            nav.setAttribute('aria-hidden', String(!isOpen));
+            nav.inert = !isOpen;
+          } else {
+            nav.removeAttribute('aria-hidden');
+            nav.inert = false;
+          }
         }
 
         toggle.addEventListener('click', () => {
@@ -536,6 +551,7 @@ $t = static fn(string $key): string => htmlspecialchars($translations[$lang][$ke
         } else {
           mobileBreakpoint.addListener(() => setMenuOpen(false));
         }
+        setMenuOpen(false); // Initialize hidden-link focus state.
 
         // A webpage cannot programmatically remove browser UI. Fullscreen is
         // offered only after a tap and only when the browser supports its API.
@@ -579,6 +595,85 @@ $t = static fn(string $key): string => htmlspecialchars($translations[$lang][$ke
         if (landscapePhone.addEventListener) landscapePhone.addEventListener('change', updateFullscreenUI);
         else landscapePhone.addListener(updateFullscreenUI);
         updateFullscreenUI();
+      })();
+    </script>
+    <script>
+      (() => {
+        // Keep Bandcamp's original large-player viewport (350 x 470) intact.
+        // Resize only the entire rendered player, not its internal layout.
+        const frame = document.querySelector('#sound .sound-bandcamp-frame');
+        if (!frame) return;
+        const desktop = window.matchMedia('(min-width: 821px) and (pointer: fine)');
+        function syncBandcampSize() {
+          if (!desktop.matches) {
+            frame.style.removeProperty('--rustrata-bandcamp-scale');
+            return;
+          }
+          const width = frame.getBoundingClientRect().width;
+          if (!width) return;
+          frame.style.setProperty('--rustrata-bandcamp-scale',
+            String(Math.min(1, width / 350)));
+        }
+        if ('ResizeObserver' in window) {
+          const resizeObserver = new ResizeObserver(syncBandcampSize);
+          resizeObserver.observe(frame);
+        }
+        window.addEventListener('resize', syncBandcampSize, {passive: true});
+        if (desktop.addEventListener) desktop.addEventListener('change', syncBandcampSize);
+        else desktop.addListener(syncBandcampSize);
+        syncBandcampSize();
+      })();
+    </script>
+
+    <script>
+      (() => {
+        // Desktop ABOUT: center the three-card group between the second
+        // story paragraph's bottom and the section's physical bottom edge.
+        // The CSS grid provides the no-JavaScript fallback.
+        const section = document.getElementById('story');
+        const paragraph = section?.querySelector('.story-body > p:nth-child(2)');
+        const cards = section?.querySelector(':scope > .guide-grid');
+        if (!section || !paragraph || !cards) return;
+
+        const desktop = window.matchMedia('(min-width: 821px) and (pointer: fine)');
+        let scheduled = false;
+        function adjustCards() {
+          scheduled = false;
+          cards.style.setProperty('--rustrata-about-card-offset', '0px');
+          if (!desktop.matches) return;
+
+          const bounds = section.getBoundingClientRect();
+          const text = paragraph.getBoundingClientRect();
+          const group = cards.getBoundingClientRect();
+          const style = getComputedStyle(section);
+          const bottomInset = parseFloat(style.paddingBottom) || 0;
+          const scale = Math.min(1, bounds.width / 1200);
+          const desired = (text.bottom + bounds.bottom - group.top - group.bottom) / 2;
+          // Avoid overlapping the last line or spilling below the section
+          // on particularly short windows / user-scaled text.
+          const earliest = text.bottom + 10 * scale - group.top;
+          const latest = bounds.bottom - bottomInset - group.bottom;
+          const offset = earliest <= latest
+            ? Math.max(earliest, Math.min(desired, latest))
+            : Math.min(desired, latest);
+          cards.style.setProperty('--rustrata-about-card-offset', `${offset.toFixed(2)}px`);
+        }
+        function scheduleAdjust() {
+          if (scheduled) return;
+          scheduled = true;
+          requestAnimationFrame(adjustCards);
+        }
+        scheduleAdjust();
+        window.addEventListener('resize', scheduleAdjust, {passive: true});
+        if (desktop.addEventListener) desktop.addEventListener('change', scheduleAdjust);
+        else desktop.addListener(scheduleAdjust);
+        if (document.fonts?.ready) document.fonts.ready.then(scheduleAdjust);
+        if ('ResizeObserver' in window) {
+          const observer = new ResizeObserver(scheduleAdjust);
+          observer.observe(section);
+          observer.observe(paragraph);
+          observer.observe(cards);
+        }
       })();
     </script>
   </body>
