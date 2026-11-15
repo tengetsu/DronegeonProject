@@ -2,6 +2,7 @@
 require __DIR__ . '/session.php';
 abyss_require_login();
 $gameLanguage = ($_SESSION['abyss_portal_lang'] ?? 'ja') === 'en' ? 'en' : 'ja';
+$selectedMap = (($_GET['map'] ?? '1') === '2') ? 2 : 1;
 if (empty($_SESSION['abyss_language_token'])) {
     $_SESSION['abyss_language_token'] = bin2hex(random_bytes(16));
 }
@@ -160,6 +161,12 @@ $gameTranslations = [
         'startupTimeout' => 'The game did not finish initializing. Check the Three.js connection and any errors in the browser Console.',
     ],
 ];
+if ($selectedMap === 2) {
+    $gameTranslations['ja']['hudChapter'] = '第2章 — 紅紫の祭壇';
+    $gameTranslations['ja']['titleChapter'] = '第2章 — 紅紫の祭壇';
+    $gameTranslations['en']['hudChapter'] = 'CHAPTER II — THE VIOLET ALTAR';
+    $gameTranslations['en']['titleChapter'] = 'CHAPTER II — THE VIOLET ALTAR';
+}
 $g = static fn(string $key): string => htmlspecialchars($gameTranslations[$gameLanguage][$key], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
 ?>
 <!doctype html>
@@ -169,9 +176,9 @@ $g = static fn(string $key): string => htmlspecialchars($gameTranslations[$gameL
     <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
     <title><?= $g('browserTitle') ?></title>
     <meta name="abyss-language-token" content="<?= htmlspecialchars($_SESSION['abyss_language_token'], ENT_QUOTES, 'UTF-8') ?>">
-    <link rel="stylesheet" href="asset.php?file=style.css&amp;v=rustrata-mixedcase-fonts-20261114">
+    <link rel="stylesheet" href="asset.php?file=style.css&amp;v=map02-violet-altar-20261115">
   </head>
-  <body>
+  <body data-abyss-map="<?= $selectedMap ?>">
     <script type="application/json" id="abyss-game-translations"><?= json_encode($gameTranslations, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?></script>
     <div id="game"></div>
     <button type="button" id="mobile-game-config" aria-label="<?= $g('openSettings') ?>" data-game-aria="openSettings" aria-controls="config-overlay" aria-expanded="false">⚙ <span data-game-i18n="mobileConfig"><?= $g('mobileConfig') ?></span></button>
@@ -211,6 +218,10 @@ $g = static fn(string $key): string => htmlspecialchars($gameTranslations[$gameL
         <div class="subtitle" data-game-i18n="titleSubtitle"><?= $g('titleSubtitle') ?></div>
         <div class="rule"></div>
         <p class="desc"><span data-game-i18n="titleDesc1"><?= $g('titleDesc1') ?></span><br><span data-game-i18n="titleDesc2"><?= $g('titleDesc2') ?></span></p>
+        <div class="abyss-map-selection" role="group" aria-label="<?= $gameLanguage === 'ja' ? '探索するマップ' : 'Choose a map' ?>">
+          <a class="abyss-map-choice<?= $selectedMap === 1 ? ' active' : '' ?>" href="game.php?map=1" <?= $selectedMap === 1 ? 'aria-current="page"' : '' ?>>MAP 01 <small><?= $gameLanguage === 'ja' ? '沈みし聖域' : 'SUNKEN SANCTUM' ?></small></a>
+          <a class="abyss-map-choice<?= $selectedMap === 2 ? ' active' : '' ?>" href="game.php?map=2" <?= $selectedMap === 2 ? 'aria-current="page"' : '' ?>>MAP 02 <small><?= $gameLanguage === 'ja' ? '紅紫の祭壇' : 'VIOLET ALTAR' ?></small></a>
+        </div>
         <button id="start" class="start" data-game-i18n="start"><?= $g('start') ?></button><button id="config" class="config" data-game-i18n="settings"><?= $g('settings') ?></button><a class="abyss-logout" href="logout.php" data-game-i18n="logout"><?= $g('logout') ?></a>
         <p class="keys" data-game-i18n="titleControls"><?= $g('titleControls') ?></p>
       </div>
@@ -303,6 +314,6 @@ $g = static fn(string $key): string => htmlspecialchars($gameTranslations[$gameL
   }, 15000);
 })();
 </script>
-<script type="module" src="asset.php?file=game.js&amp;v=relic-radiant-victory-v2"></script>
+<script type="module" src="asset.php?file=game.js&amp;v=map02-violet-altar-20261115"></script>
   </body>
 </html>

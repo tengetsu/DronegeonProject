@@ -1549,3 +1549,32 @@ body:not(.retro-mode) #overlay .subtitle {
 /* The retro pixel font also keeps the source's lowercase letters. */
 body.retro-mode #overlay h1,
 body.retro-mode #overlay .subtitle { text-transform: none; }
+
+
+/* 2026-11-15 | MAP 01 / MAP 02 selector (available before entering). */
+.abyss-map-selection { display:flex; gap:10px; justify-content:center; margin:19px auto 4px; }
+.abyss-map-choice {
+  flex:1 1 0; max-width:205px; min-width:0; box-sizing:border-box;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  padding:10px 8px; gap:3px; text-decoration:none;
+  border:1px solid #665237; background:rgba(20,13,23,.82);
+  color:#c4b0a5; font:700 11px/1.5 monospace; letter-spacing:.08em;
+  transition:background .2s,border-color .2s,color .2s;
+}
+.abyss-map-choice small { font-size:10px; font-weight:400; letter-spacing:0; }
+.abyss-map-choice.active { border-color:#d1a66a; color:#ffe3aa; background:rgba(92,49,51,.39); }
+.abyss-map-choice:hover, .abyss-map-choice:focus-visible { border-color:#fa9bd6; color:#ffe2f1; }
+body[data-abyss-map="2"] #overlay .panel { border-color:#8f447c; background:rgba(19,6,22,.88); }
+body[data-abyss-map="2"] .abyss-map-choice.active { border-color:#f28ccf; color:#ffe2f1; background:rgba(116,35,91,.52); }
+body[data-abyss-map="2"] #overlay { background:radial-gradient(ellipse at center,rgba(48,10,43,.55),rgba(6,0,10,.96)); }
+body[data-abyss-map="2"] .config-panel { border-color:#8e4677; }
+@media (max-height:690px) {
+  #overlay { overflow-y:auto; padding:14px 0; box-sizing:border-box; }
+  #overlay .panel { padding-top:18px; padding-bottom:18px; }
+  .abyss-map-selection { margin-top:10px; }
+}
+@media (max-width:430px) {
+  .abyss-map-selection { gap:6px; }
+  .abyss-map-choice { padding:8px 4px; font-size:10px; }
+  .abyss-map-choice small { font-size:9px; }
+}

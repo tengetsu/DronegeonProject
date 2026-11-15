@@ -6269,3 +6269,48 @@ html.rustrata-tablet-pc body {
   overscroll-behavior-x: none;
   touch-action: pan-y pinch-zoom;
 }
+
+
+/* 2026-11-15 | RusTrata: original logo artwork + 10-second hourglass flip.
+   Only the hourglass pixels rotate; the wordmark and ornamental T remain fixed. */
+.rustrata-logo-animated {
+  --rustrata-hourglass-turn: 0deg;
+  position: relative;
+  display: inline-block;
+  max-width: 100%;
+  flex: 0 0 auto;
+  line-height: 0;
+  vertical-align: middle;
+}
+.rustrata-logo-animated--hero { display: block; width: 100%; }
+.rustrata-logo-animated > img:first-child { display: block; max-width: 100%; height: auto; }
+.rustrata-logo-animated .rustrata-hourglass-layer {
+  position: absolute !important;
+  inset: 0 !important;
+  display: block !important;
+  box-sizing: border-box;
+  width: 100% !important;
+  height: 100% !important;
+  max-width: none !important;
+  object-fit: fill;
+  pointer-events: none;
+  transform: rotate(var(--rustrata-hourglass-turn));
+  transition: transform .88s cubic-bezier(.28,.12,.15,1);
+  filter: none !important;
+  will-change: transform;
+}
+.rustrata-logo-animated--small .rustrata-hourglass-layer { transform-origin: 51.196% 57.065%; }
+.rustrata-logo-animated--hero .rustrata-hourglass-layer { transform-origin: 51.099% 43.968%; }
+@media (prefers-reduced-motion: reduce) {
+  .rustrata-logo-animated .rustrata-hourglass-layer { transition: none; }
+}
+
+/* Keep the mobile hero logo's animated overlay aligned with its capped image. */
+@media (max-width:820px) {
+  .hero-title-lockup .rustrata-logo-animated--hero {
+    width:min(100%, clamp(220px, 35vw, 310px));
+  }
+  .hero-title-lockup .rustrata-logo-animated--hero .hero-main-logo {
+    width:100%; max-width:100%;
+  }
+}

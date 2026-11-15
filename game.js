@@ -215,19 +215,43 @@ let shadowsEnabled = true;
 let bloomEnabled = false;
 let ambientEffectsEnabled = false;
 let retroModeEnabled = localStorage.getItem('abyss-retro-mode') === 'true';
+// Dungeon variation must be known before the scene, fog and lamps initialize.
+const MAP_VARIANT = document.body.dataset.abyssMap === '2' ? 2 : 1;
+const IS_VIOLET_ALTAR = MAP_VARIANT === 2;
 // ==================================================
 // Scene
 // ==================================================
 const scene = new THREE.Scene();
-scene.background = new THREE.Color(0x09070d);
-scene.fog = new THREE.Fog(0x09070d, 3.5, 16.0);
+scene.background = new THREE.Color(IS_VIOLET_ALTAR ? 0x18081f : 0x09070d);
+scene.fog = new THREE.Fog(IS_VIOLET_ALTAR ? 0x18081f : 0x09070d, 3.5, 16.0);
 // ==================================================
 // Camera
 // ==================================================
 // Wall footprint is one 2.3 x 2.3 world-unit grid cell; do not stretch the camera or relic.
 const MAP_CELL = 2.3;
+// Both variants share navigation, five-key quest, 3D/RETRO renderers and collision.
 // Keep this grid as the source of truth for all world / minimap dimensions.
-let ABYSS_MAP = [
+let ABYSS_MAP = IS_VIOLET_ALTAR ? [
+    "###############",
+    "#S#.......#...#",
+    "#.#.###.#.#.#.#",
+    "#.#.....#...#.#",
+    "#.#.#######.#.#",
+    "#.........#...#",
+    "#####.###.#..##",
+    "#.#.....#.#...#",
+    "#.#.#####.###.#",
+    "#...#.#.....#.#",
+    "#..##.#.#####.#",
+    "#.....#.#...#.#",
+    "#####.#.#.#.#.#",
+    "#.....#...#...#",
+    "#######K#######",
+    "######...######",
+    "######.E.######",
+    "######...######",
+    "###############",
+] : [
     "###############",
     "#S....#.......#",
     "###.#.#.#####.#",
@@ -288,7 +312,7 @@ const hemisphere = new THREE.HemisphereLight(0x665b70, 0x29232f, 0.72);
 scene.add(hemisphere);
 const ambient = new THREE.AmbientLight(0x71647c, 0.42);
 scene.add(ambient);
-const playerLamp = new THREE.PointLight(0xffb477, 2.6, 12.0, 1.8);
+const playerLamp = new THREE.PointLight(IS_VIOLET_ALTAR ? 0xd98bbf : 0xffb477, 2.6, 12.0, 1.8);
 scene.add(playerLamp);
 // Reference uses a single warm lamp and torch lights, without a strong fill light.
 // ==================================================
@@ -340,15 +364,17 @@ stoneTexture.magFilter = THREE.NearestFilter;
 stoneTexture.minFilter = THREE.NearestFilter;
 stoneTexture.wrapS = THREE.RepeatWrapping;
 stoneTexture.wrapT = THREE.RepeatWrapping;
-const stone = new THREE.MeshStandardMaterial({ map: stoneTexture, color: 0xb5a2a0, emissive: 0x120807, roughness: 0.9, flatShading: true });
+const stone = new THREE.MeshStandardMaterial({ map: stoneTexture,
+    color: IS_VIOLET_ALTAR ? 0xc267ac : 0xb5a2a0,
+    emissive: IS_VIOLET_ALTAR ? 0x260b22 : 0x120807, roughness: 0.9, flatShading: true });
 const floorMat = new THREE.MeshStandardMaterial({
-    color: 0x514b59,
-    emissive: 0x100d14,
+    color: IS_VIOLET_ALTAR ? 0x492344 : 0x514b59,
+    emissive: IS_VIOLET_ALTAR ? 0x1b081d : 0x100d14,
     roughness: 1
 });
 const trim = new THREE.MeshStandardMaterial({
-    color: 0x625967,
-    emissive: 0x100d14,
+    color: IS_VIOLET_ALTAR ? 0x75375f : 0x625967,
+    emissive: IS_VIOLET_ALTAR ? 0x2b0d29 : 0x100d14,
     roughness: 0.9
 });
 const colliders = [];
@@ -395,10 +421,16 @@ for (let gz = 0; gz < MAP_ROWS; gz++) {
 }
 if (EXIT_CELLS.length !== 1) throw new Error('ABYSS_MAP must have exactly one E cell.');
 const EXIT_CELL = EXIT_CELLS[0];
-const GATE_CELL = { gx: 12, gz: 11 };
+const GATE_CELL = IS_VIOLET_ALTAR ? { gx: 7, gz: 14 } : { gx: 12, gz: 11 };
 let sealedGate = null;
 // All five key locations are fixed (grid coordinates, zero-based).
-const KEY_CELLS = [
+const KEY_CELLS = IS_VIOLET_ALTAR ? [
+    { gx: 3, gz: 1 },
+    { gx: 13, gz: 1 },
+    { gx: 9, gz: 7 },
+    { gx: 3, gz: 11 },
+    { gx: 11, gz: 13 }
+] : [
     { gx: 3, gz: 1 },
     { gx: 13, gz: 1 },
     { gx: 8, gz: 7 },
@@ -544,12 +576,12 @@ function abyssSlabTexture(ceiling = false) {
     return texture;
 }
 const abyssFloorSlabs = new THREE.MeshStandardMaterial({
-    map: abyssSlabTexture(false), color: 0xb5a2a0,
+    map: abyssSlabTexture(false), color: IS_VIOLET_ALTAR ? 0xbf629e : 0xb5a2a0,
     roughness: 0.48, metalness: 0.04, emissive: 0x120807,
     flatShading: true
 });
 const abyssCeilingSlabs = new THREE.MeshStandardMaterial({
-    map: abyssSlabTexture(true), color: 0x92858a,
+    map: abyssSlabTexture(true), color: IS_VIOLET_ALTAR ? 0x8b467c : 0x92858a,
     roughness: 0.95, emissive: 0x090507, flatShading: true
 });
 const abyssFloorGeo = new THREE.BoxGeometry(MAP_CELL - 0.01, 0.055, MAP_CELL - 0.01);
@@ -618,21 +650,21 @@ function torch(gx, gz, wallSide = null) {
     group.rotation.y = Math.atan2(nx, nz);
     group.scale.setScalar(torchScale);
     const iron = new THREE.MeshStandardMaterial({
-        color: 0x3b3336, metalness: 0.68, roughness: 0.65,
-        emissive: 0x090607
+        color: IS_VIOLET_ALTAR ? 0x663151 : 0x3b3336, metalness: 0.68, roughness: 0.65,
+        emissive: IS_VIOLET_ALTAR ? 0x27071d : 0x090607
     });
     const blackIron = new THREE.MeshStandardMaterial({
-        color: 0x211c21, metalness: 0.7, roughness: 0.75
+        color: IS_VIOLET_ALTAR ? 0x33122f : 0x211c21, metalness: 0.7, roughness: 0.75
     });
     const wood = new THREE.MeshStandardMaterial({
-        color: 0x513323, roughness: 0.95
+        color: IS_VIOLET_ALTAR ? 0x60273a : 0x513323, roughness: 0.95
     });
     const outerFire = new THREE.MeshBasicMaterial({
-        color: 0xff7028, transparent: true, opacity: 0.88,
+        color: IS_VIOLET_ALTAR ? 0xe0439a : 0xff7028, transparent: true, opacity: 0.88,
         depthWrite: false
     });
     const innerFire = new THREE.MeshBasicMaterial({
-        color: 0xffd078, transparent: true, opacity: 0.95,
+        color: IS_VIOLET_ALTAR ? 0xffa6dd : 0xffd078, transparent: true, opacity: 0.95,
         depthWrite: false
     });
     const add = (geometry, material, x, yy, z) => {
@@ -661,12 +693,11 @@ function torch(gx, gz, wallSide = null) {
     const flameRoot = new THREE.Group();
     flameRoot.position.set(0, y + 0.68, 0.41);
     group.add(flameRoot);
-    const flameMaterials = [
-        new THREE.MeshBasicMaterial({ color: 0xff4b16, transparent: true, opacity: 0.86, depthWrite: false, side: THREE.DoubleSide }),
-        new THREE.MeshBasicMaterial({ color: 0xff9b2a, transparent: true, opacity: 0.94, depthWrite: false, side: THREE.DoubleSide }),
-        new THREE.MeshBasicMaterial({ color: 0xffe36a, transparent: true, opacity: 0.96, depthWrite: false, side: THREE.DoubleSide }),
-        new THREE.MeshBasicMaterial({ color: 0xfff3b0, transparent: true, opacity: 0.98, depthWrite: false, side: THREE.DoubleSide })
-    ];
+    const flameColors = IS_VIOLET_ALTAR ? [0x8d236d, 0xd93a95, 0xf66acc, 0xffc1ea]
+                                             : [0xff4b16, 0xff9b2a, 0xffe36a, 0xfff3b0];
+    const flameMaterials = flameColors.map((color, i) => new THREE.MeshBasicMaterial({
+        color, transparent:true, opacity:[0.86,0.94,0.96,0.98][i], depthWrite:false, side:THREE.DoubleSide
+    }));
     const tongues = [];
     const flameSpec = [
         [0, 0, 0, 0.145, 0.49, 0],
@@ -709,7 +740,7 @@ function torch(gx, gz, wallSide = null) {
         tongues.push({ mesh, x, z, h, height, phase: i * 1.37, baseVertices: new Float32Array(vertices), rings, sides });
     });
     const embers = [];
-    const emberMaterial = new THREE.MeshBasicMaterial({ color: 0xffa342, transparent: true, opacity: 0.9, depthWrite: false });
+    const emberMaterial = new THREE.MeshBasicMaterial({ color: IS_VIOLET_ALTAR ? 0xff6bcd : 0xffa342, transparent: true, opacity: 0.9, depthWrite: false });
     for (let i = 0; i < 7; i++) {
         const ember = new THREE.Mesh(new THREE.OctahedronGeometry(0.018 + (i % 3) * 0.005, 0), emberMaterial.clone());
         ember.visible = false;
@@ -718,7 +749,7 @@ function torch(gx, gz, wallSide = null) {
     }
     scene.add(group);
     // Warm light stays close to the wall torch, retaining the dark mood.
-    const light = new THREE.PointLight(0xff8a42, 2.6, 6.5, 2);
+    const light = new THREE.PointLight(IS_VIOLET_ALTAR ? 0xe44bb6 : 0xff8a42, IS_VIOLET_ALTAR ? 3.1 : 2.6, 6.5, 2);
     light.position.set(wx + nx * (0.45 * torchScale), y + 0.83 * torchScale - 0.30, wz + nz * (0.45 * torchScale));
     light.castShadow = false;
     scene.add(light);
@@ -726,7 +757,11 @@ function torch(gx, gz, wallSide = null) {
 }
 // Torches are placed on corridor junctions and bends as well as along the route.
 // Coordinates are MAP grid cells; each location is a walkable tile.
-const TORCH_CELLS = [
+const TORCH_CELLS = IS_VIOLET_ALTAR ? [
+    [1, 1], [3, 1], [7, 1], [11, 1], [13, 3], [1, 5],
+    [5, 5], [11, 5], [7, 7], [13, 7], [3, 9], [9, 9],
+    [3, 11], [9, 11], [5, 13], [7, 13], [11, 13]
+] : [
     [3, 1], [7, 3], [5, 7], [11, 9], [2, 13], // Existing route markers
     [1, 5], [11, 5], [13, 9], // Upper/middle junctions
     [1, 11], [11, 11], [13, 11], // Lower junctions near the key/exit route
@@ -787,7 +822,13 @@ function torchOnWall({x, y, face}) {
     // The original torch geometry/light model is reused without extra shadows.
     return torch(gx, gz, offset.side);
 }
-const additionalTorches = EXTRA_WALL_TORCHES.map(torchOnWall);
+const additionalTorches = IS_VIOLET_ALTAR ? [
+    // Torches around the 3×3 ancient-relic chamber, all wall-mounted.
+    torch(6, 15, 'north'), torch(8, 15, 'north'),
+    torch(6, 16, 'west'),  torch(8, 16, 'east'),
+    torch(6, 17, 'south'), torch(7, 17, 'south'), torch(8, 17, 'south'),
+    torch(6, 15, 'west')
+] : EXTRA_WALL_TORCHES.map(torchOnWall);
 torches.push(...additionalTorches);
 // ==================================================
 // Relic Pedestal
@@ -807,11 +848,11 @@ scene.add(relic);
 // ==================================================
 // Relic Light
 // ==================================================
-const relicLight = new THREE.PointLight(0xd59b45, 2, 5);
+const relicLight = new THREE.PointLight(IS_VIOLET_ALTAR ? 0xf09ad9 : 0xd59b45, 2, 5);
 relicLight.position.set(mapWorldX(EXIT_CELL.gx) - MAP_CELL / 2, 1.4, mapWorldZ(EXIT_CELL.gz) - MAP_CELL / 2);
 scene.add(relicLight);
 // Five floating keys: two fixed positions and three randomized reachable cells.
-const keyGold = new THREE.MeshStandardMaterial({ color: 0xf4c967, metalness: 0.75, roughness: 0.25, emissive: 0x6a3c0a });
+const keyGold = new THREE.MeshStandardMaterial({ color: IS_VIOLET_ALTAR ? 0xffaad5 : 0xf4c967, metalness: 0.75, roughness: 0.25, emissive: IS_VIOLET_ALTAR ? 0x62214c : 0x6a3c0a });
 const dungeonKeys = KEY_CELLS.map((cell, index) => {
     const group = new THREE.Group();
     const ring = new THREE.Mesh(new THREE.TorusGeometry(0.13, 0.038, 6, 10), keyGold);
@@ -825,7 +866,7 @@ const dungeonKeys = KEY_CELLS.map((cell, index) => {
     group.add(tooth);
     group.position.set(mapWorldX(cell.gx) - MAP_CELL / 2, 0.78, mapWorldZ(cell.gz) - MAP_CELL / 2);
     scene.add(group);
-    const light = new THREE.PointLight(0xffc45c, 0.8, 2.4);
+    const light = new THREE.PointLight(IS_VIOLET_ALTAR ? 0xf26fcb : 0xffc45c, 0.8, 2.4);
     light.position.copy(group.position);
     scene.add(light);
     return { cell, index, group, light, collected: false };
@@ -1724,20 +1765,21 @@ function drawRetroMap() {
     if (!retroMapCtx)
         return;
     const ctx = retroMapCtx, w = retroMapCanvas.width, h = retroMapCanvas.height;
-    ctx.fillStyle = '#100b18';
+    ctx.fillStyle = IS_VIOLET_ALTAR ? '#1b0820' : '#100b18';
     ctx.fillRect(0, 0, w, h);
     const cell = 9, ox = 12, oy = 12;
     for (let z = 0; z < ABYSS_MAP.length; z++) {
         for (let x = 0; x < ABYSS_MAP[z].length; x++) {
             const t = ABYSS_MAP[z][x];
-            ctx.fillStyle = (t === '#' || t === 'K') ? '#594653' : '#17121d';
+            ctx.fillStyle = IS_VIOLET_ALTAR ? ((t === '#' || t === 'K') ? '#874067' : '#29152d')
+                                              : ((t === '#' || t === 'K') ? '#594653' : '#17121d');
             ctx.fillRect(ox + x * cell, oy + z * cell, cell - 1, cell - 1);
             if (dungeonKeys.some(key => !key.collected && key.cell.gx === x && key.cell.gz === z)) {
                 ctx.fillStyle = '#f2d36b';
                 ctx.fillRect(ox + x * cell + 2, oy + z * cell + 2, 5, 5);
             }
             if (t === 'E') {
-                ctx.fillStyle = '#55d6c2';
+                ctx.fillStyle = IS_VIOLET_ALTAR ? '#ffa2dc' : '#55d6c2';
                 ctx.fillRect(ox + x * cell + 2, oy + z * cell + 2, 5, 5);
             }
         }
