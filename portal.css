@@ -6271,38 +6271,32 @@ html.rustrata-tablet-pc body {
 }
 
 
-/* 2026-11-15 | RusTrata: original logo artwork + 10-second hourglass flip.
-   Only the hourglass pixels rotate; the wordmark and ornamental T remain fixed. */
+/* 2026-11-15 | RusTrata: 10-second sand-and-flip animation.
+   The original wordmark and ornamental T do not move. Canvas, mask and
+   engraving share a single rotor, so sand stays attached during the turn. */
 .rustrata-logo-animated {
   --rustrata-hourglass-turn: 0deg;
-  position: relative;
-  display: inline-block;
-  max-width: 100%;
-  flex: 0 0 auto;
-  line-height: 0;
-  vertical-align: middle;
+  position:relative; display:inline-block; max-width:100%; flex:0 0 auto;
+  line-height:0; vertical-align:middle;
 }
-.rustrata-logo-animated--hero { display: block; width: 100%; }
-.rustrata-logo-animated > img:first-child { display: block; max-width: 100%; height: auto; }
-.rustrata-logo-animated .rustrata-hourglass-layer {
-  position: absolute !important;
-  inset: 0 !important;
-  display: block !important;
-  box-sizing: border-box;
-  width: 100% !important;
-  height: 100% !important;
-  max-width: none !important;
-  object-fit: fill;
-  pointer-events: none;
-  transform: rotate(var(--rustrata-hourglass-turn));
-  transition: transform .88s cubic-bezier(.28,.12,.15,1);
-  filter: none !important;
-  will-change: transform;
+.rustrata-logo-animated--hero { display:block; width:100%; }
+.rustrata-logo-animated > img:first-child { display:block; max-width:100%; height:auto; }
+.rustrata-hourglass-rotor {
+  position:absolute; display:block; box-sizing:border-box; pointer-events:none;
+  transform:rotate(var(--rustrata-hourglass-turn));
+  transition:transform .88s cubic-bezier(.28,.12,.15,1);
+  transform-origin:50% 50%; will-change:transform;
 }
-.rustrata-logo-animated--small .rustrata-hourglass-layer { transform-origin: 51.196% 57.065%; }
-.rustrata-logo-animated--hero .rustrata-hourglass-layer { transform-origin: 51.099% 43.968%; }
-@media (prefers-reduced-motion: reduce) {
-  .rustrata-logo-animated .rustrata-hourglass-layer { transition: none; }
+.rustrata-hourglass-rotor--small { left:47.189%; top:29.710%; width:8.0742%; height:55.254%; }
+.rustrata-hourglass-rotor--hero { left:46.9966%; top:22.7378%; width:8.0117%; height:42.5754%; }
+.rustrata-hourglass-sand,.rustrata-hourglass-frame {
+  position:absolute; inset:0; width:100%; height:100%; display:block;
+  object-fit:fill; pointer-events:none;
+}
+.rustrata-hourglass-sand { z-index:0; }
+.rustrata-hourglass-frame { z-index:1; }
+@media (prefers-reduced-motion:reduce) {
+  .rustrata-hourglass-rotor { transition:none; }
 }
 
 /* Keep the mobile hero logo's animated overlay aligned with its capped image. */

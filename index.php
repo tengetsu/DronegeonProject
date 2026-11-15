@@ -235,7 +235,7 @@ $t = static fn(string $key): string => htmlspecialchars($translations[$lang][$ke
     <meta name="theme-color" content="#0a0909">
     <meta name="description" content="<?= $t('page_description') ?>">
     <title>RusTrata // Dungeon Drone Crawler — The Sunken Sanctum</title>
-    <link rel="stylesheet" href="portal.css?v=hourglass-map02-20261115">
+    <link rel="stylesheet" href="portal.css?v=hourglass-sand-20261115">
   </head>
   <body>
     <div class="ambient"></div>
@@ -246,7 +246,10 @@ $t = static fn(string $key): string => htmlspecialchars($translations[$lang][$ke
           <span class="brand-wordmark">
             <span class="rustrata-logo-animated rustrata-logo-animated--small" data-hourglass-logo>
               <img class="brand-logo-img" src="portal_assets/rustrata_header_footer_base.png" alt="RusTrata">
-              <img class="rustrata-hourglass-layer" src="portal_assets/rustrata_header_footer_hourglass.png" alt="" aria-hidden="true">
+              <span class="rustrata-hourglass-rotor rustrata-hourglass-rotor--small" aria-hidden="true">
+                <canvas class="rustrata-hourglass-sand" data-hourglass-sand="small" width="270" height="610"></canvas>
+                <img class="rustrata-hourglass-frame" src="portal_assets/rustrata_header_footer_hourglass_frame.png" alt="">
+              </span>
             </span>
             <small class="brand-subtitle header-subtitle"><span><em class="subtitle-initial">D</em>ungeon</span> <span><em class="subtitle-initial">D</em>rone</span> <span><em class="subtitle-initial">C</em>rawler</span></small>
           </span>
@@ -296,7 +299,10 @@ $t = static fn(string $key): string => htmlspecialchars($translations[$lang][$ke
           <div class="hero-title-lockup">
             <span class="rustrata-logo-animated rustrata-logo-animated--hero" data-hourglass-logo aria-hidden="true">
               <img class="hero-main-logo" src="portal_assets/rustrata_hero_base.png" alt="">
-              <img class="rustrata-hourglass-layer" src="portal_assets/rustrata_hero_hourglass.png" alt="">
+              <span class="rustrata-hourglass-rotor rustrata-hourglass-rotor--hero" aria-hidden="true">
+                <canvas class="rustrata-hourglass-sand" data-hourglass-sand="hero" width="328" height="734"></canvas>
+                <img class="rustrata-hourglass-frame" src="portal_assets/rustrata_hero_hourglass_frame.png" alt="">
+              </span>
             </span>
             <h1 id="hero-title" class="visually-hidden">RusTrata — Dungeon Drone Crawler</h1>
           </div>
@@ -521,7 +527,10 @@ $t = static fn(string $key): string => htmlspecialchars($translations[$lang][$ke
         <span class="brand-wordmark">
           <span class="rustrata-logo-animated rustrata-logo-animated--small" data-hourglass-logo>
               <img class="brand-logo-img" src="portal_assets/rustrata_header_footer_base.png" alt="RusTrata">
-              <img class="rustrata-hourglass-layer" src="portal_assets/rustrata_header_footer_hourglass.png" alt="" aria-hidden="true">
+              <span class="rustrata-hourglass-rotor rustrata-hourglass-rotor--small" aria-hidden="true">
+                <canvas class="rustrata-hourglass-sand" data-hourglass-sand="small" width="270" height="610"></canvas>
+                <img class="rustrata-hourglass-frame" src="portal_assets/rustrata_header_footer_hourglass_frame.png" alt="">
+              </span>
             </span>
           <small class="brand-subtitle footer-subtitle"><em class="subtitle-initial">D</em>ungeon <em class="subtitle-initial">D</em>rone <em class="subtitle-initial">C</em>rawler</small>
         </span>
@@ -784,19 +793,6 @@ $t = static fn(string $key): string => htmlspecialchars($translations[$lang][$ke
         }
       })();
     </script>
-  
-    <script>
-    /* Rustrata hourglass: rotate only the glass, not the gold lettering.
-       First turn at 10 seconds, then one half-turn every 10 seconds. */
-    (() => {
-      const logos = Array.from(document.querySelectorAll('[data-hourglass-logo]'));
-      if (!logos.length || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-      let degrees = 0;
-      window.setInterval(() => {
-        degrees += 180;
-        logos.forEach(el => el.style.setProperty('--rustrata-hourglass-turn', `${degrees}deg`));
-      }, 10000);
-    })();
-    </script>
+    <script defer src="portal_hourglass.js?v=sand-20261115"></script>
 </body>
 </html>
