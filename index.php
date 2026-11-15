@@ -188,11 +188,54 @@ $t = static fn(string $key): string => htmlspecialchars($translations[$lang][$ke
 <html lang="<?= $lang ?>">
   <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" id="rustrata-viewport">
+    <script>
+      /*
+       * Tablet desktop layout: tablets retain the same PC composition in both
+       * orientations; portrait fits 2 stages and landscape fits 1 stage, even when their natural CSS viewport is only 768/810px.
+       * Phone viewports are untouched. Run BEFORE portal.css loads to avoid a
+       * visible switch from the phone layout to the PC layout.
+       */
+      (() => {
+        const ua = navigator.userAgent || '';
+        const isIPad = /iPad/i.test(ua) ||
+          (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+        const isOtherTablet = /Android/i.test(ua) && !/Mobile/i.test(ua) ||
+          /Tablet|PlayBook|Silk|Kindle/i.test(ua);
+        if (!isIPad && !isOtherTablet) return;
+
+        document.documentElement.classList.add('rustrata-tablet-pc');
+        const viewportMeta = document.getElementById('rustrata-viewport');
+        const minDesktopWidth = 1024;
+
+        function applyTabletDesktopViewport() {
+          // screen.width/height represent CSS pixels on iPadOS. Keep the full
+          // natural width for a wide iPad in landscape, but never let portrait
+          // become narrower than the desktop breakpoint.
+          const portrait = matchMedia('(orientation: portrait)').matches;
+          const screenWidth = Number(screen.width) || minDesktopWidth;
+          const screenHeight = Number(screen.height) || minDesktopWidth;
+          const naturalWidth = portrait
+            ? Math.min(screenWidth, screenHeight)
+            : Math.max(screenWidth, screenHeight);
+          const layoutWidth = Math.max(minDesktopWidth, Math.round(naturalWidth));
+          const next = `width=${layoutWidth},viewport-fit=cover`;
+          if (viewportMeta.content !== next) viewportMeta.content = next;
+        }
+        applyTabletDesktopViewport();
+        window.addEventListener('orientationchange', applyTabletDesktopViewport);
+        window.addEventListener('resize', applyTabletDesktopViewport, {passive: true});
+        // Browser viewport rotation and some iPadOS multitasking transitions
+        // do not emit orientationchange consistently.
+        if (screen.orientation?.addEventListener) {
+          screen.orientation.addEventListener('change', applyTabletDesktopViewport);
+        }
+      })();
+    </script>
     <meta name="theme-color" content="#0a0909">
     <meta name="description" content="<?= $t('page_description') ?>">
     <title>RusTrata // Dungeon Drone Crawler — The Sunken Sanctum</title>
-    <link rel="stylesheet" href="portal.css?v=rustrata-nav-slide-down-up-20261115">
+    <link rel="stylesheet" href="portal.css?v=rustrata-tablet-no-horizontal-swipe-20261115">
   </head>
   <body>
     <div class="ambient"></div>
@@ -255,7 +298,7 @@ $t = static fn(string $key): string => htmlspecialchars($translations[$lang][$ke
           </div>
             <aside class="login-panel hero-login" id="login" aria-label="ENTRANCE">
               <div class="login-top"><span>ENTRANCE</span><span class="login-symbol">✦</span></div>
-              <h3>Access the RusTrata</h3>
+              <h3>ACCESS THE RusTrata</h3>
               <p class="login-subheading"><?= $t('login_subheading') ?></p>
               <form action="login.php" method="post">
                 <label for="username">LOGIN ID</label>
@@ -269,6 +312,7 @@ $t = static fn(string $key): string => htmlspecialchars($translations[$lang][$ke
             </aside>
         </div>
       </section>
+      <div class="release-announcement" aria-label="Coming in Spring 2027">Coming in Spring 2027</div>
     </div><!-- /.hero-outer: centred FHD stage -->
       <section class="story shell section" id="story">
         <div class="story-overline-row">
@@ -400,7 +444,7 @@ $t = static fn(string $key): string => htmlspecialchars($translations[$lang][$ke
           <div class="controls-cards">
             <article class="control-card">
               <figure class="control-figure" aria-hidden="true">
-                <img loading="lazy" src="portal_assets/control_pc.svg?v=controls-fullbleed-20261114b" alt="<?= $t('controls_pc_alt') ?>">
+                <img loading="lazy" src="portal_assets/control_pc.svg?v=controls-aligned-readable-v3-20261115" alt="<?= $t('controls_pc_alt') ?>">
               </figure>
               <div class="control-copy">
                 <h4>PC</h4>
@@ -409,7 +453,7 @@ $t = static fn(string $key): string => htmlspecialchars($translations[$lang][$ke
             </article>
             <article class="control-card">
               <figure class="control-figure" aria-hidden="true">
-                <img loading="lazy" src="portal_assets/control_mobile.svg?v=controls-fullbleed-20261114b" alt="<?= $t('controls_mobile_alt') ?>">
+                <img loading="lazy" src="portal_assets/control_mobile.svg?v=controls-aligned-readable-v3-20261115" alt="<?= $t('controls_mobile_alt') ?>">
               </figure>
               <div class="control-copy">
                 <h4><?= $t('controls_mobile_label') ?></h4>
@@ -418,7 +462,7 @@ $t = static fn(string $key): string => htmlspecialchars($translations[$lang][$ke
             </article>
             <article class="control-card">
               <figure class="control-figure" aria-hidden="true">
-                <img loading="lazy" src="portal_assets/control_config.svg?v=controls-fullbleed-20261114b" alt="<?= $t('controls_config_alt') ?>">
+                <img loading="lazy" src="portal_assets/control_config.svg?v=controls-aligned-readable-v3-20261115" alt="<?= $t('controls_config_alt') ?>">
               </figure>
               <div class="control-copy">
                 <h4>CONFIG</h4>
@@ -473,14 +517,14 @@ $t = static fn(string $key): string => htmlspecialchars($translations[$lang][$ke
           <small class="brand-subtitle footer-subtitle"><em class="subtitle-initial">D</em>ungeon <em class="subtitle-initial">D</em>rone <em class="subtitle-initial">C</em>rawler</small>
         </span>
       </a>
-      <small>© STUDIO APOGEE 2027</small>
+      <small>© 2027 STUDIO APOGEE</small>
     </footer>
     <script>
       (() => {
         const header = document.getElementById('site-header');
         const toggle = document.getElementById('mobile-menu-toggle');
         const nav = document.getElementById('site-navigation');
-        const mobileBreakpoint = window.matchMedia('(max-width: 820px), (pointer: coarse) and (orientation: landscape) and (max-height: 600px)');
+        const mobileBreakpoint = window.matchMedia('(max-width: 820px), (pointer: coarse) and (orientation: landscape) and (max-height: 600px) and (max-width: 1000px)');
 
 
         // Hero image placement is CSS-only: 100% stage width up to 1920 CSS px,
@@ -558,7 +602,7 @@ $t = static fn(string $key): string => htmlspecialchars($translations[$lang][$ke
         // When turning back to portrait, release fullscreen to restore chrome.
         const fsButton = document.getElementById('mobile-fullscreen-toggle');
         const fsMessage = document.getElementById('fullscreen-message');
-        const landscapePhone = window.matchMedia('(orientation: landscape) and (max-height: 650px) and (pointer: coarse)');
+        const landscapePhone = window.matchMedia('(orientation: landscape) and (max-height: 650px) and (max-width: 1000px) and (pointer: coarse)');
         const canFullscreen = typeof document.documentElement.requestFullscreen === 'function' &&
                               typeof document.exitFullscreen === 'function';
         function updateFullscreenUI() {
@@ -603,7 +647,7 @@ $t = static fn(string $key): string => htmlspecialchars($translations[$lang][$ke
         // Resize only the entire rendered player, not its internal layout.
         const frame = document.querySelector('#sound .sound-bandcamp-frame');
         if (!frame) return;
-        const desktop = window.matchMedia('(min-width: 821px) and (pointer: fine)');
+        const desktop = window.matchMedia('(min-width: 821px) and (pointer: fine), (min-width: 821px) and (pointer: coarse) and (min-height: 651px)');
         function syncBandcampSize() {
           if (!desktop.matches) {
             frame.style.removeProperty('--rustrata-bandcamp-scale');
@@ -612,7 +656,7 @@ $t = static fn(string $key): string => htmlspecialchars($translations[$lang][$ke
           const width = frame.getBoundingClientRect().width;
           if (!width) return;
           frame.style.setProperty('--rustrata-bandcamp-scale',
-            String(Math.min(1, width / 350)));
+            String(Math.min(1.2, width / 350)));
         }
         if ('ResizeObserver' in window) {
           const resizeObserver = new ResizeObserver(syncBandcampSize);
@@ -635,7 +679,7 @@ $t = static fn(string $key): string => htmlspecialchars($translations[$lang][$ke
         const cards = section?.querySelector(':scope > .guide-grid');
         if (!section || !paragraph || !cards) return;
 
-        const desktop = window.matchMedia('(min-width: 821px) and (pointer: fine)');
+        const desktop = window.matchMedia('(min-width: 821px) and (pointer: fine), (min-width: 821px) and (pointer: coarse) and (min-height: 651px)');
         let scheduled = false;
         function adjustCards() {
           scheduled = false;
@@ -673,6 +717,61 @@ $t = static fn(string $key): string => htmlspecialchars($translations[$lang][$ke
           observer.observe(section);
           observer.observe(paragraph);
           observer.observe(cards);
+        }
+      })();
+    </script>
+    <script>
+      (() => {
+        // Desktop: place the release ribbon halfway down the vertical gap
+        // between the ENTRANCE panel's bottom edge and the Hero's bottom edge.
+        // No new document height is introduced (FHD / tall layouts preserved).
+        const outer = document.querySelector('.hero-outer');
+        const hero = outer?.querySelector('.hero');
+        const login = hero?.querySelector('.hero-login');
+        const ribbon = outer?.querySelector('.release-announcement');
+        if (!outer || !hero || !login || !ribbon) return;
+
+        const desktop = window.matchMedia('(min-width: 821px) and (pointer: fine), (min-width: 821px) and (pointer: coarse) and (min-height: 651px)');
+        let scheduled = false;
+        function placeRibbon() {
+          scheduled = false;
+          if (!desktop.matches) {
+            ribbon.style.removeProperty('--rustrata-release-top');
+            return;
+          }
+          const outerRect = outer.getBoundingClientRect();
+          const heroRect = hero.getBoundingClientRect();
+          const loginRect = login.getBoundingClientRect();
+          const ribbonRect = ribbon.getBoundingClientRect();
+          if (!ribbonRect.height || !heroRect.height) return;
+          // The center is EXACTLY halfway between the two edges.
+          const gap = heroRect.bottom - loginRect.bottom;
+          const centerY = (loginRect.bottom + heroRect.bottom) / 2;
+          // Retain a small safety inset if a low-height viewport leaves
+          // insufficient room; never put the ribbon outside the Hero.
+          const inset = Math.min(12, 12 * Math.min(1, heroRect.width / 1920));
+          const minY = heroRect.top + inset + ribbonRect.height / 2;
+          const maxY = heroRect.bottom - inset - ribbonRect.height / 2;
+          const alignedCenter = gap >= ribbonRect.height + inset * 2
+            ? centerY : Math.max(minY, Math.min(centerY, maxY));
+          const top = alignedCenter - outerRect.top - ribbonRect.height / 2;
+          ribbon.style.setProperty('--rustrata-release-top', `${top.toFixed(2)}px`);
+        }
+        function schedulePlacement() {
+          if (scheduled) return;
+          scheduled = true;
+          requestAnimationFrame(placeRibbon);
+        }
+        schedulePlacement();
+        window.addEventListener('resize', schedulePlacement, {passive:true});
+        window.addEventListener('orientationchange', schedulePlacement, {passive:true});
+        if (desktop.addEventListener) desktop.addEventListener('change', schedulePlacement);
+        if (document.fonts?.ready) document.fonts.ready.then(schedulePlacement);
+        if (typeof ResizeObserver !== 'undefined') {
+          const observer = new ResizeObserver(schedulePlacement);
+          observer.observe(hero);
+          observer.observe(login);
+          observer.observe(ribbon);
         }
       })();
     </script>

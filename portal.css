@@ -1899,7 +1899,7 @@ body { padding-top: var(--site-header-height); }
 /* Phone landscape: compact top navigation, two-column Hero and smaller form.
    Do not hide any story, gift, login or navigation information. The section can
    still vertically scroll on very short viewports; no text is clipped. */
-@media (orientation: landscape) and (max-height: 600px) and (pointer: coarse) {
+@media (orientation: landscape) and (max-height: 600px) and (pointer: coarse) and (max-width: 1000px) {
   :root { --site-header-height: 52px; }
   .site-header .topbar { height: 52px; }
   .site-header .brand { font-size: 14px; gap: 5px; letter-spacing: .035em; }
@@ -2043,7 +2043,7 @@ body { padding-top: var(--site-header-height); }
   .gallery-grid { grid-template-rows: repeat(2, 180px); }
   .guide-card { min-height: 0; padding: 18px; }
 }
-@media (orientation: landscape) and (max-height: 600px) and (pointer: coarse) and (max-width: 680px) {
+@media (orientation: landscape) and (max-height: 600px) and (pointer: coarse) and (max-width: 1000px) and (max-width: 680px) {
   .hero-layout.shell { grid-template-columns: minmax(0, 1fr) minmax(220px, 43%); width: calc(100% - 26px); gap: 12px; padding-top: 15px; }
   .hero h1, .hero-title-lockup h1 { font-size: 36px; }
   .hero-login { padding: 10px; }
@@ -2059,7 +2059,7 @@ body { padding-top: var(--site-header-height); }
 .hero-login .login-note { color: #b7ab9b; }
 
 /* Landscape-specific defaults must override desktop placeholder positioning. */
-@media (orientation: landscape) and (max-height: 600px) and (pointer: coarse) {
+@media (orientation: landscape) and (max-height: 600px) and (pointer: coarse) and (max-width: 1000px) {
   .hero:not(.hero-art-ready) .hero-image { transform: none; }
   .site-header .mobile-menu-toggle {
     background: rgba(28,23,21,.9);
@@ -2084,7 +2084,8 @@ body { padding-top: var(--site-header-height); }
 
 /* Nov 2026: desktop artwork zoom adjustment. This leaves the fixed header,
    glass login panel and mobile Hero layout unchanged. */
-@media (min-width: 821px) and (pointer: fine) {
+@media (min-width: 821px) and (pointer: fine),
+       (min-width: 1001px) and (pointer: coarse) {
   .hero {
     overflow: hidden;
   }
@@ -2123,7 +2124,8 @@ body { padding-top: var(--site-header-height); }
   background: #000;
 }
 
-@media (min-width: 821px) and (pointer: fine) {
+@media (min-width: 821px) and (pointer: fine),
+       (min-width: 1001px) and (pointer: coarse) {
   .hero-outer > .hero {
     position: relative;
     box-sizing: border-box;
@@ -2185,7 +2187,8 @@ body { padding-top: var(--site-header-height); }
    Smartphone layouts (820px or smaller, including landscape touch screens)
    are intentionally excluded from this desktop scaling scheme.
    ======================================================================== */
-@media (min-width: 821px) and (pointer: fine) {
+@media (min-width: 821px) and (pointer: fine),
+       (min-width: 1001px) and (pointer: coarse) {
   :root {
     --abyss-desktop-px: clamp(0.60px, 0.05208333333vw, 1px);
     --site-header-height: calc(88 * var(--abyss-desktop-px));
@@ -2502,7 +2505,7 @@ body { padding-top: var(--site-header-height); }
 /* Landscape touch devices: make the entire login card visible without
    horizontal scrolling. Use viewport HEIGHT as well as width in every key
    control and allow an INTERNAL scroll only on exceptionally short displays. */
-@media (orientation: landscape) and (pointer: coarse) and (max-height: 650px) {
+@media (orientation: landscape) and (pointer: coarse) and (max-height: 650px) and (max-width: 1000px) {
   :root { --site-header-height: clamp(42px, 12dvh, 52px); }
   .site-header .topbar {
     height: var(--site-header-height);
@@ -2640,7 +2643,7 @@ body { padding-top: var(--site-header-height); }
 
 /* Extra-short landscape phones: text remains readable and the entire frame
    stays within the screen even when Safari/Chrome browser bars are visible. */
-@media (orientation: landscape) and (pointer: coarse) and (max-height: 365px) {
+@media (orientation: landscape) and (pointer: coarse) and (max-height: 365px) and (max-width: 1000px) {
   :root { --site-header-height: 42px; }
   .site-header .brand small { font-size: 7px; }
   .site-header .mobile-menu-toggle { min-width: 36px; min-height: 34px; }
@@ -2657,7 +2660,7 @@ body { padding-top: var(--site-header-height); }
 /* The hero text stays LEFT and THE ENTRANCE stays RIGHT. All compact UI sizes  */
 /* adapt to BOTH viewport width and dvh. PC and mobile portrait are untouched. */
 /* ========================================================================== */
-@media (orientation: landscape) and (pointer: coarse) and (max-height: 650px) {
+@media (orientation: landscape) and (pointer: coarse) and (max-height: 650px) and (max-width: 1000px) {
   :root {
     --abyss-landscape-vh: 1dvh;
     --abyss-landscape-gap: clamp(8px, 1.55vw, 22px);
@@ -2771,11 +2774,11 @@ body { padding-top: var(--site-header-height); }
 }
 /* Narrow landscape phones: allocate additional space to the form while still
    preserving the two columns instead of reverting to a portrait stack. */
-@media (orientation: landscape) and (pointer: coarse) and (max-height: 650px) and (max-width: 680px) {
+@media (orientation: landscape) and (pointer: coarse) and (max-height: 650px) and (max-width: 1000px) and (max-width: 680px) {
   .hero-layout.shell { grid-template-columns: minmax(0, 1fr) minmax(0, 43%); }
 }
 /* Very short views retain the same arrangement; only THE ENTRANCE scrolls. */
-@media (orientation: landscape) and (pointer: coarse) and (max-height: 340px) {
+@media (orientation: landscape) and (pointer: coarse) and (max-height: 340px) and (max-width: 1000px) {
   :root { --site-header-height: 42px; }
   .hero-layout.shell { padding-block: 3px; }
   .hero-login { max-height: calc(100dvh - var(--site-header-height) - 6px); }
@@ -2786,7 +2789,7 @@ body { padding-top: var(--site-header-height); }
    Scoped to touch landscape, without changing desktop or phone portrait.
    iPhone browser UI is not controllable by CSS.
    ======================================================================= */
-@media (orientation: landscape) and (pointer: coarse) and (max-height: 650px) {
+@media (orientation: landscape) and (pointer: coarse) and (max-height: 650px) and (max-width: 1000px) {
   :root {
     --abyss-landscape-body: clamp(10px, 1.3vw, 12px);
     --abyss-landscape-heading: clamp(22px, 3.4vw, 31px);
@@ -2956,7 +2959,7 @@ body { padding-top: var(--site-header-height); }
 }
 
 /* Same proportional gap as sound-layout after the title rule. */
-@media (orientation: landscape) and (pointer: coarse) and (max-height: 650px) {
+@media (orientation: landscape) and (pointer: coarse) and (max-height: 650px) and (max-width: 1000px) {
   .story {
     column-gap: clamp(22px, 4.3vw, 52px);
     row-gap: 0;
@@ -2990,7 +2993,7 @@ body { padding-top: var(--site-header-height); }
   min-width: 0;
   margin-top: clamp(26px, 3.5vw, 52px);
 }
-@media (orientation: landscape) and (pointer: coarse) and (max-height: 650px) {
+@media (orientation: landscape) and (pointer: coarse) and (max-height: 650px) and (max-width: 1000px) {
   .story > .guide-grid {
     grid-column: 1 / -1;
     grid-row: 5;
@@ -3021,7 +3024,8 @@ body { padding-top: var(--site-header-height); }
 }
 
 /* Mirror the desktop's existing 1920 CSS-pixel scaling scheme. */
-@media (min-width: 821px) and (pointer: fine) {
+@media (min-width: 821px) and (pointer: fine),
+       (min-width: 1001px) and (pointer: coarse) {
   :root {
     --abyss-about-sound-gap: calc(46 * var(--abyss-desktop-px));
   }
@@ -3035,7 +3039,7 @@ body { padding-top: var(--site-header-height); }
 }
 
 /* On iPhone landscape, all three intervals shrink with available height. */
-@media (orientation: landscape) and (pointer: coarse) and (max-height: 650px) {
+@media (orientation: landscape) and (pointer: coarse) and (max-height: 650px) and (max-width: 1000px) {
   :root {
     --abyss-about-sound-gap: clamp(18px, 4dvh, 30px);
   }
@@ -3056,7 +3060,7 @@ body { padding-top: var(--site-header-height); }
   line-height: 1.7; /* Match the ABOUT title's desktop line box. */
 }
 
-@media (orientation: landscape) and (pointer: coarse) and (max-height: 650px) {
+@media (orientation: landscape) and (pointer: coarse) and (max-height: 650px) and (max-width: 1000px) {
   .sound-description h2 {
     line-height: 1.55; /* Match ABOUT's landscape heading rhythm. */
   }
@@ -3092,7 +3096,8 @@ html {
 .hero-login button[type="submit"] { font-size: 14px; }
 
 /* Desktop retains its existing scale-down at widths below 1920 CSS px. */
-@media (min-width: 821px) and (pointer: fine) {
+@media (min-width: 821px) and (pointer: fine),
+       (min-width: 1001px) and (pointer: coarse) {
   .hero-copy { font-size: calc(18 * var(--abyss-desktop-px)); }
   .hero-login .login-top { font-size: calc(12 * var(--abyss-desktop-px)); }
   .hero-login .login-subheading { font-size: calc(14 * var(--abyss-desktop-px)); }
@@ -3203,7 +3208,7 @@ html {
   }
 }
 
-@media (orientation: landscape) and (pointer: coarse) and (max-height: 650px) {
+@media (orientation: landscape) and (pointer: coarse) and (max-height: 650px) and (max-width: 1000px) {
   /* Restore the exact previous landscape fluid font sizes and two columns. */
   .hero-copy { font-size: var(--abyss-landscape-font); }
   .hero-login .login-top {
@@ -3242,7 +3247,7 @@ html {
     pointer-events: none;
   }
 }
-@media (orientation: landscape) and (pointer: coarse) and (max-height: 650px) {
+@media (orientation: landscape) and (pointer: coarse) and (max-height: 650px) and (max-width: 1000px) {
   .hero-image { filter: brightness(0.5) saturate(.8); }
   .hero-shade {
     /* Retain only enough lateral shade for the two-column copy and form. */
@@ -3289,7 +3294,7 @@ html[lang="en"] .credits-gift-note {
   }
   html[lang="en"] .credits-gift-note { font-size: 12px; }
 }
-@media (orientation: landscape) and (pointer: coarse) and (max-height: 650px) {
+@media (orientation: landscape) and (pointer: coarse) and (max-height: 650px) and (max-width: 1000px) {
   .credits-gift-note, html[lang="en"] .credits-gift-note {
     font-size: clamp(10px, 1.35vw, 13px);
     line-height: 1.8;
@@ -3310,7 +3315,8 @@ html[lang="en"] .credits-gift-note {
    existing FHD-based --abyss-desktop-px scale, without changing mobile.
    Do not enlarge the numeric stats, card headings or unrelated sections.
    ======================================================================== */
-@media (min-width: 821px) and (pointer: fine) {
+@media (min-width: 821px) and (pointer: fine),
+       (min-width: 1001px) and (pointer: coarse) {
   /* 01 — ABOUT only, not all section labels. */
   .story-overline-row > .overline {
     font-size: calc(13 * var(--abyss-desktop-px));
@@ -3342,7 +3348,8 @@ html[lang="en"] .credits-gift-note {
    2026-11-10 — Desktop ABOUT metrics: center the existing three grid cells
    without changing their widths, three-column grid or mobile formatting.
    ======================================================================== */
-@media (min-width: 821px) and (pointer: fine) {
+@media (min-width: 821px) and (pointer: fine),
+       (min-width: 1001px) and (pointer: coarse) {
   .story .stats > div {
     align-items: center;
     text-align: center;
@@ -3373,7 +3380,7 @@ html[lang="en"] .credits-gift-note {
     text-align: center;
   }
 }
-@media (orientation: landscape) and (pointer: coarse) and (max-height: 650px) {
+@media (orientation: landscape) and (pointer: coarse) and (max-height: 650px) and (max-width: 1000px) {
   .hero-outer .hero-image {
     filter: brightness(0.5) saturate(0.8);
   }
@@ -3387,7 +3394,8 @@ html[lang="en"] .credits-gift-note {
    3-column statistics, cards, and the shared ABOUT/SOUND heading gap stay.
    Other sections and all touch/phone layouts remain unchanged.
    ======================================================================== */
-@media (min-width: 821px) and (pointer: fine) {
+@media (min-width: 821px) and (pointer: fine),
+       (min-width: 1001px) and (pointer: coarse) {
   .story.section {
     min-height: calc(100svh - var(--site-header-height));
     padding-block: calc(56 * var(--abyss-desktop-px));
@@ -3411,7 +3419,8 @@ html[lang="en"] .credits-gift-note {
 
 /* FHD monitor with browser chrome (shorter CSS viewport). Ensure ABOUT
    still fits without shrinking text or affecting the mobile layout. */
-@media (min-width: 821px) and (pointer: fine) and (max-height: 960px) {
+@media (min-width: 821px) and (pointer: fine) and (max-height: 960px),
+       (min-width: 1001px) and (pointer: coarse) and (max-height: 960px) {
   .story.section { padding-block: calc(40 * var(--abyss-desktop-px)); }
   .story > .guide-grid { margin-top: calc(20 * var(--abyss-desktop-px)); }
   .story > .guide-grid > .guide-card {
@@ -3434,7 +3443,8 @@ html[lang="en"] .credits-gift-note {
    Keep the SOUND divider and decorative illustration. Only desktop PCs
    receive +2 CSS px typography; touch portrait/landscape stays unchanged.
    ======================================================================== */
-@media (min-width: 821px) and (pointer: fine) {
+@media (min-width: 821px) and (pointer: fine),
+       (min-width: 1001px) and (pointer: coarse) {
   .sound-section.section {
     /* ABOUT uses 56px: lift the SOUND content from its old 110px offset. */
     padding-top: calc(56 * var(--abyss-desktop-px));
@@ -3460,7 +3470,8 @@ html[lang="en"] .credits-gift-note {
    visible rather than clipping on narrower windows or with larger fonts.
    This override is desktop-only: touch portrait/landscape remain unchanged.
    ======================================================================== */
-@media (min-width: 821px) and (pointer: fine) {
+@media (min-width: 821px) and (pointer: fine),
+       (min-width: 1001px) and (pointer: coarse) {
   .sound-section.section {
     min-height: calc(100svh - var(--site-header-height));
   }
@@ -3477,7 +3488,8 @@ html[lang="en"] .credits-gift-note {
 }
 /* On shorter desktop viewports, reclaim expendable vertical whitespace so
    all SOUND copy and the framed illustration remain visible on one screen. */
-@media (min-width: 821px) and (pointer: fine) and (max-height: 960px) {
+@media (min-width: 821px) and (pointer: fine) and (max-height: 960px),
+       (min-width: 1001px) and (pointer: coarse) and (max-height: 960px) {
   .sound-section.section {
     padding-top: calc(40 * var(--abyss-desktop-px));
     padding-bottom: calc(40 * var(--abyss-desktop-px));
@@ -3508,7 +3520,8 @@ html[lang="en"] .credits-gift-note {
   margin-top: 0;
 }
 
-@media (min-width: 821px) and (pointer: fine) {
+@media (min-width: 821px) and (pointer: fine),
+       (min-width: 1001px) and (pointer: coarse) {
   .gallery.section {
     min-height: calc(100svh - var(--site-header-height));
     padding-block: calc(56 * var(--abyss-desktop-px));
@@ -3525,7 +3538,8 @@ html[lang="en"] .credits-gift-note {
 }
 
 /* Recover whitespace on shorter desktop displays without cropping images. */
-@media (min-width: 821px) and (pointer: fine) and (max-height: 960px) {
+@media (min-width: 821px) and (pointer: fine) and (max-height: 960px),
+       (min-width: 1001px) and (pointer: coarse) and (max-height: 960px) {
   .gallery.section {
     padding-block: calc(40 * var(--abyss-desktop-px));
   }
@@ -3538,7 +3552,7 @@ html[lang="en"] .credits-gift-note {
 @media (max-width: 820px) and (orientation: portrait) {
   .gallery-overline-row { padding-bottom: 17px; }
 }
-@media (orientation: landscape) and (pointer: coarse) and (max-height: 650px) {
+@media (orientation: landscape) and (pointer: coarse) and (max-height: 650px) and (max-width: 1000px) {
   .gallery-overline-row { padding-bottom: clamp(10px, 2.2dvh, 16px); }
   .gallery .section-top { align-items: flex-start; }
 }
@@ -3549,7 +3563,8 @@ html[lang="en"] .credits-gift-note {
    Match ABOUT / SOUND / VIEWS header rhythm, add a divider below the label,
    raise the requested typography, and keep the section inside one FHD view.
    ======================================================================== */
-@media (min-width: 821px) and (pointer: fine) {
+@media (min-width: 821px) and (pointer: fine),
+       (min-width: 1001px) and (pointer: coarse) {
   .guide.section {
     min-height: calc(100svh - var(--site-header-height));
     padding-block: calc(56 * var(--abyss-desktop-px));
@@ -3563,7 +3578,8 @@ html[lang="en"] .credits-gift-note {
   .control-copy h4 { font-size: calc(15 * var(--abyss-desktop-px)); }
   .control-copy p { font-size: calc(15 * var(--abyss-desktop-px)); }
 }
-@media (min-width: 821px) and (pointer: fine) and (max-height: 960px) {
+@media (min-width: 821px) and (pointer: fine) and (max-height: 960px),
+       (min-width: 1001px) and (pointer: coarse) and (max-height: 960px) {
   .guide.section { padding-block: calc(40 * var(--abyss-desktop-px)); }
   .guide-section-top { margin-bottom: calc(28 * var(--abyss-desktop-px)); }
   .controls-panel { margin-top: calc(24 * var(--abyss-desktop-px)); }
@@ -3579,7 +3595,7 @@ html[lang="en"] .credits-gift-note {
   .controls-cards { grid-template-columns: 1fr; gap: 14px; }
   .control-copy p { font-size: 15px; }
 }
-@media (orientation: landscape) and (pointer: coarse) and (max-height: 650px) {
+@media (orientation: landscape) and (pointer: coarse) and (max-height: 650px) and (max-width: 1000px) {
   .guide.section { padding-block: clamp(24px, 6dvh, 42px); }
   .controls-overline-row { padding-bottom: clamp(10px, 2.2dvh, 16px); margin-bottom: clamp(12px, 2.8dvh, 20px); }
   .controls-panel { margin-top: clamp(12px, 2.8dvh, 20px); }
@@ -3603,7 +3619,8 @@ html[lang="en"] .credits-gift-note {
    The cap applies to all five editorial sections on desktop. The Hero
    keeps its existing art proportions and mobile views stay unchanged.
    ========================================================================== */
-@media (min-width: 821px) and (pointer: fine) {
+@media (min-width: 821px) and (pointer: fine),
+       (min-width: 1001px) and (pointer: coarse) {
   /* Align the true header box (including its 1px bottom border) with the
      height reserved by body padding / anchor navigation. */
   .site-header .topbar {
@@ -3718,7 +3735,8 @@ html[lang="en"] .credits-thanks p {
   transform: translateY(-50%);
   white-space: nowrap;
 }
-@media (min-width: 821px) and (pointer: fine) {
+@media (min-width: 821px) and (pointer: fine),
+       (min-width: 1001px) and (pointer: coarse) {
   .credits-header > .overline { font-size: calc(13 * var(--abyss-desktop-px)); }
   .credits-entry dt,
   .credits-entry dd { font-size: calc(14 * var(--abyss-desktop-px)); }
@@ -3763,7 +3781,7 @@ html[lang="en"] .credits-thanks p {
   }
   .footer .footer-brand { gap: 7px; }
 }
-@media (orientation: landscape) and (pointer: coarse) and (max-height: 650px) {
+@media (orientation: landscape) and (pointer: coarse) and (max-height: 650px) and (max-width: 1000px) {
   .credits-entry dt,
   .credits-entry dd { font-size: clamp(10px, 1.4vw, 14px); }
   .credits-entry .credits-director-bio,
@@ -3782,7 +3800,8 @@ html[lang="en"] .credits-thanks p {
    Top inset mirrors ABOUT, SOUND, VIEWS and CONTROLS without touching mobile.
    Both biography paragraphs use the same rhythm and styles.
    ======================================================================== */
-@media (min-width: 821px) and (pointer: fine) {
+@media (min-width: 821px) and (pointer: fine),
+       (min-width: 1001px) and (pointer: coarse) {
   .credits-section.section {
     padding-top: calc(56 * var(--abyss-desktop-px));
     padding-bottom: calc(76 * var(--abyss-desktop-px));
@@ -3791,7 +3810,8 @@ html[lang="en"] .credits-thanks p {
     padding-top: calc(46 * var(--abyss-desktop-px));
   }
 }
-@media (min-width: 821px) and (pointer: fine) and (max-height: 960px) {
+@media (min-width: 821px) and (pointer: fine) and (max-height: 960px),
+       (min-width: 1001px) and (pointer: coarse) and (max-height: 960px) {
   .credits-section.section {
     padding-top: calc(40 * var(--abyss-desktop-px));
     padding-bottom: calc(40 * var(--abyss-desktop-px));
@@ -3834,7 +3854,8 @@ html[lang="en"] .credits-thanks p {
 
 /* Expand the Japanese/English concert gift message to the whole CREDITS
    content width. Wide screens keep one line without changing its type size. */
-@media (min-width: 821px) and (pointer: fine) {
+@media (min-width: 821px) and (pointer: fine),
+       (min-width: 1001px) and (pointer: coarse) {
   .credits-entry .credits-person-name {
     margin-top: calc(10 * var(--abyss-desktop-px));
     font-size: calc(14 * var(--abyss-desktop-px));
@@ -3894,7 +3915,7 @@ html[lang="en"] .credits-thanks p {
 /* Landscape phones: apply the same +2px increases relative to their
    existing, smaller landscape font metrics. Do not force FHD-size text into
    a 393px-high viewport. The gift note matches biography size exactly. */
-@media (orientation: landscape) and (pointer: coarse) and (max-height: 650px) {
+@media (orientation: landscape) and (pointer: coarse) and (max-height: 650px) and (max-width: 1000px) {
   .story-overline-row > .overline,
   .sound-overline-row > .overline,
   .gallery-overline-row > .overline { font-size: clamp(11px, 1.15vw, 13px); }
@@ -3937,7 +3958,7 @@ html[lang="en"] .credits-thanks p {
    increase is reversed for 04/05, while the concert note is reduced 4px
    relative to the preceding mobile-landscape version.
    ======================================================================== */
-@media (orientation: landscape) and (pointer: coarse) and (max-height: 650px) {
+@media (orientation: landscape) and (pointer: coarse) and (max-height: 650px) and (max-width: 1000px) {
   /* 04 — CONTROLS */
   .controls-overline-row > .overline { font-size: 11px; }
   .guide-section-top h2 { font-size: calc(clamp(22px, 3.4vw, 34px) - 2px); }
@@ -4008,7 +4029,8 @@ html[lang="en"] .credits-thanks p {
    phones existing 05 / 10 MIN / 02 statistics remain in their current grid. */
 .story .guide-card .card-metric { display: none; }
 
-@media (min-width: 821px) and (pointer: fine) {
+@media (min-width: 821px) and (pointer: fine),
+       (min-width: 1001px) and (pointer: coarse) {
   .site-header .brand { font-size: calc(19 * var(--abyss-desktop-px)); }
   .site-header .brand small { font-size: calc(13 * var(--abyss-desktop-px)); }
   .site-header .site-navigation > a { font-size: calc(12 * var(--abyss-desktop-px)); }
@@ -4079,7 +4101,8 @@ html[lang="en"] .credits-thanks p {
 }
 /* Avoid over-sized decorative spacing on shorter desktop windows while
    retaining 16px FHD copy and the compact FHD / 4K sections. */
-@media (min-width: 821px) and (pointer: fine) and (max-height: 960px) {
+@media (min-width: 821px) and (pointer: fine) and (max-height: 960px),
+       (min-width: 1001px) and (pointer: coarse) and (max-height: 960px) {
   .story > .guide-grid > .guide-card { padding: calc(18 * var(--abyss-desktop-px)); }
   .story > .guide-grid .card-metric {
     top: calc(13 * var(--abyss-desktop-px));
@@ -4103,7 +4126,7 @@ html[lang="en"] .credits-thanks p {
   .footer .footer-brand small { font-size: 13px; }
   .footer > small { font-size: 12px; }
 }
-@media (orientation: landscape) and (pointer: coarse) and (max-height: 650px) {
+@media (orientation: landscape) and (pointer: coarse) and (max-height: 650px) and (max-width: 1000px) {
   .site-header .brand { font-size: calc(clamp(11px, 1.8vw, 15px) + 2px); }
   .site-header .brand small { font-size: calc(clamp(7px, 1vw, 10px) + 2px); }
   .site-header .mobile-menu-toggle { font-size: 12px; }
@@ -4115,7 +4138,8 @@ html[lang="en"] .credits-thanks p {
 
 /* Higher specificity preserves the requested 16px despite the pre-existing
    .story > .guide-grid .guide-card .card-num mobile/desktop rules. */
-@media (min-width: 821px) and (pointer: fine) {
+@media (min-width: 821px) and (pointer: fine),
+       (min-width: 1001px) and (pointer: coarse) {
   .story > .guide-grid .guide-card .card-num {
     font-size: calc(16 * var(--abyss-desktop-px));
     line-height: 1.4;
@@ -4134,7 +4158,8 @@ html[lang="en"] .credits-thanks p {
    the space below it equals the top padding above '01 — ABOUT'.
    Phone layouts are unaffected and the cards remain intrinsic-height.
    ======================================================================== */
-@media (min-width: 821px) and (pointer: fine) {
+@media (min-width: 821px) and (pointer: fine),
+       (min-width: 1001px) and (pointer: coarse) {
   .story.section {
     align-content: stretch;
     grid-template-rows: auto auto minmax(min-content, 1fr);
@@ -4144,7 +4169,8 @@ html[lang="en"] .credits-thanks p {
   }
 }
 /* Shorter PC viewports use SOUND's reduced divider-to-heading spacing too. */
-@media (min-width: 821px) and (pointer: fine) and (max-height: 960px) {
+@media (min-width: 821px) and (pointer: fine) and (max-height: 960px),
+       (min-width: 1001px) and (pointer: coarse) and (max-height: 960px) {
   .story-overline-row {
     margin-bottom: calc(30 * var(--abyss-desktop-px));
   }
@@ -4157,7 +4183,8 @@ html[lang="en"] .credits-thanks p {
    number, unit, and caption within the badge. This is desktop-only;
    the portrait and landscape mobile statistics retain their prior layout.
    ======================================================================== */
-@media (min-width: 821px) and (pointer: fine) {
+@media (min-width: 821px) and (pointer: fine),
+       (min-width: 1001px) and (pointer: coarse) {
   .story > .guide-grid .card-metric {
     /* Keep the original top/right anchor.  The former 156px fixed width
        shifted the centered digits away from the card corner. */
@@ -4243,7 +4270,7 @@ html[lang="en"] .credits-thanks p {
   background: #131311;
 }
 /* Reduce padding in compact landscape viewports, without cropping player. */
-@media (orientation: landscape) and (pointer: coarse) and (max-height: 650px) {
+@media (orientation: landscape) and (pointer: coarse) and (max-height: 650px) and (max-width: 1000px) {
   .sound-bandcamp-frame {
     margin-block: 10px;
   }
@@ -4259,12 +4286,14 @@ html[lang="en"] .credits-thanks p {
    Original FHD 46px -> 69px (1.5x). Short desktop viewports:
    original 28px -> 42px. Mobile/touch layout remains unchanged.
    ======================================================================== */
-@media (min-width: 821px) and (pointer: fine) {
+@media (min-width: 821px) and (pointer: fine),
+       (min-width: 1001px) and (pointer: coarse) {
   .sound-description h2 {
     margin-bottom: calc(69 * var(--abyss-desktop-px));
   }
 }
-@media (min-width: 821px) and (pointer: fine) and (max-height: 960px) {
+@media (min-width: 821px) and (pointer: fine) and (max-height: 960px),
+       (min-width: 1001px) and (pointer: coarse) and (max-height: 960px) {
   .sound-description h2 {
     margin-bottom: calc(42 * var(--abyss-desktop-px));
   }
@@ -4303,17 +4332,19 @@ html[lang="en"] .credits-thanks p {
   min-width: 0;
   padding: 16px 18px 18px;
 }
-@media (min-width: 821px) and (pointer: fine) {
+@media (min-width: 821px) and (pointer: fine),
+       (min-width: 1001px) and (pointer: coarse) {
   .guide .control-card { padding: 0; gap: 0; }
   .guide .control-copy {
     padding: calc(14 * var(--abyss-desktop-px)) calc(16 * var(--abyss-desktop-px)) calc(16 * var(--abyss-desktop-px));
   }
 }
-@media (min-width: 821px) and (pointer: fine) and (max-height: 960px) {
+@media (min-width: 821px) and (pointer: fine) and (max-height: 960px),
+       (min-width: 1001px) and (pointer: coarse) and (max-height: 960px) {
   .guide .control-card { padding: 0; }
   .guide .control-copy { padding: calc(12 * var(--abyss-desktop-px)) calc(14 * var(--abyss-desktop-px)) calc(14 * var(--abyss-desktop-px)); }
 }
-@media (orientation: landscape) and (pointer: coarse) and (max-height: 650px) {
+@media (orientation: landscape) and (pointer: coarse) and (max-height: 650px) and (max-width: 1000px) {
   .guide .control-card { padding: 0; gap: 0; }
   .guide .control-copy { padding: clamp(8px, 1.4vw, 14px); }
 }
@@ -4465,7 +4496,8 @@ html[lang="en"] .hero-copy-mincho {
   letter-spacing: .03em;
 }
 
-@media (min-width: 821px) and (pointer: fine) {
+@media (min-width: 821px) and (pointer: fine),
+       (min-width: 1001px) and (pointer: coarse) {
   .hero-outer .hero-inner {
     transform: translateY(calc(-6 * var(--abyss-desktop-px)));
     justify-content: flex-start;
@@ -4546,7 +4578,7 @@ html[lang="en"] .hero-copy-mincho {
   }
 }
 
-@media (orientation: landscape) and (pointer: coarse) and (max-height: 650px) {
+@media (orientation: landscape) and (pointer: coarse) and (max-height: 650px) and (max-width: 1000px) {
   .site-header .header-subtitle {
     display: inline-flex;
     flex-direction: column;
@@ -4615,7 +4647,8 @@ html[lang="ja"] .hero-copy.hero-copy-mincho {
 html[lang="en"] .hero-copy.hero-copy-mincho {
   font-family: Georgia, "Times New Roman", serif;
 }
-@media (min-width: 821px) and (pointer: fine) {
+@media (min-width: 821px) and (pointer: fine),
+       (min-width: 1001px) and (pointer: coarse) {
   .hero-outer .hero-layout.shell {
     align-items: stretch;
   }
@@ -4682,7 +4715,7 @@ html[lang="en"] .hero-copy.hero-copy-mincho {
     line-height: 1.8;
   }
 }
-@media (orientation: landscape) and (pointer: coarse) and (max-height: 650px) {
+@media (orientation: landscape) and (pointer: coarse) and (max-height: 650px) and (max-width: 1000px) {
   .site-header .brand-wordmark { flex-direction: row; align-items: center; }
   .site-header .header-subtitle {
     flex-direction: column;
@@ -4723,7 +4756,7 @@ html[lang="en"] .hero-copy.hero-copy-mincho {
 }
 /* Short landscape screens: shift the two-column title and copy toward the
    character's face and the lantern-holding hand, without moving ENTRANCE. */
-@media (orientation: landscape) and (pointer: coarse) and (max-height: 650px) {
+@media (orientation: landscape) and (pointer: coarse) and (max-height: 650px) and (max-width: 1000px) {
   .hero-outer .hero-inner { transform: translateY(-50px); }
   .hero-outer .hero-copy.hero-copy-mincho {
     font-family: "Yu Mincho", "Hiragino Mincho ProN", "Noto Serif JP", serif;
@@ -4735,7 +4768,8 @@ html[lang="en"] .hero-copy.hero-copy-mincho {
    Keep the logo top/left alignment and hero copy near the lantern hand.
    Match header and footer subtitle typography, including phone variants.
    ====================================================================== */
-@media (min-width: 821px) and (pointer: fine) {
+@media (min-width: 821px) and (pointer: fine),
+       (min-width: 1001px) and (pointer: coarse) {
   .hero-outer .hero-title-lockup {
     width: min(100%, calc(460 * var(--abyss-desktop-px)));
   }
@@ -4755,7 +4789,7 @@ html[lang="en"] .hero-copy.hero-copy-mincho {
     line-height: 1.06;
   }
 }
-@media (orientation: landscape) and (pointer: coarse) and (max-height: 650px) {
+@media (orientation: landscape) and (pointer: coarse) and (max-height: 650px) and (max-width: 1000px) {
   .site-header .brand .header-subtitle,
   .footer .footer-brand .footer-subtitle {
     font-size: 12px;
@@ -4778,7 +4812,8 @@ html[lang="en"] .hero-copy.hero-copy-mincho {
    stretching with the Hero's grid row. Mobile inputs retain their separate
    portrait and compact-landscape rules.
    ======================================================================== */
-@media (min-width: 821px) and (pointer: fine) {
+@media (min-width: 821px) and (pointer: fine),
+       (min-width: 1001px) and (pointer: coarse) {
   .hero-outer .hero-login {
     align-self: center;
     height: auto;
@@ -4829,7 +4864,7 @@ html[lang="en"] .hero-copy.hero-copy-mincho {
     top: 0;
   }
 }
-@media (orientation: landscape) and (pointer: coarse) and (max-height: 650px) {
+@media (orientation: landscape) and (pointer: coarse) and (max-height: 650px) and (max-width: 1000px) {
   .hero-outer .hero-image {
     top: 0;
   }
@@ -4871,7 +4906,8 @@ html[lang="en"] .hero-copy.hero-copy-mincho {
 #sound .sound-layout { align-items: center; }
 
 /* PC: preserve the design's FHD-based proportional scaling. */
-@media (min-width: 821px) and (pointer: fine) {
+@media (min-width: 821px) and (pointer: fine),
+       (min-width: 1001px) and (pointer: coarse) {
   .hero-outer .hero-copy.hero-copy-mincho {
     font-size: calc(22 * var(--abyss-desktop-px));
   }
@@ -4881,7 +4917,7 @@ html[lang="en"] .hero-copy.hero-copy-mincho {
    This includes its lateral/bottom gradient; the Hero image itself retains
    its existing positioning, layout, and separate dark-overlay layer. */
 @media (max-width: 820px) and (orientation: portrait),
-       (orientation: landscape) and (pointer: coarse) and (max-height: 650px) {
+       (orientation: landscape) and (pointer: coarse) and (max-height: 650px) and (max-width: 1000px) {
   .hero-outer .hero-image {
     filter: brightness(0.8) saturate(0.8);
   }
@@ -4904,7 +4940,7 @@ html[lang="en"] .hero-copy.hero-copy-mincho {
   /* SOUND becomes a vertical stack on narrow portrait screens. */
   #sound .sound-layout { align-items: stretch; }
 }
-@media (orientation: landscape) and (pointer: coarse) and (max-height: 650px) {
+@media (orientation: landscape) and (pointer: coarse) and (max-height: 650px) and (max-width: 1000px) {
   .hero-outer .hero-copy.hero-copy-mincho {
     font-size: calc(var(--abyss-landscape-font) + 4px);
   }
@@ -4943,7 +4979,8 @@ html[lang="en"] .hero-copy.hero-copy-mincho {
   margin-inline: auto;
   background: #0b0c0b;
 }
-@media (min-width: 821px) and (pointer: fine) {
+@media (min-width: 821px) and (pointer: fine),
+       (min-width: 1001px) and (pointer: coarse) {
   .footer.shell {
     /* Capped at 360px so 4K viewports do not inflate the footer box. */
     padding-inline: clamp(24px, calc((100vw - 1200px) / 2), 360px);
@@ -4966,13 +5003,14 @@ html[lang="en"] .hero-copy.hero-copy-mincho {
    their corresponding navigation menu items; large Japanese headings below
    those labels deliberately retain their previous sizes. */
 :root { --rustrata-nav-label-size: 12px; }
-@media (min-width: 821px) and (pointer: fine) {
+@media (min-width: 821px) and (pointer: fine),
+       (min-width: 1001px) and (pointer: coarse) {
   :root { --rustrata-nav-label-size: calc(12 * var(--abyss-desktop-px)); }
 }
 @media (max-width: 820px) and (orientation: portrait) {
   :root { --rustrata-nav-label-size: 12px; }
 }
-@media (orientation: landscape) and (pointer: coarse) and (max-height: 650px) {
+@media (orientation: landscape) and (pointer: coarse) and (max-height: 650px) and (max-width: 1000px) {
   :root { --rustrata-nav-label-size: 14px; }
 }
 .site-header .site-navigation > a,
@@ -5004,7 +5042,8 @@ html[lang="en"] .hero-copy.hero-copy-mincho {
 /* Half the distance between the three numerals and MODE / LIMIT / KEYS. */
 .story .stats > div { gap: 4px; }
 
-@media (min-width: 821px) and (pointer: fine) {
+@media (min-width: 821px) and (pointer: fine),
+       (min-width: 1001px) and (pointer: coarse) {
   :root {
     /* Keep the FHD desktop presentation identical to the pre-responsive
        version. Only widths BELOW 1920 scale down proportionally. Height is
@@ -5103,7 +5142,7 @@ html[lang="en"] .hero-copy.hero-copy-mincho {
 /* Landscape touch screens: shrink the actual Bandcamp player when the screen
    height is short. The player keeps its exact 350:470 native aspect ratio and
    never forces a 470px-tall block into a ~393px-tall phone viewport. */
-@media (orientation: landscape) and (pointer: coarse) and (max-height: 650px) {
+@media (orientation: landscape) and (pointer: coarse) and (max-height: 650px) and (max-width: 1000px) {
   .sound-bandcamp-only .sound-bandcamp-frame {
     width: min(100%, 350px, 55svh);
     aspect-ratio: 350 / 470;
@@ -5120,7 +5159,8 @@ html[lang="en"] .hero-copy.hero-copy-mincho {
    next section never peeks through at FHD. The artwork is allowed to cover
    the stage on desktop; width-limited windows still shrink proportionally.
    ======================================================================== */
-@media (min-width: 821px) and (pointer: fine) {
+@media (min-width: 821px) and (pointer: fine),
+       (min-width: 1001px) and (pointer: coarse) {
   .hero-outer > .hero {
     min-height: calc(100svh - var(--site-header-height));
   }
@@ -5151,7 +5191,8 @@ html[lang="en"] .hero-copy.hero-copy-mincho {
    On 4K tall screens retain the requested 1036px cap so two sections fit.
    Touch-device portrait/landscape reading layouts are intentionally separate.
    ======================================================================== */
-@media (min-width: 821px) and (pointer: fine) {
+@media (min-width: 821px) and (pointer: fine),
+       (min-width: 1001px) and (pointer: coarse) {
   :root {
     /* Every FHD-derived font/padding/asset uses the SAME scale for width and
        height. Exact FHD remains 1px. Browser chrome reducing CSS viewport
@@ -5220,7 +5261,8 @@ html[lang="en"] .hero-copy.hero-copy-mincho {
    displayed with OS scaling / browser zoom) also get two equal stages.
    These windows can report, for example, 1536x1728 CSS pixels instead of
    their physical 1920x2160 resolution. Do not rely on 1920 CSS px alone. */
-@media (min-width: 821px) and (min-height: 1200px) and (max-aspect-ratio: 1/1) and (pointer: fine) {
+@media (min-width: 821px) and (min-height: 1200px) and (max-aspect-ratio: 1/1) and (pointer: fine),
+       (min-width: 821px) and (min-height: 1200px) and (max-aspect-ratio: 1/1) and (pointer: coarse) and (min-height: 651px) {
   :root {
     --abyss-desktop-section-height: calc((100svh - var(--site-header-height)) / 2);
   }
@@ -5271,7 +5313,8 @@ html[lang="en"] .hero-copy.hero-copy-mincho {
 }
 
 /* Desktop header subtitle palette should mirror the footer's subtitle. */
-@media (min-width: 821px) and (pointer: fine) {
+@media (min-width: 821px) and (pointer: fine),
+       (min-width: 1001px) and (pointer: coarse) {
   .site-header .brand .header-subtitle,
   .site-header .brand .header-subtitle .subtitle-initial {
     color: #b9ab93;
@@ -5328,7 +5371,8 @@ html[lang="en"] .credits-gift-note {
   text-align: left;
   white-space: normal;
 }
-@media (min-width: 821px) and (pointer: fine) {
+@media (min-width: 821px) and (pointer: fine),
+       (min-width: 1001px) and (pointer: coarse) {
   .credits-section > .shell {
     min-height: calc(var(--abyss-desktop-section-height) - calc(132 * var(--abyss-desktop-px)));
   }
@@ -5359,7 +5403,7 @@ html[lang="en"] .credits-gift-note {
     font-size: 14px;
   }
 }
-@media (orientation: landscape) and (pointer: coarse) and (max-height: 650px) {
+@media (orientation: landscape) and (pointer: coarse) and (max-height: 650px) and (max-width: 1000px) {
   .credits-thanks > span,
   .credits-gift-note,
   html[lang="ja"] .credits-gift-note,
@@ -5376,7 +5420,8 @@ html[lang="en"] .credits-gift-note {
 
 /* 2026-11-15 follow-up: restore mobile card size, adjust only game-screen motif,
    sync desktop header subtitle colors with footer, and center the live-note copy. */
-@media (min-width: 821px) and (pointer: fine) {
+@media (min-width: 821px) and (pointer: fine),
+       (min-width: 1001px) and (pointer: coarse) {
   .site-header .brand .header-subtitle,
   .site-header .brand .header-subtitle span,
   .site-header .brand .header-subtitle .subtitle-initial {
@@ -5396,7 +5441,8 @@ html[lang="en"] .credits-gift-note {
    Keep its inner viewport at 350x470 and proportionally scale the complete
    rendered player inside the existing responsive frame instead. This keeps
    album art, text and controls exactly as in the original large embed. */
-@media (min-width: 821px) and (pointer: fine) {
+@media (min-width: 821px) and (pointer: fine),
+       (min-width: 1001px) and (pointer: coarse) {
   #sound .sound-bandcamp-only .sound-bandcamp-player {
     display: block;
     position: absolute;
@@ -5429,7 +5475,7 @@ html[lang="en"] .credits-gift-note {
     line-height: 1.85;
   }
 }
-@media (orientation: landscape) and (pointer: coarse) and (max-height: 650px) {
+@media (orientation: landscape) and (pointer: coarse) and (max-height: 650px) and (max-width: 1000px) {
   .credits-section .credits-gift-note,
   html[lang="ja"] .credits-section .credits-gift-note,
   html[lang="en"] .credits-section .credits-gift-note {
@@ -5445,7 +5491,8 @@ html[lang="en"] .credits-gift-note {
    desktop; a small JS measurement makes its midpoint exactly equal to the
    midpoint between the final ABOUT paragraph and the section bottom.
    Portrait and landscape touch layouts keep their original card positions. */
-@media (min-width: 821px) and (pointer: fine) {
+@media (min-width: 821px) and (pointer: fine),
+       (min-width: 1001px) and (pointer: coarse) {
   .story.section > .guide-grid {
     align-self: center;
     transform: translateY(var(--rustrata-about-card-offset, 0px));
@@ -5455,7 +5502,7 @@ html[lang="en"] .credits-gift-note {
 /* Keep the note itself centered in its parent, but align its written lines
    to the left. All existing mobile font sizes and generous top gaps stay. */
 @media (max-width: 820px) and (orientation: portrait),
-       (orientation: landscape) and (pointer: coarse) and (max-height: 650px) {
+       (orientation: landscape) and (pointer: coarse) and (max-height: 650px) and (max-width: 1000px) {
   .credits-section .credits-gift-note,
   html[lang="ja"] .credits-section .credits-gift-note,
   html[lang="en"] .credits-section .credits-gift-note {
@@ -5478,7 +5525,7 @@ html[lang="en"] .credits-gift-note {
   display: contents;
 }
 @media (max-width: 820px),
-       (orientation: landscape) and (max-height: 600px) and (pointer: coarse) {
+       (orientation: landscape) and (max-height: 600px) and (pointer: coarse) and (max-width: 1000px) {
   .site-header .mobile-navigation-viewport {
     display: block;
     position: absolute;
@@ -5523,4 +5570,702 @@ html[lang="en"] .credits-gift-note {
   .site-header .mobile-navigation-viewport .site-navigation {
     transition: none !important;
   }
+}
+
+
+/* ========================================================================
+   2026-11-15 — RusTrata refinements: brand subtitle, release ribbon, ABOUT.
+   Every desktop dimension retains the existing FHD-based scale; the ribbon
+   is inside the Hero stage so tall 2160px screens still show two sections.
+   ======================================================================== */
+
+/* 1. A vertically stacked sub-brand at every screen size. */
+.site-header .brand .brand-wordmark {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+}
+.site-header .brand .header-subtitle {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  white-space: nowrap;
+  gap: 3px;
+  color: #b9ab93;
+  font-variant: normal;
+}
+.site-header .brand .header-subtitle > span {
+  display: block;
+  color: inherit;
+  line-height: 1.08;
+}
+.site-header .brand .header-subtitle .subtitle-initial {
+  color: #b9ab93;
+}
+@media (min-width: 821px) and (pointer: fine),
+       (min-width: 1001px) and (pointer: coarse) {
+  .site-header .brand .brand-wordmark { gap: calc(18 * var(--abyss-desktop-px)); }
+  .site-header .brand .header-subtitle {
+    gap: calc(3 * var(--abyss-desktop-px));
+    font-size: calc(15 * var(--abyss-desktop-px));
+    line-height: 1.04;
+    letter-spacing: .035em;
+  }
+}
+@media (max-width: 820px) and (orientation: portrait) {
+  .site-header .brand .brand-wordmark { gap: clamp(10px, 2.9vw, 16px); }
+  .site-header .brand .header-subtitle {
+    gap: 3px;
+    font-size: 15px;
+    line-height: 1.04;
+  }
+}
+@media (orientation: landscape) and (pointer: coarse) and (max-height: 650px) and (max-width: 1000px) {
+  .site-header .brand .brand-wordmark { gap: clamp(8px, 1.6vw, 14px); }
+  .site-header .brand .header-subtitle {
+    gap: clamp(1px, .45dvh, 2px);
+    font-size: 12px;
+    line-height: 1.03;
+  }
+}
+
+/* 2. Use the exact dark header treatment of the PC on portrait/landscape. */
+@media (max-width: 820px),
+       (orientation: landscape) and (pointer: coarse) and (max-height: 650px) and (max-width: 1000px) {
+  .site-header {
+    background: rgba(9,9,10,.94);
+    border-bottom: 1px solid rgba(183,152,107,.25);
+    -webkit-backdrop-filter: blur(14px);
+    backdrop-filter: blur(14px);
+  }
+}
+
+/* 3 + 5. Menu labels and the 01–05 section overlines are enlarged together.
+   Keep the shared font-size variable to prevent cross-section drift. */
+@media (min-width: 821px) and (pointer: fine),
+       (min-width: 1001px) and (pointer: coarse) {
+  :root { --rustrata-nav-label-size: calc(14 * var(--abyss-desktop-px)); }
+}
+@media (max-width: 820px) and (orientation: portrait) {
+  :root { --rustrata-nav-label-size: 14px; }
+}
+@media (orientation: landscape) and (pointer: coarse) and (max-height: 650px) and (max-width: 1000px) {
+  :root { --rustrata-nav-label-size: 16px; }
+}
+
+/* 4. The color and classical serif typography follow the supplied sample.
+   Position absolutely on desktop: do not add height to the Hero or change
+   its 1920x2160 two-panel composition. On phones it follows the login area. */
+.hero-outer { position: relative; }
+.release-announcement {
+  box-sizing: border-box;
+  width: min(100%, 1920px);
+  max-width: 1920px;
+  min-width: 0;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #735f43;
+  color: #c1b4a8;
+  text-align: center;
+  font-family: 'Cormorant Garamond', 'EB Garamond', Georgia, 'Times New Roman', serif;
+  font-weight: 400;
+  font-style: normal;
+  font-variant: normal;
+  letter-spacing: .025em;
+  line-height: 1.15;
+  white-space: nowrap;
+}
+@media (min-width: 821px) and (pointer: fine),
+       (min-width: 1001px) and (pointer: coarse) {
+  .release-announcement {
+    position: absolute;
+    z-index: 3;
+    left: 50%;
+    bottom: calc(12 * var(--abyss-desktop-px));
+    transform: translateX(-50%);
+    height: calc(62 * var(--abyss-desktop-px));
+    font-size: calc(36 * var(--abyss-desktop-px));
+  }
+}
+@media (max-width: 820px) and (orientation: portrait) {
+  .release-announcement {
+    position: relative;
+    margin-top: 18px;
+    min-height: 54px;
+    padding: 8px 12px;
+    font-size: clamp(25px, 6.6vw, 32px);
+  }
+}
+@media (orientation: landscape) and (pointer: coarse) and (max-height: 650px) and (max-width: 1000px) {
+  .release-announcement {
+    position: relative;
+    margin-top: 12px;
+    min-height: 44px;
+    padding: 6px 12px;
+    font-size: clamp(22px, 3.1vw, 28px);
+  }
+}
+
+/* 6. Slightly enlarge the two ABOUT paragraphs without changing strong gold. */
+@media (min-width: 821px) and (pointer: fine),
+       (min-width: 1001px) and (pointer: coarse) {
+  .story .story-body > p { font-size: calc(18 * var(--abyss-desktop-px)); }
+}
+@media (max-width: 820px) and (orientation: portrait) {
+  .story .story-body > p { font-size: calc(var(--abyss-mobile-main) + 2px); }
+}
+@media (orientation: landscape) and (pointer: coarse) and (max-height: 650px) and (max-width: 1000px) {
+  .story .story-body > p { font-size: calc(var(--abyss-landscape-body) + 2px); }
+}
+
+/* 7. Use the same metrics inside the upper-right of the three cards on every
+   device. The former standalone 05 / 10 MIN / 02 row is no longer displayed. */
+.story .story-body > .stats { display: none; }
+.story > .guide-grid > .guide-card { position: relative; }
+.story > .guide-grid > .guide-card .card-metric {
+  display: flex;
+  position: absolute;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  top: 12px;
+  right: 14px;
+  gap: 3px;
+  width: max-content;
+  max-width: 48%;
+  text-align: center;
+  pointer-events: none;
+  white-space: nowrap;
+  color: rgba(183, 161, 126, .52);
+}
+.story > .guide-grid > .guide-card .card-metric strong {
+  color: rgba(183, 161, 126, .52);
+  font-family: Cinzel, Georgia, serif;
+  font-weight: 500;
+  line-height: 1;
+}
+.story > .guide-grid > .guide-card .card-metric > span {
+  display: block;
+  width: 100%;
+  color: rgba(183, 161, 126, .52);
+  font-family: Cinzel, Georgia, serif;
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: .1em;
+}
+.story > .guide-grid > .guide-card .card-metric .card-metric-unit {
+  font-family: Cinzel, Georgia, serif;
+  font-size: .33em;
+  margin-left: .15em;
+  color: inherit;
+}
+@media (min-width: 821px) and (pointer: fine),
+       (min-width: 1001px) and (pointer: coarse) {
+  .story > .guide-grid > .guide-card .card-metric {
+    top: calc(14 * var(--abyss-desktop-px));
+    right: calc(18 * var(--abyss-desktop-px));
+    gap: calc(3 * var(--abyss-desktop-px));
+  }
+  .story > .guide-grid > .guide-card .card-metric strong {
+    font-size: calc(49 * var(--abyss-desktop-px));
+  }
+  .story > .guide-grid > .guide-card .card-metric > span {
+    font-size: calc(14 * var(--abyss-desktop-px));
+  }
+}
+@media (max-width: 820px) and (orientation: portrait) {
+  .story > .guide-grid > .guide-card .card-metric {
+    top: clamp(14px, 3.2vw, 20px);
+    right: clamp(14px, 3.2vw, 20px);
+    gap: 3px;
+  }
+  .story > .guide-grid > .guide-card .card-metric strong {
+    font-size: clamp(37px, 10vw, 48px);
+  }
+  .story > .guide-grid > .guide-card .card-metric > span { font-size: 12px; }
+  .story > .guide-grid > .guide-card .card-num { max-width: 55%; }
+  .story > .guide-grid > .guide-card .card-glyph { margin-top: clamp(48px, 12vw, 62px); }
+}
+@media (orientation: landscape) and (pointer: coarse) and (max-height: 650px) and (max-width: 1000px) {
+  .story > .guide-grid > .guide-card .card-metric {
+    top: clamp(9px, 1.4vw, 14px);
+    right: clamp(9px, 1.4vw, 14px);
+    max-width: 53%;
+    gap: 2px;
+  }
+  .story > .guide-grid > .guide-card .card-metric strong {
+    font-size: clamp(27px, 3.6vw, 40px);
+  }
+  .story > .guide-grid > .guide-card .card-metric > span {
+    font-size: clamp(9px, 1.1vw, 12px);
+  }
+  .story > .guide-grid > .guide-card .card-num { max-width: 53%; }
+  .story > .guide-grid > .guide-card .card-glyph { margin-top: clamp(36px, 5vw, 48px); }
+}
+
+/* Keep the portrait slide-down menu's link text in lockstep with the 01–05
+   overline labels. Earlier mobile-specific nav rules were more specific. */
+@media (max-width: 820px) and (orientation: portrait) {
+  .site-header .mobile-navigation-viewport .site-navigation > a {
+    font-size: 14px;
+  }
+}
+
+/* ABOUT copy on phones was previously 16px (portrait) and +2 relative to
+   the compact landscape body; make the requested additional +2 explicit. */
+@media (max-width: 820px) and (orientation: portrait) {
+  .story .story-body > p { font-size: 18px; }
+}
+@media (orientation: landscape) and (pointer: coarse) and (max-height: 650px) and (max-width: 1000px) {
+  .story .story-body > p { font-size: calc(var(--abyss-landscape-body) + 4px); }
+}
+
+/* ========================================================================
+   2026-11-15 — Release ribbon placement and ABOUT typography refinements.
+   Retain the FHD master scale, 2160px two-panel layout, Bandcamp and mobile
+   menu animation; only the four requested presentation details change.
+   ======================================================================== */
+
+/* The ribbon stays inside the existing Hero stage. Its vertical center is
+   synchronized to the ENTRANCE-to-Hero-bottom midpoint by the portal script. */
+@media (min-width: 821px) and (pointer: fine),
+       (min-width: 1001px) and (pointer: coarse) {
+  .hero-outer .release-announcement {
+    top: var(--rustrata-release-top, 82%);
+    bottom: auto;
+  }
+}
+
+/* Restore the pre-enlargement ABOUT copy size on both phone orientations. */
+@media (max-width: 820px) and (orientation: portrait) {
+  .story .story-body > p { font-size: 16px; }
+}
+@media (orientation: landscape) and (pointer: coarse) and (max-height: 650px) and (max-width: 1000px) {
+  .story .story-body > p { font-size: calc(var(--abyss-landscape-body) + 2px); }
+}
+
+/* Enlarge EVERY textual element in the three desktop ABOUT cards by 2 CSS px
+   at FHD, using the same desktop unit that governs proportional downsizing. */
+@media (min-width: 821px) and (pointer: fine),
+       (min-width: 1001px) and (pointer: coarse) {
+  .story > .guide-grid .guide-card .card-num {
+    font-size: calc(18 * var(--abyss-desktop-px));
+  }
+  .story > .guide-grid .guide-card .card-metric strong {
+    font-size: calc(51 * var(--abyss-desktop-px));
+  }
+  .story > .guide-grid .guide-card .card-metric > span {
+    font-size: calc(16 * var(--abyss-desktop-px));
+  }
+  .story > .guide-grid .guide-card .card-metric .card-metric-unit {
+    font-size: calc(18.17 * var(--abyss-desktop-px));
+  }
+  .story > .guide-grid .guide-card .card-glyph {
+    font-size: calc(54 * var(--abyss-desktop-px));
+  }
+  .story > .guide-grid .guide-card h3 {
+    font-size: calc(20 * var(--abyss-desktop-px));
+  }
+  .story > .guide-grid .guide-card p {
+    font-size: calc(18 * var(--abyss-desktop-px));
+  }
+}
+
+
+/* ========================================================================
+   2026-11-15 — Desktop-only SOUND, VIEWS and CONTROLS refinements.
+   All FHD-derived dimensions use --abyss-desktop-px; mobile layouts are
+   intentionally untouched. Keep the 350×470 Bandcamp embed viewport and
+   scale the rendered player uniformly instead of resizing its inner UI.
+   ======================================================================== */
+@media (min-width: 821px) and (pointer: fine),
+       (min-width: 1001px) and (pointer: coarse) {
+  /* SOUND: description and drone definition +2px at the FHD master size. */
+  #sound .sound-description > p:not(.sound-lead) {
+    font-size: calc(18 * var(--abyss-desktop-px));
+  }
+  #sound .sound-definition h3 {
+    font-size: calc(18 * var(--abyss-desktop-px));
+  }
+  #sound .sound-definition p {
+    font-size: calc(17 * var(--abyss-desktop-px));
+  }
+
+  /* Enlarge the complete player by 20%, keeping its 350:470 proportions. */
+  #sound .sound-bandcamp-only .sound-bandcamp-frame {
+    width: min(100%, calc(420 * var(--abyss-desktop-px)));
+    aspect-ratio: 350 / 470;
+    height: auto;
+  }
+
+  /* VIEWS and CONTROLS introductory two-line descriptions +2px. */
+  .gallery .section-top > p {
+    font-size: calc(18 * var(--abyss-desktop-px));
+  }
+  .guide .guide-section-top > p {
+    font-size: calc(18 * var(--abyss-desktop-px));
+  }
+
+  /* Hide this redundant subheading on desktops only. */
+  .guide .controls-panel > h3 { display: none; }
+
+  /* Three horizontally arranged rows: text left, SVG right. Each graphic
+     preserves its own 12:7 ratio, and the cards fit within one FHD screen. */
+  .guide .controls-panel {
+    margin-top: calc(20 * var(--abyss-desktop-px));
+  }
+  .guide .controls-cards {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: calc(12 * var(--abyss-desktop-px));
+  }
+  .guide .controls-cards > .control-card {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, calc(316 * var(--abyss-desktop-px)));
+    grid-template-rows: auto;
+    gap: 0;
+    align-items: center;
+    min-height: 0;
+    padding: 0;
+  }
+  .guide .controls-cards .control-card > .control-copy {
+    grid-column: 1;
+    grid-row: 1;
+    align-self: center;
+    padding: calc(14 * var(--abyss-desktop-px)) calc(26 * var(--abyss-desktop-px));
+  }
+  .guide .controls-cards .control-card > .control-figure {
+    grid-column: 2;
+    grid-row: 1;
+    align-self: center;
+    aspect-ratio: 12 / 7;
+    width: 100%;
+    height: auto;
+  }
+  .guide .controls-cards .control-card > .control-figure img {
+    width: 100%;
+    height: 100%;
+    aspect-ratio: 12 / 7;
+    object-fit: cover;
+  }
+  .guide .controls-cards .control-copy h4 {
+    margin-bottom: calc(10 * var(--abyss-desktop-px));
+    font-size: calc(16 * var(--abyss-desktop-px));
+  }
+  .guide .controls-cards .control-copy p {
+    margin: 0;
+    line-height: 1.85;
+    font-size: calc(15 * var(--abyss-desktop-px));
+  }
+}
+
+
+/* 2026-11-15 — Desktop CONTROLS: expand the three operation drawings until
+   the bottom margin after CONFIG mirrors the top inset before 04-CONTROLS.
+   Keep the original artwork at a uniform 12:7 ratio and preserve the existing
+   text-left / drawing-right card structure. Never apply to touch/mobile UI. */
+@media (min-width: 821px) and (pointer: fine),
+       (min-width: 1001px) and (pointer: coarse) {
+  .guide .controls-cards {
+    /* Reserve four additional scaled pixels of space so the three rows do
+       not make CONTROLS 2-3px taller than the viewport on tablet/desktop.
+       The reduction preserves the image and text proportions. */
+    height: calc(var(--abyss-desktop-section-height) - 318 * var(--abyss-desktop-px));
+    min-height: 0;
+    grid-template-rows: repeat(3, minmax(0, 1fr));
+  }
+  .guide .controls-cards > .control-card {
+    grid-template-columns: minmax(0,1fr) auto;
+    min-height: 0;
+  }
+  .guide .controls-cards > .control-card > .control-figure {
+    height: 100%;
+    width: auto;
+    min-width: 0;
+    aspect-ratio: 12 / 7;
+  }
+  .guide .controls-cards > .control-card > .control-figure > img {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+/* 2026-11-15 — Stabilize desktop CONTROLS when the browser is zoomed.
+   The previous auto-sized right grid track used a percentage-height SVG
+   inside a row with intrinsic sizing, creating a circular width calculation.
+   At 110% and 125% it shifted/expanded the drawing into the copy column.
+   Size the track from the same FHD master unit as the other layout elements;
+   let 12:7 aspect-ratio determine the graphic's height, not the grid row. */
+@media (min-width: 821px) and (pointer: fine),
+       (min-width: 1001px) and (pointer: coarse) {
+  .guide .controls-cards > .control-card {
+    grid-template-columns: minmax(0, 1fr) minmax(0, calc(370 * var(--abyss-desktop-px)));
+    grid-template-rows: minmax(0, 1fr);
+    align-items: center;
+    overflow: hidden;
+  }
+  .guide .controls-cards > .control-card > .control-copy {
+    min-width: 0;
+    max-width: 100%;
+    grid-column: 1;
+    grid-row: 1;
+  }
+  .guide .controls-cards > .control-card > .control-figure {
+    grid-column: 2;
+    grid-row: 1;
+    justify-self: end;
+    align-self: center;
+    display: block;
+    width: 100%;
+    height: auto;
+    min-width: 0;
+    min-height: 0;
+    aspect-ratio: 12 / 7;
+    overflow: hidden;
+  }
+  .guide .controls-cards > .control-card > .control-figure > img {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+    aspect-ratio: 12 / 7;
+    object-fit: cover;
+  }
+}
+
+
+/* ========================================================================
+   2026-11-15 — CONTROLS typography, desktop footer, CREDITS tone
+   ------------------------------------------------------------------------
+   Keep the three existing responsive illustration placements unchanged.
+   Match card description type to 01 ABOUT body type at each screen class;
+   enlarge PC / スマホ / CONFIG headings by 2px at the corresponding scale.
+   On desktops, use the same stacked and centered footer composition as on
+   phones. De-emphasize only the Live-audience line under SPECIAL THANKS.
+   ======================================================================== */
+@media (min-width: 821px) and (pointer: fine),
+       (min-width: 1001px) and (pointer: coarse) {
+  .guide .controls-cards .control-copy p,
+  .guide .controls-cards .control-copy p.muted {
+    font-size: calc(18 * var(--abyss-desktop-px));
+  }
+  .guide .controls-cards .control-copy h4 {
+    font-size: calc(18 * var(--abyss-desktop-px));
+  }
+
+  /* Smartphone footer arrangement: image, tagline, then centered copyright. */
+  .footer.shell {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: calc(12 * var(--abyss-desktop-px));
+    min-height: calc(150 * var(--abyss-desktop-px));
+    padding-top: calc(24 * var(--abyss-desktop-px));
+    padding-bottom: calc(24 * var(--abyss-desktop-px));
+  }
+  .footer.shell .footer-brand .brand-wordmark {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: calc(4 * var(--abyss-desktop-px));
+  }
+  .footer.shell .footer-brand .footer-subtitle {
+    display: block;
+    text-align: center;
+  }
+  .footer.shell > small {
+    position: static;
+    inset: auto;
+    transform: none;
+    margin: 0;
+    text-align: center;
+  }
+}
+@media (max-width: 820px) and (orientation: portrait) {
+  .guide .controls-cards .control-copy p,
+  .guide .controls-cards .control-copy p.muted {
+    font-size: 16px;
+  }
+  .guide .controls-cards .control-copy h4 {
+    font-size: 16px;
+  }
+}
+@media (orientation: landscape) and (pointer: coarse) and (max-height: 650px) and (max-width: 1000px) {
+  .guide .controls-cards .control-copy p,
+  .guide .controls-cards .control-copy p.muted {
+    font-size: calc(var(--abyss-landscape-body) + 2px);
+  }
+  .guide .controls-cards .control-copy h4 {
+    font-size: clamp(11px, 1.45vw, 14px);
+  }
+}
+/* Less contrast than the creators' names (#ece4d8), without changing the
+   other CREDITS labels or the Japanese Mincho typography. */
+.credits-section .credits-thanks p,
+html[lang="ja"] .credits-section .credits-thanks p,
+html[lang="en"] .credits-section .credits-thanks p {
+  color: #9b9488;
+  text-shadow: none;
+}
+
+
+/* ========================================================================
+   2026-11-15 — Requested PC-only font increases (FHD reference).
+   Preserve the mobile variants and FHD-to-smaller proportional scaling.
+   ======================================================================== */
+@media (min-width: 821px) and (pointer: fine),
+       (min-width: 1001px) and (pointer: coarse) {
+  /* Header menu is independent of section overline labels. */
+  .site-header .mobile-navigation-viewport .site-navigation > a {
+    font-size: calc(16 * var(--abyss-desktop-px));
+  }
+  .site-header .brand .header-subtitle {
+    font-size: calc(16 * var(--abyss-desktop-px));
+  }
+
+  /* Hero: the Japanese Mincho description, not the raster logo image. */
+  .hero-outer .hero-copy.hero-copy-mincho,
+  html[lang="ja"] .hero-outer .hero-copy.hero-copy-mincho,
+  html[lang="en"] .hero-outer .hero-copy.hero-copy-mincho {
+    font-size: calc(24 * var(--abyss-desktop-px));
+  }
+
+  /* Login: only the eight named display targets are modified. */
+  .hero-outer .hero-login .login-top {
+    font-size: calc(16 * var(--abyss-desktop-px));
+  }
+  .hero-outer .hero-login label {
+    font-size: calc(14 * var(--abyss-desktop-px));
+  }
+  .hero-outer .hero-login input {
+    font-size: calc(16 * var(--abyss-desktop-px));
+  }
+  .hero-outer .hero-login input::placeholder {
+    font-size: inherit;
+  }
+  .hero-outer .hero-login button[type="submit"] {
+    font-size: calc(16 * var(--abyss-desktop-px));
+  }
+  .hero-outer .hero-login .login-note {
+    font-size: calc(12 * var(--abyss-desktop-px));
+  }
+}
+
+/* =====================================================================
+   2026-11-15 — Additional PC-only typography refinements (FHD base).
+   Preserve all phone-specific styles and scale proportionally below FHD.
+   ===================================================================== */
+@media (min-width: 821px) and (pointer: fine),
+       (min-width: 1001px) and (pointer: coarse) {
+  /* 01 ABOUT: metrics' large numerals and the inline MIN unit. */
+  .story > .guide-grid .guide-card .card-metric strong {
+    font-size: calc(52 * var(--abyss-desktop-px));
+  }
+  .story > .guide-grid .guide-card .card-metric .card-metric-unit {
+    font-size: calc(18 * var(--abyss-desktop-px));
+  }
+
+  /* 03 VIEWS: numbered mode labels and small screenshot status text. */
+  .gallery .gallery-grid .shot figcaption span {
+    font-size: calc(14 * var(--abyss-desktop-px));
+  }
+  .gallery .gallery-grid .shot figcaption small {
+    font-size: calc(12 * var(--abyss-desktop-px));
+  }
+
+  /* 05 CREDITS: creators' profile text. */
+  .credits-section .credits-entry dd.credits-person-bio {
+    font-size: calc(14 * var(--abyss-desktop-px));
+  }
+
+  /* Footer only: leave the header's separate 16px setting unchanged. */
+  .footer.shell .footer-brand .footer-subtitle {
+    font-size: calc(16 * var(--abyss-desktop-px));
+  }
+  .footer.shell > small {
+    font-size: calc(14 * var(--abyss-desktop-px));
+  }
+}
+
+
+/* 2026-11-15 — PC-only section heading size 14px -> 16px at FHD.
+   Keep the existing proportional desktop scale and smartphone typography. */
+@media (min-width: 821px) and (pointer: fine),
+       (min-width: 1001px) and (pointer: coarse) {
+  .story-overline-row > .overline,
+  .sound-overline-row > .overline,
+  .gallery-overline-row > .overline,
+  .controls-overline-row > .overline,
+  .credits-header > .overline {
+    font-size: calc(16 * var(--abyss-desktop-px));
+  }
+}
+
+/* ========================================================================
+   2026-11-15 — Tablet: restore the original PC composition, then change only
+   the number of full-height stages displayed in each physical orientation.
+   Portrait: 2 PC-layout stages per visible screen (Hero counts as a stage).
+   Landscape: 1 PC-layout stage per visible screen.
+   The tablet viewport script creates a desktop-width CSS canvas >=1024px;
+   existing desktop/FHD typography, columns, artwork and navigation apply.
+   Smartphones and desktop computers do not match this HTML class.
+   ======================================================================== */
+html.rustrata-tablet-pc {
+  --abyss-desktop-section-height: calc(100svh - var(--site-header-height));
+  scroll-padding-top: var(--site-header-height);
+}
+
+@media (orientation: portrait) {
+  html.rustrata-tablet-pc {
+    --abyss-desktop-section-height: calc((100svh - var(--site-header-height)) / 2);
+  }
+}
+
+/* Explicit heights are necessary: min-height alone lets the content set
+   the stage's height, so there would not be exactly two portrait sections. */
+html.rustrata-tablet-pc .hero-outer > .hero,
+html.rustrata-tablet-pc .hero-outer .hero-layout.shell {
+  box-sizing: border-box;
+  height: var(--abyss-desktop-section-height);
+  min-height: var(--abyss-desktop-section-height);
+}
+html.rustrata-tablet-pc .story.section,
+html.rustrata-tablet-pc .sound-section.section,
+html.rustrata-tablet-pc .gallery.section,
+html.rustrata-tablet-pc .guide.section,
+html.rustrata-tablet-pc .credits-section.section {
+  box-sizing: border-box;
+  height: var(--abyss-desktop-section-height);
+  min-height: var(--abyss-desktop-section-height);
+}
+
+/* Guarantee that the final CREDITS anchor can align to the fixed header,
+   even though there is only the footer and no following editorial stage. */
+@media (orientation: portrait) {
+  html.rustrata-tablet-pc body::after {
+    content: "";
+    display: block;
+    height: max(0px, calc(100svh - var(--site-header-height) - var(--abyss-desktop-section-height) - 150 * var(--abyss-desktop-px)));
+    background: #000;
+  }
+}
+
+/* ========================================================================
+   2026-11-15 — Tablet-only horizontal swipe / Safari rubber-band guard.
+   PC canvas stays at the existing virtual desktop width; portrait 2 panels
+   and landscape 1 panel are untouched. Vertical scrolling and pinch-zoom
+   remain available, but a one-finger sideways swipe cannot pan the page.
+   ======================================================================== */
+html.rustrata-tablet-pc,
+html.rustrata-tablet-pc body {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden !important; /* Override the earlier `clip` on iPadOS. */
+  overscroll-behavior-x: none;
+  touch-action: pan-y pinch-zoom;
 }
