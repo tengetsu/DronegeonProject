@@ -6284,7 +6284,7 @@ html.rustrata-tablet-pc body {
 .rustrata-hourglass-rotor {
   position:absolute; display:block; box-sizing:border-box; pointer-events:none;
   transform:rotate(var(--rustrata-hourglass-turn));
-  transition:transform .88s cubic-bezier(.28,.12,.15,1);
+  transition:none; /* JS rotates sand and glass on the same frame */
   transform-origin:50% 50%; will-change:transform;
 }
 .rustrata-hourglass-rotor--small { left:47.189%; top:29.710%; width:8.0742%; height:55.254%; }

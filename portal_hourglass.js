@@ -1,223 +1,231 @@
-/* RusTrata hourglass — 10s conservation-of-sand animation.
- * Three existing wordmarks share a single clock. The gold engraving is
- * the original image, while the interior sand is generated from volume.
- * Gravity changes direction when the glass turns; all sand is retained.
+/* RusTrata / gravity-consistent gold sand hourglass (2026-11-15)
+ * Three wordmarks are synchronized.  Each chamber is the same shape after
+ * a half turn, and sand always occupies the downhill part of its chamber.
+ * The sand's area, palette and free surface are continuous during rotation.
  */
 (() => {
   'use strict';
-  const canvases = [...document.querySelectorAll('canvas[data-hourglass-sand]')];
-  if (!canvases.length) return;
+  const canvases=[...document.querySelectorAll('canvas[data-hourglass-sand]')];
+  const logos=[...document.querySelectorAll('[data-hourglass-logo]')];
+  if(!canvases.length||!logos.length) return;
 
-  const W = 135, H = 305, CX = 67.5, NECK = 152;
-  const FLIP_EVERY = 10000, FLIP_DURATION = 880, SETTLE_DURATION = 550;
-  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const upper = [
-    [72,36],[83,37],[95,34],[104,31],[117,24],[130,16],[141,7],[152,2]
-  ];
-  const lower = [
-    [152,2],[164,7],[178,16],[196,28],[213,34],[234,39],[257,41],[273,37],[282,31]
-  ];
-  const upperWindow = [[40,71],[31,83],[32,94],[36,104],[43,117],[51,130],
-    [58,140],[63,153],[72,153],[77,140],[84,129],[92,117],
-    [100,104],[105,94],[106,83],[97,71]];
-  const lowerWindow = [[63,152],[72,152],[76,164],[83,178],[94,196],
-    [101,213],[106,234],[108,257],[105,273],[99,282],[39,282],
-    [29,273],[27,257],[29,234],[35,213],[43,196],[52,178],[60,164]];
-  function polygon(ctx, points) {
-    ctx.beginPath();
-    points.forEach(([x,y],i) => i ? ctx.lineTo(x,y) : ctx.moveTo(x,y));
+  const W=135,H=305,CX=67.5,NY=152;
+  const FLIP_INTERVAL=10000,FLIP_TIME=880,FINISH_EARLY=180;
+  const STREAM_SHARE=0.022;
+  const reduced=window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const LOWER=[[63,152],[72,152],[76,164],[83,178],[94,196],[101,213],
+    [106,234],[108,257],[105,273],[99,282],[39,282],[29,273],
+    [27,257],[29,234],[35,213],[43,196],[52,178],[60,164]];
+  const UPPER=LOWER.map(([x,y])=>[135-x,304-y]);
+  const area=p=>Math.abs(p.reduce((sum,v,i)=>sum+v[0]*p[(i+1)%p.length][1]
+    -p[(i+1)%p.length][0]*v[1],0)/2);
+  const MASS=area(LOWER)*.59;
+  const clamp=x=>Math.max(0,Math.min(1,x));
+  const fract=x=>x-Math.floor(x);
+  const ease=x=>{x=clamp(x);return x*x*(3-2*x);};
+  const path=(ctx,pts)=>{
+    if(!pts.length)return;
+    ctx.beginPath();ctx.moveTo(pts[0][0],pts[0][1]);
+    for(let i=1;i<pts.length;i++)ctx.lineTo(pts[i][0],pts[i][1]);
     ctx.closePath();
+  };
+  const dot=(p,g)=>(p[0]-CX)*g[0]+(p[1]-NY)*g[1];
+  function clipDownhill(points,g,threshold) {
+    const out=[];
+    let a=points[points.length-1],da=dot(a,g)-threshold;
+    for(const b of points) {
+      const db=dot(b,g)-threshold;
+      if((da>=0)!==(db>=0)) {
+        const f=da/(da-db);
+        out.push([a[0]+(b[0]-a[0])*f,a[1]+(b[1]-a[1])*f]);
+      }
+      if(db>=0)out.push(b);
+      a=b;da=db;
+    }
+    return out;
   }
-  function radius(points,y) {
-    if (y <= points[0][0]) return points[0][1];
-    for(let i=1;i<points.length;i++) {
-      if (y <= points[i][0]) {
-        const a=points[i-1],b=points[i], t=(y-a[0])/(b[0]-a[0]);
-        return a[1]+(b[1]-a[1])*t;
+  function sandPolygon(chamber,g,amount) {
+    const full=area(chamber);
+    if(amount<.01)return {poly:[],threshold:Infinity};
+    if(amount>=full-.01)return {poly:chamber,threshold:-Infinity};
+    const projections=chamber.map(p=>dot(p,g));
+    let lo=Math.min(...projections)-.1,hi=Math.max(...projections)+.1;
+    // Binary search over equal-area clipped polygons (same total sand mass).
+    for(let i=0;i<21;i++) {
+      const mid=(lo+hi)/2;
+      if(area(clipDownhill(chamber,g,mid))>amount)lo=mid;
+      else hi=mid;
+    }
+    const threshold=(lo+hi)/2;
+    return {poly:clipDownhill(chamber,g,threshold),threshold};
+  }
+  function background(ctx,chamber) {
+    ctx.save();path(ctx,chamber);ctx.clip();
+    const y=chamber===UPPER?87:217;
+    const grad=ctx.createRadialGradient(58,y-11,4,CX,y+3,94);
+    grad.addColorStop(0,'#514333');
+    grad.addColorStop(.56,'#36291e');
+    grad.addColorStop(1,'#1c1715');
+    ctx.fillStyle=grad;ctx.fillRect(0,12,W,286);
+    const glass=ctx.createLinearGradient(20,0,115,0);
+    glass.addColorStop(0,'rgba(255,214,137,.15)');
+    glass.addColorStop(.24,'rgba(255,234,183,.01)');
+    glass.addColorStop(.74,'rgba(255,234,183,.015)');
+    glass.addColorStop(1,'rgba(255,214,137,.12)');
+    ctx.fillStyle=glass;ctx.fillRect(15,12,105,286);
+    ctx.restore();
+  }
+  function sand(ctx,chamber,g,amount,glimmer) {
+    if(amount<.01)return {threshold:Infinity};
+    const {poly,threshold}=sandPolygon(chamber,g,amount);
+    if(poly.length<3)return {threshold};
+    const sx=CX+g[0]*threshold,sy=NY+g[1]*threshold;
+    ctx.save();path(ctx,poly);ctx.clip();
+    // Gradient aligned with gravity, rather than the fixed original Y axis:
+    // the exact same gold is used before/during/after every 180° flip.
+    const grad=ctx.createLinearGradient(sx-g[0]*2,sy-g[1]*2,
+      sx+g[0]*95,sy+g[1]*95);
+    grad.addColorStop(0,'#ffe6a4');
+    grad.addColorStop(.12,'#f3cf80');
+    grad.addColorStop(.38,'#d6a153');
+    grad.addColorStop(.72,'#af7738');
+    grad.addColorStop(1,'#83532a');
+    ctx.fillStyle=grad;ctx.fillRect(0,0,W,H);
+    const shine=ctx.createLinearGradient(22,0,111,0);
+    shine.addColorStop(0,'rgba(77,40,13,.2)');
+    shine.addColorStop(.34,'rgba(255,242,186,.2)');
+    shine.addColorStop(.65,'rgba(255,239,174,.07)');
+    shine.addColorStop(1,'rgba(89,47,17,.22)');
+    ctx.fillStyle=shine;ctx.fillRect(15,10,105,285);
+    // Fine, deterministic granules are stable in color and position.
+    for(let i=0;i<610;i++) {
+      const x=21+fract(i*0.6180339887)*93;
+      const y=20+fract(i*0.7548776662)*267;
+      const v=fract(i*0.4142135623);
+      ctx.fillStyle=v<.45?'rgba(255,236,161,.23)':'rgba(101,55,22,.25)';
+      const size=(i%7===0?1.1:.65);
+      ctx.fillRect(x,y,size,size);
+    }
+    ctx.restore();
+    // The free surface is literally one horizontal line in screen space.
+    const edge=[];
+    for(let i=0;i<chamber.length;i++) {
+      const a=chamber[i],b=chamber[(i+1)%chamber.length];
+      const da=dot(a,g)-threshold,db=dot(b,g)-threshold;
+      if(da*db<0) {
+        const t=da/(da-db);
+        edge.push([a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t]);
       }
     }
-    return points[points.length-1][1];
-  }
-  function capacity(points) {
-    let a=0;
-    for(let y=points[0][0];y<points.at(-1)[0];y+=0.5) a+=2*radius(points,y)*0.5;
-    return a;
-  }
-  // Each transfer uses the SAME amount of sand independent of orientation.
-  const MASS = Math.min(capacity(upper),capacity(lower)) * 0.72;
-  function surface(points,fromNeck,amount) {
-    const max=capacity(points), remaining=Math.max(0,Math.min(amount,max));
-    const top=points[0][0], bottom=points.at(-1)[0];
-    const forward=(points===upper ? !fromNeck : fromNeck);
-    const dy=0.5;
-    let volume=0;
-    if (forward) {
-      for(let y=top;y<bottom;y+=dy) {
-        volume+=2*radius(points,y)*dy;
-        if(volume>=remaining) return y;
-      }
-      return bottom;
+    if(edge.length>=2) {
+      ctx.save();ctx.beginPath();ctx.moveTo(...edge[0]);ctx.lineTo(...edge[1]);
+      ctx.strokeStyle='rgba(255,231,165,.76)';ctx.lineWidth=1.05;ctx.stroke();
+      ctx.restore();
     }
-    for(let y=bottom;y>top;y-=dy) {
-      volume+=2*radius(points,y)*dy;
-      if(volume>=remaining) return y;
-    }
-    return top;
+    return {threshold};
   }
-  const clamp=v=>Math.max(0,Math.min(1,v));
-  function glassBackground(ctx,polygonPoints,isBottom) {
-    ctx.save();
-    polygon(ctx,polygonPoints);ctx.clip();
-    const grad=ctx.createRadialGradient(54,isBottom?217:92,7,70,isBottom?221:115,77);
-    grad.addColorStop(0,'#443a2c');
-    grad.addColorStop(.6,'#30271e');
-    grad.addColorStop(1,'#221a16');
-    ctx.fillStyle=grad;ctx.fillRect(24,isBottom?151:70,88,isBottom?134:85);
-    // Faint luminous depth mimics the glass glow in the original illustration.
-    const shine=ctx.createLinearGradient(32,0,103,0);
-    shine.addColorStop(0,'rgba(255,222,161,.13)');
-    shine.addColorStop(.24,'rgba(255,226,171,0)');
-    shine.addColorStop(.78,'rgba(255,230,180,0)');
-    shine.addColorStop(1,'rgba(255,221,142,.11)');
-    ctx.fillStyle=shine;ctx.fillRect(24,70,90,216);
-    // Reintroduce a trace of the old glass's engraved/grain texture.
-    for(let i=0;i<190;i++) {
-      const gx=28+((i*37.71)%82);
-      const gy=(isBottom?153:71)+((i*53.93)%(isBottom?130:80));
-      ctx.fillStyle=i%3===0?'rgba(226,188,125,.035)':'rgba(15,10,8,.055)';
-      ctx.fillRect(gx,gy,.7,.75);
+  function trickle(ctx,targetChamber,amount,sourceAmount,clock,dir) {
+    if(amount<.04||amount>=MASS-.08||sourceAmount<.08)return;
+    const g=[0,dir];
+    const {threshold}=sandPolygon(targetChamber,g,amount);
+    const impactY=NY+dir*threshold;
+    const startY=NY+dir*2.4;
+    const distance=Math.max(0,(impactY-startY)*dir);
+    if(distance<6)return;
+    ctx.save();path(ctx,targetChamber);ctx.clip();
+    // Broken, subtly luminous filament, not an implausibly solid rod.
+    const ribbon=ctx.createLinearGradient(CX-1.3,0,CX+1.3,0);
+    ribbon.addColorStop(0,'rgba(185,109,49,0)');
+    ribbon.addColorStop(.42,'rgba(250,213,127,.65)');
+    ribbon.addColorStop(.60,'rgba(255,244,188,.9)');
+    ribbon.addColorStop(1,'rgba(180,101,42,0)');
+    ctx.beginPath();ctx.moveTo(CX,startY);ctx.lineTo(CX,impactY);
+    ctx.strokeStyle=ribbon;ctx.lineWidth=1.25;ctx.stroke();
+    for(let i=0;i<38;i++) {
+      const speed=0.00035*(1+fract(i*.739)*.7);
+      const t=fract(clock*speed+i*.6180339);
+      const fall=t*t;
+      const x=CX+Math.sin(i*12.9898+clock*.0013)*(.34+fall*1.8);
+      const y=startY+(impactY-startY)*fall;
+      const alpha=.32+.60*Math.sin(Math.PI*t);
+      ctx.fillStyle=i%5===0?`rgba(255,247,200,${alpha})`:
+        `rgba(245,194,99,${alpha*.88})`;
+      ctx.beginPath();ctx.arc(x,y,i%4===0?.78:.42,0,Math.PI*2);ctx.fill();
+    }
+    // Sand grains that reach the heap scatter and settle over a few frames.
+    for(let i=0;i<17;i++) {
+      const t=fract(clock*(.0006+fract(i*.31)*.00045)+i*.317);
+      const side=i%2===0?1:-1;
+      const x=CX+side*(1.2+9*t)+Math.sin(i*13)*.6;
+      const y=impactY-dir*(5.5*Math.sin(Math.PI*t)) + dir*(1.4*t);
+      const alpha=(1-t)*.83;
+      ctx.fillStyle=`rgba(255,220,145,${alpha.toFixed(3)})`;
+      ctx.beginPath();ctx.arc(x,y,.35+(1-t)*.5,0,Math.PI*2);ctx.fill();
     }
     ctx.restore();
   }
-  function pile(ctx,points,nearNeck,quantity,clock) {
-    if(quantity <= 1) return;
-    const top=points[0][0],bottom=points.at(-1)[0], level=surface(points,nearNeck,quantity);
-    const fillFromTop=points===upper ? !nearNeck : nearNeck;
-    ctx.save();
-    polygon(ctx,points===upper?upperWindow:lowerWindow);ctx.clip();
-    // The upper chamber's sand surface is nearly level. In the lower chamber,
-    // a shallow cone forms beneath the stream instead of a floating blob.
-    let left=23,right=112,r=Math.max(3,radius(points,level)-2);
-    const tip=nearNeck?1:6;
-    ctx.beginPath();
-    if(fillFromTop) {
-      ctx.moveTo(17,top-5);ctx.lineTo(118,top-5);
-      ctx.lineTo(118,level-2);
-      ctx.lineTo(CX+r,level+1);
-      ctx.quadraticCurveTo(CX,level+tip,CX-r,level+1);
-      ctx.lineTo(17,level-2);
+  function drawAt(ctx,clock) {
+    // Each period starts with a turn (except the very first period).
+    const cycle=Math.floor(clock/FLIP_INTERVAL);
+    const phase=clock-cycle*FLIP_INTERVAL;
+    const turning=cycle>0 && phase<FLIP_TIME;
+    const before=turning?cycle-1:cycle;
+    const oldAngle=Math.max(0,turning?(cycle-1)*Math.PI:cycle*Math.PI);
+    const angle=turning?oldAngle+Math.PI*ease(phase/FLIP_TIME):oldAngle;
+    const g=[-Math.sin(angle),Math.cos(angle)];
+    // For a new cycle, the filled destination of the previous cycle is
+    // *precisely* the source of this cycle: no color or location reset.
+    let upperAmount,lowerAmount,flow=false,progress=0,sandInFlight=0;
+    if(turning) {
+      upperAmount=before%2===0?0:MASS;
+      lowerAmount=MASS-upperAmount;
     } else {
-      ctx.moveTo(17,bottom+5);ctx.lineTo(118,bottom+5);
-      ctx.lineTo(118,level+2);
-      ctx.lineTo(CX+r,level+2);
-      ctx.quadraticCurveTo(CX,level-tip,CX-r,level+2);
-      ctx.lineTo(17,level+2);
+      progress=clamp((phase-(cycle?FLIP_TIME:0)) /
+        (FLIP_INTERVAL-(cycle?FLIP_TIME:0)-FINISH_EARLY));
+      flow=progress>.001 && progress<.999;
+      sandInFlight=flow ? MASS*STREAM_SHARE*Math.pow(Math.sin(Math.PI*progress),1.15) : 0;
+      if(cycle%2===0) {
+        // Upper chamber is the source, lower chamber is the destination.
+        upperAmount=Math.max(0,MASS*(1-progress)-sandInFlight);
+        lowerAmount=Math.max(0,(MASS-sandInFlight)-upperAmount);
+      } else {
+        // Lower chamber is the source, upper chamber is the destination.
+        lowerAmount=Math.max(0,MASS*(1-progress)-sandInFlight);
+        upperAmount=Math.max(0,(MASS-sandInFlight)-lowerAmount);
+      }
     }
-    ctx.closePath();ctx.clip();
-    const grad=ctx.createLinearGradient(0,level-12,0,level+55);
-    grad.addColorStop(0,'#ffe7a9');
-    grad.addColorStop(.13,'#e8bd6a');
-    grad.addColorStop(.56,'#b8843e');
-    grad.addColorStop(1,'#7f552b');
-    ctx.fillStyle=grad;ctx.fillRect(0,top-5,W,bottom-top+10);
-    // A little sandy shimmer, constrained to the same volume silhouette.
-    const glow=ctx.createLinearGradient(27,0,108,0);
-    glow.addColorStop(0,'rgba(66,36,12,.18)');
-    glow.addColorStop(.32,'rgba(255,235,172,.18)');
-    glow.addColorStop(.55,'rgba(255,247,205,.11)');
-    glow.addColorStop(1,'rgba(91,49,17,.20)');
-    ctx.fillStyle=glow;ctx.fillRect(0,top-5,W,bottom-top+10);
-    // Stable textured grains: deterministic spatial hash avoids flicker.
-    for(let i=0;i<250;i++) {
-      const px=25+((i*71.79)%85);
-      const py=top+((i*53.17)%(bottom-top));
-      const value=((i*131)%17)/17;
-      ctx.fillStyle=value>.49?'rgba(255,237,176,.19)':'rgba(83,46,18,.20)';
-      ctx.fillRect(px,py,.7,.65);
-    }
-    ctx.restore();
-    // Sand edge: a short translucent highlight along the free surface.
-    ctx.save();polygon(ctx,points===upper?upperWindow:lowerWindow);ctx.clip();
-    ctx.strokeStyle='rgba(255,223,151,.53)';ctx.lineWidth=.95;
-    ctx.beginPath();ctx.moveTo(CX-r,level+(fillFromTop?2:0));
-    ctx.quadraticCurveTo(CX,level+(fillFromTop?tip:-tip),CX+r,level+(fillFromTop?2:0));ctx.stroke();
-    ctx.restore();
+    return {angle,g,upperAmount,lowerAmount,flow,cycle,sandInFlight};
   }
-  function stream(ctx,inverted,quantity,clock) {
-    if(quantity < 6) return;
-    // A descending ribbon (in rotated local coordinates for inverted cycles).
-    const destPoints=inverted?upper:lower;
-    const destLevel=surface(destPoints,false,quantity);
-    const startY=inverted?NECK-1:NECK+1;
-    const endY=inverted?Math.min(NECK-12,destLevel+5):Math.max(NECK+12,destLevel-5);
-    const grad=ctx.createLinearGradient(CX-1,0,CX+1,0);
-    grad.addColorStop(0,'rgba(172,116,54,.04)');
-    grad.addColorStop(.5,'rgba(255,219,143,.90)');
-    grad.addColorStop(1,'rgba(158,92,37,.10)');
-    ctx.beginPath();ctx.moveTo(CX,startY);ctx.lineTo(CX,endY);
-    ctx.lineWidth=1.7;ctx.strokeStyle=grad;ctx.stroke();
-    for(let i=0;i<9;i++) {
-      const t=((clock*.0012+i*.137)%1);
-      const yy=startY+(endY-startY)*t;
-      ctx.fillStyle=i%2?'rgba(255,233,165,.70)':'rgba(255,213,119,.45)';
-      ctx.fillRect(CX+Math.sin(i*19.3+clock*.002)*.65,yy,.8,1.15);
-    }
-  }
-  function render(canvas,orientation,progress,settle,clock) {
+  function paint(canvas,frame) {
     const ctx=canvas.getContext('2d');if(!ctx)return;
     ctx.setTransform(canvas.width/W,0,0,canvas.height/H,0,0);
     ctx.clearRect(0,0,W,H);
-    glassBackground(ctx,upperWindow,false);
-    glassBackground(ctx,lowerWindow,true);
-    if(reduced) {
-      pile(ctx,upper,true,MASS*.5,clock);
-      pile(ctx,lower,false,MASS*.5,clock);
-      return;
-    }
-    const inverted=orientation%2===1;
-    const source=inverted?lower:upper;
-    const target=inverted?upper:lower;
-    // Only the gravity direction changes. No sand is duplicated or discarded.
-    if(settle !== null) {
-      const moved=MASS*settle;
-      pile(ctx,source,false,MASS-moved,clock);
-      pile(ctx,source,true,moved,clock);
-    } else {
-      const sourceAmt=MASS*(1-progress), targetAmt=MASS*progress;
-      pile(ctx,source,true,sourceAmt,clock);
-      pile(ctx,target,false,targetAmt,clock);
-      if(progress>.01&&progress<.99) stream(ctx,inverted,targetAmt,clock);
+    background(ctx,UPPER);background(ctx,LOWER);
+    const {g,upperAmount,lowerAmount,flow,cycle}=frame;
+    sand(ctx,UPPER,g,upperAmount);sand(ctx,LOWER,g,lowerAmount);
+    if(flow) {
+      const direction=cycle%2===0?1:-1;
+      const target=direction===1?LOWER:UPPER;
+      const amount=direction===1?lowerAmount:upperAmount;
+      const source=direction===1?upperAmount:lowerAmount;
+      trickle(ctx,target,amount,source,frame.clock,direction);
     }
   }
-  const start=performance.now();
-  let previousCycle=-1,lastFrame=0;
-  const logos=[...document.querySelectorAll('[data-hourglass-logo]')];
+  function updateAt(ms) {
+    const clock=Math.max(0,ms);
+    const frame=reduced?
+      {angle:0,g:[0,1],upperAmount:MASS*.52,lowerAmount:MASS*.48,flow:false,cycle:0,clock}:
+      {...drawAt(null,clock),clock};
+    const turn=`${frame.angle}rad`;
+    for(const el of logos)el.style.setProperty('--rustrata-hourglass-turn',turn);
+    for(const canvas of canvases)paint(canvas,frame);
+  }
+  const start=performance.now();let last=-Infinity;
   function animate(now) {
-    const elapsed=Math.max(0,now-start);
-    const cycle=Math.floor(elapsed/FLIP_EVERY);
-    const phase=elapsed%FLIP_EVERY;
-    if(cycle!==previousCycle) {
-      previousCycle=cycle;
-      logos.forEach(el=>el.style.setProperty('--rustrata-hourglass-turn',`${cycle*180}deg`));
-    }
-    if(now-lastFrame>29 || lastFrame===0) {
-      lastFrame=now;
-      let orientation=cycle,progress=0,settle=null;
-      if(cycle===0) {
-        progress=clamp(phase/(FLIP_EVERY-120));
-      } else if (phase<FLIP_DURATION) {
-        // Rotating glass keeps the pile at its previous physical position.
-        orientation=cycle-1;progress=1;
-      } else if(phase<FLIP_DURATION+SETTLE_DURATION) {
-        settle=clamp((phase-FLIP_DURATION)/SETTLE_DURATION);
-      } else {
-        progress=clamp((phase-FLIP_DURATION-SETTLE_DURATION)/
-          (FLIP_EVERY-FLIP_DURATION-SETTLE_DURATION-100));
-      }
-      canvases.forEach(c=>render(c,orientation,progress,settle,elapsed));
-    }
+    if(now-last>=27){last=now;updateAt(now-start);}
     requestAnimationFrame(animate);
   }
-  if(reduced) canvases.forEach(c=>render(c,0,0,null,0));
-  else requestAnimationFrame(animate);
+  if(reduced)updateAt(0);else requestAnimationFrame(animate);
+  // Opt-in development preview only; does not run on normal pages.
+  if(location.search.includes('hourglass_debug=1'))window.__hourglassPreview=updateAt;
 })();
