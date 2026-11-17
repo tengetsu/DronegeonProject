@@ -43,15 +43,21 @@ $translations = [
         'story_text2_after' => 'を集め、閉ざされた壁の先へ進め。',
         'sound_heading1' => '音が描く',
         'sound_heading2' => 'もうひとつの迷宮',
-        'sound_text1' => 'ABYSSのBGMには、静かに響き続ける音を中心としたドローンミュージックを採用しています。',
-        'sound_text2' => '強いメロディで導くのではなく、持続する音と緩やかな変化が、石壁の冷たさ、灯火の揺らぎ、深い闇に包まれる感覚を引き立てます。',
-        'sound_text3' => '足音に耳を澄ませながら、音の余韻とともに進む探索をお楽しみください。',
+        'sound_text1' => 'RusTrataのBGMは、Hirotsugu Takuboがデザインをしたドローンミュージックを採用しています。',
+        'sound_text2' => '強いメロディで探索者を導くのではなく、明暗のある持続音と緩やかな変化が、石壁の冷たさ、灯火の揺らぎ、深い闇に包まれる感覚を引き立てます。',
+        'sound_text3' => 'BGMと足音に耳を澄ませながら、音の響きとともに進む探索をお楽しみください。',
         'sound_definition_title' => 'DRONE MUSIC とは',
         'sound_definition' => 'メロディやリズムを極限までそぎ落とし、持続音そのものを主役に据えて、微細な音のゆらぎや倍音、音響の質感に意識を集中させる実験的な音楽表現。1960年代にラ・モンテ・ヤングらが確立し、その後アンビエントや現代音楽、ロック、メタルの文脈などにも広がりました。',
         'sound_visual_label' => '深淵に響く、見えない風景。',
         'credits_heading' => '創造主たち',
-        'credits_director_bio' => 'サウンドデザイナーとしてプリミティブなドローンミュージックを電子とアコースティックの両面から追求する。また、Sylvan Echoes名義でSpotifyで17万再生されるダンジョンシンセの音源もリリース。',
-        'credits_game_designer_bio' => 'ゲーム・Web・UI/UXのデザインを通じて、ABYSSの世界観と探索体験を形にする。ダンジョンの表現や操作画面、ポータルサイトまで一貫して設計し、遊びやすさとダークファンタジーの没入感の両立を追求する。',
+        'credits_director_bio' => 'サウンドデザイナーとして、プリミティブなドローンミュージックを
+電子とアコースティックの両面から追及する。
+ゲームミュージック制作の経験から3Dダンジョンとドローンという
+全く新しい融合を発案し、今作の開発に至る。
+その他の活動として、AIによる音楽生成やSylvan Echoes名義では
+Spotifyで20万回以上再生されるダンジョンシンセの音源をリリース
+するなど多岐にわたっている。',
+        'credits_game_designer_bio' => 'ゲーム・Web・UI/UXのデザインを通じて、RusTrataの世界観と探索体験を形にする。ダンジョンの表現や操作画面、ポータルサイトまで一貫して設計し、遊びやすさとダークファンタジーの没入感の両立を追求する。',
         'credits_special_thanks' => 'Liveにお越しの皆様',
         'gallery_heading1' => '迷宮の',
         'gallery_heading2' => '風景',
@@ -79,10 +85,13 @@ $translations = [
         'guide_unlock_highlight' => '5つすべての鍵を集める',
         'guide_unlock_tail' => 'と、迷宮のどこかで壁が開きます。変化した通路を探して、さらに奥へ進みましょう。',
         'controls_title' => '操作説明',
-        'controls_pc' => '3D MODEでは、WASD・矢印キー（↑・↓・←・→）で移動します。マウスで視点を操作。ゲーム中にCキーでCONFIGを開き、Escキーで閉じられます。RETRO MODEではA・D（←・→）で90度回転、W・S（↑・↓）で1マスずつ前進・後退します。',
-        'controls_mobile' => '画面上の方向ボタンで移動・方向転換します。ゲーム中は右下のCONFIGボタンから設定を開けます。RETRO MODEでは1回のタップで1マス移動します。',
+        'controls_pc' => '3D MODEでは、WASD・矢印キー（↑・↓・←・→）で移動します。
+マウスで視点を操作。ゲーム中にCキーでCONFIGを開き、Escキーで閉じられます。
+RETRO MODEでは、A・D（←・→）で90度回転、W・S（↑・↓）で1マスずつ前進・後退します。',
+        'controls_mobile' => '画面上の方向ボタンで移動・方向転換します。ゲーム中は右下のCONFIGボタンから設定を開けます。
+RETRO MODEでは、1回のタップで1マス移動します。',
         'controls_mobile_label' => 'スマホ',
-        'controls_note' => 'CONFIGでは音量・描画品質・3D/RETRO MODE・表示言語（日本語／英語）を切り替えられます。',
+        'controls_note' => 'CONFIGでは、音量・描画品質・3D/RETRO MODE・表示言語（日本語／英語）を切り替えられます。',
         'controls_pc_alt' => 'PC keyboard and mouse controls diagram',
         'controls_mobile_alt' => 'Smartphone directional buttons and CONFIG controls diagram',
         'controls_config_alt' => 'Audio, shadow, mode, and language settings diagram',
@@ -133,8 +142,8 @@ $translations = [
         'sound_definition' => 'A style of music that explores continuous tones, layered resonance, and subtle changes over time.',
         'sound_visual_label' => 'An unseen landscape, heard in the abyss.',
         'credits_heading' => 'THE CREATORS',
-        'credits_director_bio' => 'As a sound designer, he explores primitive drone music through both electronic and acoustic expression. Under the name Sylvan Echoes, he has also released dungeon synth music with 170,000 streams on Spotify.',
-        'credits_game_designer_bio' => 'Through game, web, and UI/UX design, he shapes the world of ABYSS and the experience of exploring it. From the dungeon environments and controls to the portal website, his design work seeks to combine intuitive play with immersive dark fantasy.',
+        'credits_director_bio' => 'As a sound designer, he pursues primitive drone music through both electronic and acoustic approaches. Drawing on his experience in game music, he conceived the unusual fusion of a 3D dungeon and drone music that led to this game. His other work includes AI-assisted music creation and dungeon synth releases under the name Sylvan Echoes, which have surpassed 200,000 plays on Spotify.',
+        'credits_game_designer_bio' => 'Through game, web, and UI/UX design, he shapes the world of RusTrata and the experience of exploring it. From the dungeon environments and controls to the portal website, his design work seeks to combine intuitive play with immersive dark fantasy.',
         'credits_special_thanks' => 'Everyone who joined us at the live show ♪',
         'gallery_heading1' => 'GLIMPSES OF',
         'gallery_heading2' => 'THE LABYRINTH',
@@ -232,10 +241,41 @@ $t = static fn(string $key): string => htmlspecialchars($translations[$lang][$ke
         }
       })();
     </script>
+    <script>
+      /* Preserve the complete FHD composition when a desktop browser is
+         resized below 1200 CSS px. Scale uniformly instead of allowing
+         the stacked/mobile layouts or compressed entrance padding to win. */
+      (() => {
+        const root = document.documentElement;
+        let pending = false;
+        const sync = () => {
+          pending = false;
+          const desktop = matchMedia('(pointer: fine)').matches &&
+                          !root.classList.contains('rustrata-tablet-pc');
+          const compact = desktop && window.innerWidth <= 1200;
+          root.classList.toggle('rustrata-compact-desktop', compact);
+          if (compact) {
+            root.style.setProperty('--rustrata-compact-zoom',
+              String(Math.min(1, window.innerWidth / 1920)));
+          } else {
+            root.style.removeProperty('--rustrata-compact-zoom');
+          }
+        };
+        const schedule = () => {
+          if (!pending) {
+            pending = true;
+            requestAnimationFrame(sync);
+          }
+        };
+        sync();
+        window.addEventListener('resize', schedule, { passive: true });
+        window.addEventListener('orientationchange', schedule, { passive: true });
+      })();
+    </script>
     <meta name="theme-color" content="#0a0909">
     <meta name="description" content="<?= $t('page_description') ?>">
     <title>RusTrata // Dungeon Drone Crawler — The Sunken Sanctum</title>
-    <link rel="stylesheet" href="portal.css?v=hourglass-gravity-20261115b">
+    <link rel="stylesheet" href="portal.css?v=about-controls-credits-20261117b">
   </head>
   <body>
     <div class="ambient"></div>
@@ -460,7 +500,7 @@ $t = static fn(string $key): string => htmlspecialchars($translations[$lang][$ke
               </figure>
               <div class="control-copy">
                 <h4>PC</h4>
-                <p><?= $t('controls_pc') ?></p>
+                <p class="controls-description"><?= $t('controls_pc') ?></p>
               </div>
             </article>
             <article class="control-card">
@@ -469,7 +509,7 @@ $t = static fn(string $key): string => htmlspecialchars($translations[$lang][$ke
               </figure>
               <div class="control-copy">
                 <h4><?= $t('controls_mobile_label') ?></h4>
-                <p><?= $t('controls_mobile') ?></p>
+                <p class="controls-description"><?= $t('controls_mobile') ?></p>
               </div>
             </article>
             <article class="control-card">
@@ -478,7 +518,7 @@ $t = static fn(string $key): string => htmlspecialchars($translations[$lang][$ke
               </figure>
               <div class="control-copy">
                 <h4>CONFIG</h4>
-                <p class="muted"><?= $t('controls_note') ?></p>
+                <p class="muted controls-description"><?= $t('controls_note') ?></p>
               </div>
             </article>
           </div>
@@ -502,7 +542,7 @@ $t = static fn(string $key): string => htmlspecialchars($translations[$lang][$ke
                     <span class="credits-role">DIRECTION / SOUND DESIGN</span>
                     <span class="credits-person-name">HIROTSUGU TAKUBO</span>
                   </dt>
-                  <dd class="credits-person-bio"><?= $t('credits_director_bio') ?></dd>
+                  <dd class="credits-person-bio credits-director-bio"><?= $t('credits_director_bio') ?></dd>
                 </div>
                 <div class="credits-entry">
                   <dt>
@@ -665,16 +705,16 @@ $t = static fn(string $key): string => htmlspecialchars($translations[$lang][$ke
         // Resize only the entire rendered player, not its internal layout.
         const frame = document.querySelector('#sound .sound-bandcamp-frame');
         if (!frame) return;
-        const desktop = window.matchMedia('(min-width: 821px) and (pointer: fine), (min-width: 821px) and (pointer: coarse) and (min-height: 651px)');
+        const desktop = window.matchMedia('(pointer: fine), (min-width: 1001px) and (pointer: coarse)');
         function syncBandcampSize() {
           if (!desktop.matches) {
             frame.style.removeProperty('--rustrata-bandcamp-scale');
             return;
           }
-          const width = frame.getBoundingClientRect().width;
+          const width = frame.offsetWidth; // unscaled layout pixels; CSS zoom is applied once by the parent
           if (!width) return;
           frame.style.setProperty('--rustrata-bandcamp-scale',
-            String(Math.min(1.2, width / 350)));
+            String(Math.min(1.5, width / 350)));
         }
         if ('ResizeObserver' in window) {
           const resizeObserver = new ResizeObserver(syncBandcampSize);
@@ -697,7 +737,7 @@ $t = static fn(string $key): string => htmlspecialchars($translations[$lang][$ke
         const cards = section?.querySelector(':scope > .guide-grid');
         if (!section || !paragraph || !cards) return;
 
-        const desktop = window.matchMedia('(min-width: 821px) and (pointer: fine), (min-width: 821px) and (pointer: coarse) and (min-height: 651px)');
+        const desktop = window.matchMedia('(pointer: fine), (min-width: 1001px) and (pointer: coarse)');
         let scheduled = false;
         function adjustCards() {
           scheduled = false;
@@ -708,7 +748,8 @@ $t = static fn(string $key): string => htmlspecialchars($translations[$lang][$ke
           const text = paragraph.getBoundingClientRect();
           const group = cards.getBoundingClientRect();
           const style = getComputedStyle(section);
-          const bottomInset = parseFloat(style.paddingBottom) || 0;
+          const zoom = parseFloat(getComputedStyle(document.body).zoom) || 1;
+          const bottomInset = (parseFloat(style.paddingBottom) || 0) * zoom;
           const scale = Math.min(1, bounds.width / 1200);
           const desired = (text.bottom + bounds.bottom - group.top - group.bottom) / 2;
           // Avoid overlapping the last line or spilling below the section
@@ -718,7 +759,7 @@ $t = static fn(string $key): string => htmlspecialchars($translations[$lang][$ke
           const offset = earliest <= latest
             ? Math.max(earliest, Math.min(desired, latest))
             : Math.min(desired, latest);
-          cards.style.setProperty('--rustrata-about-card-offset', `${offset.toFixed(2)}px`);
+          cards.style.setProperty('--rustrata-about-card-offset', `${(offset / zoom).toFixed(2)}px`);
         }
         function scheduleAdjust() {
           if (scheduled) return;
@@ -735,61 +776,6 @@ $t = static fn(string $key): string => htmlspecialchars($translations[$lang][$ke
           observer.observe(section);
           observer.observe(paragraph);
           observer.observe(cards);
-        }
-      })();
-    </script>
-    <script>
-      (() => {
-        // Desktop: place the release ribbon halfway down the vertical gap
-        // between the ENTRANCE panel's bottom edge and the Hero's bottom edge.
-        // No new document height is introduced (FHD / tall layouts preserved).
-        const outer = document.querySelector('.hero-outer');
-        const hero = outer?.querySelector('.hero');
-        const login = hero?.querySelector('.hero-login');
-        const ribbon = outer?.querySelector('.release-announcement');
-        if (!outer || !hero || !login || !ribbon) return;
-
-        const desktop = window.matchMedia('(min-width: 821px) and (pointer: fine), (min-width: 821px) and (pointer: coarse) and (min-height: 651px)');
-        let scheduled = false;
-        function placeRibbon() {
-          scheduled = false;
-          if (!desktop.matches) {
-            ribbon.style.removeProperty('--rustrata-release-top');
-            return;
-          }
-          const outerRect = outer.getBoundingClientRect();
-          const heroRect = hero.getBoundingClientRect();
-          const loginRect = login.getBoundingClientRect();
-          const ribbonRect = ribbon.getBoundingClientRect();
-          if (!ribbonRect.height || !heroRect.height) return;
-          // The center is EXACTLY halfway between the two edges.
-          const gap = heroRect.bottom - loginRect.bottom;
-          const centerY = (loginRect.bottom + heroRect.bottom) / 2;
-          // Retain a small safety inset if a low-height viewport leaves
-          // insufficient room; never put the ribbon outside the Hero.
-          const inset = Math.min(12, 12 * Math.min(1, heroRect.width / 1920));
-          const minY = heroRect.top + inset + ribbonRect.height / 2;
-          const maxY = heroRect.bottom - inset - ribbonRect.height / 2;
-          const alignedCenter = gap >= ribbonRect.height + inset * 2
-            ? centerY : Math.max(minY, Math.min(centerY, maxY));
-          const top = alignedCenter - outerRect.top - ribbonRect.height / 2;
-          ribbon.style.setProperty('--rustrata-release-top', `${top.toFixed(2)}px`);
-        }
-        function schedulePlacement() {
-          if (scheduled) return;
-          scheduled = true;
-          requestAnimationFrame(placeRibbon);
-        }
-        schedulePlacement();
-        window.addEventListener('resize', schedulePlacement, {passive:true});
-        window.addEventListener('orientationchange', schedulePlacement, {passive:true});
-        if (desktop.addEventListener) desktop.addEventListener('change', schedulePlacement);
-        if (document.fonts?.ready) document.fonts.ready.then(schedulePlacement);
-        if (typeof ResizeObserver !== 'undefined') {
-          const observer = new ResizeObserver(schedulePlacement);
-          observer.observe(hero);
-          observer.observe(login);
-          observer.observe(ribbon);
         }
       })();
     </script>
