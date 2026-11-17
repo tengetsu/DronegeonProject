@@ -275,7 +275,7 @@ $t = static fn(string $key): string => htmlspecialchars($translations[$lang][$ke
     <meta name="theme-color" content="#0a0909">
     <meta name="description" content="<?= $t('page_description') ?>">
     <title>RusTrata // Dungeon Drone Crawler — The Sunken Sanctum</title>
-    <link rel="stylesheet" href="portal.css?v=about-controls-credits-20261117b">
+    <link rel="stylesheet" href="portal.css?v=hero-cinema-20261118">
   </head>
   <body>
     <div class="ambient"></div>
@@ -334,6 +334,15 @@ $t = static fn(string $key): string => htmlspecialchars($translations[$lang][$ke
       <section class="hero" aria-labelledby="hero-title">
         <img class="hero-image" src="portal_assets/hero.webp" alt="<?= $t('hero_alt') ?>" fetchpriority="high">
         <div class="hero-shade"></div>
+        <!-- Video appears 20 seconds after arrival; the original Hero remains beneath it. -->
+        <div class="hero-cinema" aria-hidden="true">
+          <video id="hero-cinema-video" class="hero-cinema-video"
+                 muted playsinline webkit-playsinline preload="metadata"
+                 disablepictureinpicture controlslist="nodownload noremoteplayback"
+                 aria-hidden="true">
+            <source src="portal_assets/RusTrata_Cinematic_Full_43s.mp4" type="video/mp4">
+          </video>
+        </div>
         <div class="hero-layout shell">
           <div class="hero-inner">
           <div class="hero-title-lockup">
@@ -780,5 +789,6 @@ $t = static fn(string $key): string => htmlspecialchars($translations[$lang][$ke
       })();
     </script>
     <script defer src="portal_hourglass.js?v=mass-balance-20261115c"></script>
-</body>
+    <script defer src="hero_cinema.js?v=hero-cinema-20261118"></script>
+  </body>
 </html>

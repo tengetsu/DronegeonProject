@@ -6556,3 +6556,62 @@ html[lang="ja"] .credits-section .credits-director-bio {
     column-gap: calc(24 * var(--abyss-desktop-px));
   }
 }
+
+
+/* 2026-11-18 | Hero cinematic feature (20-second image/video alternation)
+   The original Hero artwork is preserved below the cinematic layer. This
+   layer never participates in the responsive grid, desktop zoom or scrolling.
+   object-fit:contain keeps ALL of the supplied 16:9 video uncropped on
+   desktop, tablet and phones. Letterboxing is intentional where required. */
+.hero-outer > .hero { isolation: isolate; }
+.hero-outer > .hero .hero-cinema {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  display: block;
+  box-sizing: border-box;
+  overflow: hidden;
+  background: #050407;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity .72s ease-in-out, visibility 0s linear .72s;
+}
+.hero-outer > .hero.hero-cinema-active .hero-cinema {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity .72s ease-in-out, visibility 0s;
+}
+.hero-outer > .hero .hero-cinema-video {
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  display: block;
+  position: absolute;
+  inset: 0;
+  object-fit: contain;
+  object-position: center center;
+  aspect-ratio: auto;
+  transform: none;
+  /* Soft cinema grade: darker highlights, restrained saturation and contrast. */
+  filter: brightness(.76) contrast(1.10) saturate(.82);
+}
+/* The grading and vignette live only in the movie layer and disappear
+   automatically when the original Hero returns. */
+.hero-outer > .hero .hero-cinema::after {
+  content: '';
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 50% 45%, transparent 39%, rgba(3,2,7,.38) 100%),
+    linear-gradient(180deg, rgba(4,3,6,.17), transparent 21%, transparent 76%, rgba(4,3,6,.25));
+}
+/* Preserve the site's original wordmark and login form over the movie. */
+.hero-outer > .hero .hero-layout { position: relative; z-index: 1; }
+@media (prefers-reduced-motion: reduce) {
+  .hero-outer > .hero .hero-cinema,
+  .hero-outer > .hero.hero-cinema-active .hero-cinema { transition-duration: 0s; }
+}
