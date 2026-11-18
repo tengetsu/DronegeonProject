@@ -6561,8 +6561,8 @@ html[lang="ja"] .credits-section .credits-director-bio {
 /* 2026-11-18 | Hero cinematic feature (20-second image/video alternation)
    The original Hero artwork is preserved below the cinematic layer. This
    layer never participates in the responsive grid, desktop zoom or scrolling.
-   object-fit:contain keeps ALL of the supplied 16:9 video uncropped on
-   desktop, tablet and phones. Letterboxing is intentional where required. */
+   The 20:9 film has its baked-in black bands removed. object-fit: cover
+   fills the stage without deforming video pixels (cropping at the edges). */
 .hero-outer > .hero { isolation: isolate; }
 .hero-outer > .hero .hero-cinema {
   position: absolute;
@@ -6590,7 +6590,7 @@ html[lang="ja"] .credits-section .credits-director-bio {
   display: block;
   position: absolute;
   inset: 0;
-  object-fit: contain;
+  object-fit: cover;
   object-position: center center;
   aspect-ratio: auto;
   transform: none;
@@ -6614,4 +6614,18 @@ html[lang="ja"] .credits-section .credits-director-bio {
 @media (prefers-reduced-motion: reduce) {
   .hero-outer > .hero .hero-cinema,
   .hero-outer > .hero.hero-cinema-active .hero-cinema { transition-duration: 0s; }
+}
+
+/* 2026-11-18 | Match movie positioning to the original Hero artwork on
+   phones. JS sets the movie layer's CSS box to the real image rectangle
+   (after media rules / resize) instead of centering it across the taller
+   Hero + ENTRANCE section. Desktop keeps the original full-stage overlay. */
+@media (pointer: coarse) and (max-width: 1000px) {
+  .hero-outer > .hero .hero-cinema {
+    background: transparent;
+  }
+  .hero-outer > .hero .hero-cinema-video {
+    object-fit: cover;
+    object-position: center center;
+  }
 }

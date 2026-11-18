@@ -7,7 +7,46 @@
   'use strict';
   const hero = document.querySelector('.hero-outer > .hero');
   const video = document.getElementById('hero-cinema-video');
-  if (!hero || !video) return;
+  const image = hero?.querySelector('.hero-image');
+  const layer = hero?.querySelector('.hero-cinema');
+  if (!hero || !video || !image || !layer) return;
+
+  // Match the exact portrait/landscape Hero image rectangle on touch devices.
+  // The original image's CSS positions it near the top of the entire Hero,
+  // while the login card increases the section's overall height.
+  const touchStage = window.matchMedia('(pointer: coarse) and (max-width: 1000px)');
+  function alignMovieWithHeroImage() {
+    if (!touchStage.matches) {
+      layer.style.removeProperty('top');
+      layer.style.removeProperty('left');
+      layer.style.removeProperty('right');
+      layer.style.removeProperty('bottom');
+      layer.style.removeProperty('width');
+      layer.style.removeProperty('height');
+      return;
+    }
+    const heroRect = hero.getBoundingClientRect();
+    const imageRect = image.getBoundingClientRect();
+    // Bounding boxes include page-scale transforms. Convert to the section's
+    // own CSS coordinate system, including the 1920px-based tablet scaling.
+    const scaleX = heroRect.width / (hero.offsetWidth || heroRect.width || 1);
+    const scaleY = heroRect.height / (hero.offsetHeight || heroRect.height || 1);
+    layer.style.left = `${(imageRect.left - heroRect.left) / scaleX}px`;
+    layer.style.top = `${(imageRect.top - heroRect.top) / scaleY}px`;
+    layer.style.width = `${imageRect.width / scaleX}px`;
+    layer.style.height = `${imageRect.height / scaleY}px`;
+    layer.style.right = 'auto';
+    layer.style.bottom = 'auto';
+  }
+  alignMovieWithHeroImage();
+  window.addEventListener('resize', alignMovieWithHeroImage, {passive:true});
+  window.addEventListener('orientationchange', alignMovieWithHeroImage, {passive:true});
+  if (window.ResizeObserver) {
+    const movieObserver = new ResizeObserver(alignMovieWithHeroImage);
+    movieObserver.observe(hero);
+    movieObserver.observe(image);
+  }
+  image.addEventListener('load', alignMovieWithHeroImage, {once:true});
 
   const STILL_DURATION_MS = 20000;
   const FADE_DURATION_MS = 720;
@@ -42,6 +81,7 @@
     if (phase !== 'starting') return;
     if (watchdog !== null) { clearTimeout(watchdog); watchdog = null; }
     phase = 'playing';
+    alignMovieWithHeroImage();
     hero.classList.add('hero-cinema-active');
   }
   function beginMovie() {
